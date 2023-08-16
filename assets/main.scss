@@ -1,0 +1,28 @@
+@import 'variables';
+@import 'partials/typography';
+@import 'partials/components';
+@import 'partials/header';
+@import 'partials/sidebar';
+@import 'partials/footer';
+@import 'partials/layouts';
+
+/* Breakpoints */
+@media screen and (min-width: 1200px){
+  @import "breakpoints/xlarge";
+}
+
+@media screen and (max-width: 1200px) {
+  @import "breakpoints/large";
+}
+
+@media screen and (max-width: 1024px){
+  @import "breakpoints/medium";
+}
+
+@media screen and (max-width: 769px){
+  @import "breakpoints/small";
+}
+
+@media screen and (max-width: 767px){
+  @import "breakpoints/xsmall";
+}

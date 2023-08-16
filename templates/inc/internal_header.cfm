@@ -1,0 +1,1 @@
+#$.renderEditableAttribute(attribute="body",type="htmlEditor")#

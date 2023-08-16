@@ -1,0 +1,11 @@
+@media screen and (max-width: 1490px){
+  #navbarNav .nav-list li {
+    padding: 0 22px 0 12px;
+  }
+  #navbarNav .nav-list li > a {
+    font-size: 1em;
+  }
+  #navbarNav .nav-list li:first-of-type {
+    padding-right: 6px;
+  }
+}

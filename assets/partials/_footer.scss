@@ -1,0 +1,46 @@
+.footer-cta {
+  border: 1px solid white;
+  padding: 10px;
+  text-transform: uppercase;
+  a {
+    font-weight: 600;
+    &:focus, &:hover {
+      color: lighten($lorange, 25%);
+
+    }
+  }
+}
+
+footer {
+  background: orange;
+  padding: 30px 0;
+  a {
+    &:focus, &:hover {
+      color: lighten($lorange, 25%);
+    }
+  }
+  * {
+    color: white;
+  }
+  ul {
+    padding: 0;
+    li {
+      list-style: none;
+      padding: 5px 0;
+      a {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.above-footer {
+  padding: 40px 0;
+  background: $darkgrey;
+  * {
+    color: $white;
+  }
+  p a {
+    font-weight: 600;
+  }
+}

@@ -1,0 +1,106 @@
+/* Home */
+.current-messages {
+  color: $text;
+  li {
+    padding: 5px 0;
+    line-height: 1.375em;
+    font-weight: 400;
+    a {
+      color: $text;
+      &:focus, &:hover {
+        color: $orange;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.entry-wrapper {
+  padding: 60px 0;
+}
+
+.entry {
+  p {
+    font-size: 1.125em;
+    b {
+      font-size: 1.250em;
+      line-height: 1.875rem;
+      display: block;
+      margin-top: 26px;
+    }
+  }
+}
+
+.internal-entry {
+  padding: 10px 0 40px;
+  h2 {
+    text-transform: uppercase;
+    color: orange;
+  }
+  p a {
+    color: orange;
+    font-weight: 600;
+  }
+  ul {
+    padding: 0 0 0 20px;
+    font-weight: 600;
+  }
+  hr {
+    margin: 1.125rem 0;
+  }
+}
+
+.breadcrumb {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  li {
+    text-transform: uppercase;
+    font-style: italic;
+  }
+  .breadcrumb-item {
+    a {
+      color: #1b2b34;
+      font-size: .938em;
+      text-transform: initial;
+      &:focus, &:hover {
+        color: $black;
+      }
+    }
+  }
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+  padding-right: .2rem;
+}
+
+.breadcrumb-item+.breadcrumb-item {
+  padding-left: .2rem;
+}
+
+.breadcrumb .title {
+  color: #1b2b34;
+  font-weight: 600;
+  font-size: .938em;
+  letter-spacing: 0.01em;
+}
+
+.breadcrumb-item.title + .breadcrumb-item::before {
+  content: none;
+}
+
+.internal-template {
+  section.nav {
+    box-shadow: 0 5px 8px rgba(0,0,0,.12);
+    position: relative;
+  }
+}
+
+.align-right {
+  float: right;
+}
+
+.absolute-fix {
+  position: relative;
+  float: left;
+}

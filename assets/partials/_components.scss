@@ -1,0 +1,97 @@
+.btn {
+  font-family: $header;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 6px;
+  font-size: 0.875em;
+  cursor: pointer;
+}
+
+.orange-btn {
+  background: $orange;
+  color: $white;
+  &:focus, &:hover {
+    background: $lorange;
+    color: $white;
+  }
+}
+
+.internal-banner {
+  padding: 15px 0;
+  background: #f2f5f6; /* Old browsers */
+  background: -moz-linear-gradient(45deg, #e3a225 0%, #f18f01 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(45deg, #e3a225 0%, #f18f01 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(45deg, #e3a225 0%,#f18f01 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3a225', endColorstr='#f18f01',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    h1 {
+      text-transform: uppercase;
+      margin-top: 0;
+    }
+  h1, p {
+    color: $white;
+  }
+  p {
+    line-height: 1.55em;
+  }
+}
+
+.social-media {
+  padding: 0;
+  display: inline-block;
+  padding-left: 12px;
+  li {
+    list-style: none;
+    display: inline-block;
+    border:1px solid $white;
+    border-radius: 50%;
+    padding: 0 5px;
+    text-align: center;
+    height: 32px;
+    width: 32px;
+    line-height: 32px;
+    a {
+      color: $white;
+    }
+    &:focus, &:hover {
+      border-color: lighten($lorange,25%);
+      a {
+        color: lighten($lorange,25%);
+      }
+    }
+  }
+}
+
+.responsive-table {
+  width: 100%;
+  thead {
+    background: $darkgrey;
+    th {
+      padding: 15px 10px;
+    }
+    h4 {
+      color: $white;
+      font-size: 1.125em;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+      font-family: $body;
+      font-weight: 600;
+      margin-bottom: 0;
+    }
+  }
+  tbody {
+    tr:nth-of-type(odd){
+      background: #fff;
+    }
+    tr:nth-of-type(even){
+      background: #f2efef;
+    }
+    tr td{
+      padding: 15px 5px;
+    }
+    td {
+      font-weight: 600;
+      font-size: 16px;
+      color: $text;
+    }
+  }
+}

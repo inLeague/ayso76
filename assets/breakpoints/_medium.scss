@@ -1,0 +1,60 @@
+@media screen and (max-width: 992px){
+  nav.navbar {
+    justify-content: initial;
+    position: relative;
+    .col-lg-2.col-md-3.col-sm-12 {
+      flex: 0 0 20%;
+      max-width: 20%;
+    }
+  }
+  .navbar-toggler {
+    position: absolute;
+    right: 0;
+  }
+  #navbarNav {
+    display:none;
+  }
+
+  section.nav .navbar {
+    #navbarNav .dropdown-menu {
+        border: none;
+        padding: 0;
+        border-top: 1px solid #eee;
+        margin-bottom: 10px;
+        position: relative;
+        .col-4 {
+          flex: 0 0 100%;
+          width: 100%;
+          max-width: 100%;
+          display: block;
+        }
+        .sub-nav-header {
+          display: none;
+        }
+        li a {
+          color: #c9c9c9;
+        }
+      }
+    }
+  .wrap-for-mobile-menu.show {
+    width: 50%;
+    box-shadow: 10px 0 22px 1px rgba(0, 0, 0, .2);
+    .col-lg-10.col-md-9.col-sm-12 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+    .nav-list {
+      display: block;
+      padding: 0;
+    }
+  }
+
+  .dropdown-toggle .dropdown-menu.dropdown-menu-lg {
+    min-width: initial;
+    .col-sm-4 {
+      max-width: 100%;
+      flex: 100%;
+    }
+  }
+  }
+

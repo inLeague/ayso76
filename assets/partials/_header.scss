@@ -1,0 +1,236 @@
+.full-width-img {
+  width: 100%;
+  height: auto;
+}
+
+ul {
+  padding: 0 0 0 20px;
+}
+
+hr {
+  width: 100%;
+  max-width: 550px;
+  margin-left: 0;
+  margin-right: 0;
+}
+.info-banner {
+  background: $lorange;
+  padding: 10px;
+  span, a.users {
+    color: $white;
+    font-family: 'Fjalla One';
+    font-size: 1.063em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display:inline-block;
+  }
+  span.gsc-input {
+    max-width: 201px;
+    width: 100%;
+  }
+  p {
+    display: inline-block;
+  }
+  a.users {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .search-bar {
+    display: inline-block;
+    width: 50%;
+    input {
+      border: 0;
+      box-shadow: none;
+      min-height: 22px;
+      padding: 5px;
+      &.search-button {
+        border-radius: 4px;
+        border: 0;
+        background: $white;
+        text-transform: uppercase;
+        color: $orange;
+        font-family: $header;
+        font-size: 0.875em;
+        letter-spacing: 0.075em;
+        text-align: center;
+        min-height: 32px;
+        padding: 5px 12px;
+      }
+    }
+  }
+}
+
+nav.navbar {
+  width: 100%;
+}
+
+#navbarNav {
+  padding: 0;
+  .nav-list {
+    justify-content: center;
+    li {
+      padding: 0 22px 0 11px;
+      ul li {
+        padding: 0;
+      }
+      &:first-of-type {
+        padding-left: 0;
+      }
+      & > a {
+        color: $black;
+        font-family: 'Fjalla One';
+        text-transform: uppercase;
+        font-size: 1.025em;
+        letter-spacing: 0.05em;
+        padding: 0;
+      }
+      &:focus > a, &:hover > a, &.active > a {
+        color: $orange;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+#navbarNav {
+  .dropdown-menu {
+    padding: 15px 20px;
+    margin-top: 0;
+    border-radius: 0;
+    border-top: 3px solid $darkgrey;
+    li {
+      padding:6px 0;
+      &.sub-nav-header {
+        color: $orange;
+        font-family: $header;
+        text-transform: uppercase;
+      }
+    }
+    li a {
+      color: #fcc04d;
+      font-weight: 600;
+      font-family: $body;
+      font-size: .9em;
+      text-transform: uppercase;
+      display: inline-block;
+      line-height: 1.18em;
+    }
+  }
+}
+
+.nav-toggler-title {
+  color: $black;
+  text-transform: uppercase;
+  font-family: $header;
+  margin-top: 5px;
+  display: inline-block;
+  padding-right: 4px;
+}
+
+.dropdown-toggle .dropdown-menu {
+  display: none;
+  min-width: 20em;
+  &.dropdown-menu-lg {
+    min-width: 680px;
+    width: 100%;
+  }
+}
+
+.dropdown-toggle:hover .dropdown-menu {
+  display: block;
+}
+
+.navbar {
+  .nav-item {
+    padding: 0 10px;
+    position: relative;
+  }
+  .dropdown-toggle::after {
+    top: 50%;
+    right: 8px;
+    position: absolute;
+    margin: 0;
+  }
+}
+
+
+.wrap-for-mobile-menu {
+  left: -100%;
+  width: 100%;
+  &.show {
+    position: absolute;
+    background: white;
+    height: 100%;
+    top: 0;
+    left: 0;
+    padding: 25px;
+    width: 70%;
+    z-index: 9999;
+    ul.nav-list.nav {
+      flex-direction: column;
+    }
+  }
+}
+
+#navbarMobileNav {
+  .nav-link {
+    display: inline-block;
+  }
+  .dropdown-menu {
+    padding: 0;
+    margin-top: 0;
+    border-radius: 0;
+    border-top: 3px solid $darkgrey;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    li {
+      padding: 10px 5px!important;
+      &.sub-nav-header {
+        color: $orange;
+        font-family: $header;
+        text-transform: uppercase;
+        font-size: 1.25em;
+      }
+    }
+    li a {
+      color: #fcc04d;
+      font-weight: 600;
+      font-family: $body;
+      font-size: 1.25em!important;
+      text-transform: uppercase;
+      display: inline-block;
+      line-height: 1.18em;
+    }
+  }
+  padding: 0;
+  .nav-list {
+    li {
+      padding: 15px 5px;
+      & > a {
+        color: $black;
+        font-family: 'Fjalla One';
+        text-transform: uppercase;
+        font-size: 1.5em;
+        letter-spacing: 0.05em;
+        padding: 0;
+        text-align: center;
+      }
+      &:focus > a, &:hover > a, &.active > a {
+        color: $orange;
+        text-decoration: none;
+      }
+    }
+  }
+  .dropdown-toggle .dropdown-menu {
+    position: relative;
+    width: 100%;
+  }
+}
+
+#navbarNav {
+  .dropdown-menu.dropdown-left {
+    left: auto;
+    right: 0;
+  }
+}
