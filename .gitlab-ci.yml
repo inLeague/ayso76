@@ -9,4 +9,4 @@ deploy:
 #    CI_DEBUG_TRACE: "true"
     GIT_STRATEGY: fetch
   script:
-  - rsync -a --delete $CI_PROJECT_DIR /mnt/mura/sites/ayso76/themes/ayso-theme
+  - rsync -a --delete $CI_PROJECT_DIR /mnt/www/sites/mura/sites/ayso76/themes/ayso-theme
