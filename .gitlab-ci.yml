@@ -4,9 +4,9 @@ stages:
 deploy:
   stage: deploy
   rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
   variables: 
 #    CI_DEBUG_TRACE: "true"
     GIT_STRATEGY: fetch
   script:
-  - rsync -a --delete $CI_PROJECT_DIR/sites/ayso76/themes/ayso-theme/ /mnt/mura/sites/ayso76/themes/ayso-theme
+  - rsync -a --delete $CI_PROJECT_DIR /mnt/mura/sites/ayso76/themes/ayso-theme
