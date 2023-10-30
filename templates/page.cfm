@@ -3,11 +3,6 @@
 <html lang="en">
 <cfinclude template="inc/head.cfm" />
 <body class="internal-template">
-<!-- Begin Constant Contact Active Forms -->
-<script> var _ctct_m = "5311d8bb7b81cf49a91ff666f7438063"; </script>
-<script id="signupScript" src="//static.ctctcdn.com/js/signup-form-widget/current/signup-form-widget.min.js" async defer></script>
-<!-- End Constant Contact Active Forms -->
-
 
    <cfinclude template="inc/mobilenav.cfm" />
          <cfinclude template="inc/info.cfm" />
@@ -38,6 +33,10 @@
 
 </section>
 <cfinclude template="inc/footer.cfm" />
+<!-- Begin Constant Contact Active Forms -->
+<script> var _ctct_m = "5311d8bb7b81cf49a91ff666f7438063"; </script>
+<script id="signupScript" src="//static.ctctcdn.com/js/signup-form-widget/current/signup-form-widget.min.js" async defer></script>
+<!-- End Constant Contact Active Forms -->
 </body>
 </html>
 </cfoutput>
