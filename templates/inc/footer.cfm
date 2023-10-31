@@ -13,7 +13,7 @@
                 #m.dspObject(object='component', objectid='Join Board')#
                 </div>
             </div>
-            <div class="col-md-3 col-sm-3">
+            <div class="col-md-3 col-sm-3">-
             #m.dspObject(object='component', objectid='Colophon')#
             </div>
         </div>
