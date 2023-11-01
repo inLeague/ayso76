@@ -2983,6 +2983,7 @@ buttons.close {
   backface-visibility: hidden;
   -webkit-perspective: 1000px;
   perspective: 1000px
+  height:auto;
 }
 .carousel-item.active img {
   height:80%;
