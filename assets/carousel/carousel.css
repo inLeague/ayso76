@@ -9,6 +9,7 @@
 .carousel-caption {
   bottom: 10px;
   z-index: 10;
+  display: inline-block;
 }
 
 /* Declare heights because of positioning of img element */
