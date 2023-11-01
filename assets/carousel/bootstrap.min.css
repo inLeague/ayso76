@@ -4975,7 +4975,7 @@ buttons.close {
   opacity: 1;
 }
 .carousel-caption {
-  position: absolute;
+  position: relative;
   right: 15%;
   left: 15%;
   z-index: 10;
