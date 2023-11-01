@@ -12,7 +12,7 @@
             <img src="#m.siteConfig('ThemeAssetPath')#/images/hero-image.jpg" class="full-width-img" alt="AYSO 76">
         </section>
         <section class="entry-wrapper">
-            <div class="container">
+            <div class="container" style="text-align:center; vertical-align:middle;">
                 <div class="row" style="width:1140px;">
                     <div class="col-lg-7 col-md-12 col-sm-12" style="width:1140px;">
                         <div class="entry">
