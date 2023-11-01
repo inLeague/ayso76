@@ -20,13 +20,13 @@
                             #$.renderEditableAttribute(attribute="body",type="htmlEditor")#
                         </div>
                     </div>
-                    <div class="col-lg-5 col-md-12 col-sm-12">
+<!--                    <div class="col-lg-5 col-md-12 col-sm-12">
                         #m.dspObject(object='component', objectid='Home Quick Links')#
                         #m.dspObject(object='component', objectid='Medical Form Release')#
                         <div class="vip-program">
                             #m.dspObject(object='component', objectid='VIP')#
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </section>
