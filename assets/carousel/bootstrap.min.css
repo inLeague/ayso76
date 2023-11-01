@@ -1278,8 +1278,8 @@ template {
 a.butn.disabled, fieldset:disabled a.butn {
   pointer-events: none
 }
-a.butn {
-color:#A9A9A9;
+a.butn p {
+color:#000;
 }
 .butn-primary {
   color: #fff;
