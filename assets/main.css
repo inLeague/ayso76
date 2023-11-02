@@ -677,7 +677,10 @@ footer {
   #navbarMobileNav .nav-list li > a {
     text-align: left; } }
 
-  @media screen and (max-width: 769px) {
-    .order-first {display:none}}
+  @media (max-width: 769px) {
+    .order-first {
+      display:none !important;
+    }
+  }
 
 /*# sourceMappingURL=main.css.map */
