@@ -1932,11 +1932,11 @@ buttons.close {
   perspective: 1000px
 }
 .carousel-item.active img {
-  max-height:350px;
+  max-height:80%;
   max-width:80%;
 }
 .carousel-item img {
-  max-height:350px;
+  max-height:80%;
   max-width:80%;
 }
 .carousel-item-next, .carousel-item-prev, .carousel-item.active {
