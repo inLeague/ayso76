@@ -177,7 +177,7 @@ template {
   margin-right: auto;
   margin-left: auto
 }
-.carousel-row {
+.row {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -185,7 +185,6 @@ template {
   flex-wrap: wrap;
   margin-right: -15px;
   margin-left: -15px;
-  max-width:1140px;
 }
 .no-gutters {
   margin-right: 0;
