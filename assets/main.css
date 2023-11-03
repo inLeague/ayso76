@@ -14,7 +14,7 @@ body {
   letter-spacing: 0.015em;
   line-height: 2rem; }
 
-.carousel-caption h4, p {
+.carousel-caption a {
   color:orange !important;
   }
 
