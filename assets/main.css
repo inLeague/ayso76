@@ -679,7 +679,7 @@ footer {
 
   @media screen and (max-width: 769px) {
     .order-first {
-      display:none !important;
+      visibility:hidden !important;
     }
   }
 
