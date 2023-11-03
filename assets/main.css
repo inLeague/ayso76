@@ -677,7 +677,7 @@ footer {
   #navbarMobileNav .nav-list li > a {
     text-align: left; } }
 
-  @media (max-width: 769px) {
+  @media screen and (max-width: 769px) {
     .order-first {
       display:none !important;
     }
