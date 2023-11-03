@@ -104,6 +104,8 @@
   position: relative;
   float: left;
 }
+$linkcolor: orange;
+
 .carousel-caption a {
-  color: orange;
+  color: $linkcolor;
 }
