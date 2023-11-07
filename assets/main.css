@@ -13,7 +13,8 @@ body {
   font-family: "Noto Sans";
   letter-spacing: 0.015em;
   line-height: 2rem; }
-
+.carousel-caption a:link {
+  color:orange !important; }
 p {
   font-family: "Noto Sans";
   letter-spacing: 0.015em;
