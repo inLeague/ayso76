@@ -9879,4 +9879,7 @@ textarea.form-control-lg {
     display: none !important
   }
 }
+.carousel-caption h4 p a {
+  color:orange !important; }
+
 /*# sourceMappingURL=bootstrap.min.css.map */
