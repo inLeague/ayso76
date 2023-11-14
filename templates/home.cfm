@@ -16,7 +16,6 @@
                 <div class="row">
                             <h1 style="text-align:center;">#m.content('title')#</h1>
                             #$.renderEditableAttribute(attribute="body",type="htmlEditor")#
-        <cfinclude template="inc/VIP.cfm" />
                 </div>
             </div>
         </section>
