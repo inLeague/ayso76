@@ -482,6 +482,10 @@ footer {
   position: relative;
   float: left; }
 
+.carousel-item a {
+    font-size:2.5em;
+  }
+
 /* Breakpoints */
 @media screen and (min-width: 1200px) and (max-width: 1490px) {
   .carousel-item a {
@@ -497,18 +501,30 @@ footer {
   #navbarNav .nav-list li:first-of-type {
     padding-right: 6px; } }
 @media screen and (max-width: 1200px) {
+  .carousel-item a {
+    font-size:2.5em;
+  }
+
   #navbarNav .nav-list li > a {
     font-size: .9em; }
 
   #navbarNav .nav-list li:first-of-type {
     padding-right: 6px; } }
 @media screen and (max-width: 1200px) and (max-width: 1100px) {
+  .carousel-item a {
+    font-size:2.5em;
+  }
+
   #navbarNav .nav-list li > a {
     font-size: 14px; }
 
   #navbarNav .nav-list li {
     padding: 0 20px 0 13px; } }
 @media screen and (max-width: 1024px) and (max-width: 992px) {
+  .carousel-item a {
+    font-size:2.5em;
+  }
+
   nav.navbar {
     justify-content: initial;
     position: relative; }
@@ -612,6 +628,10 @@ footer {
   .navbar .align-right {
     float: none; } }
 @media screen and (max-width: 767px) {
+  .carousel-item a {
+    font-size:1.5em;
+  }
+
   .info-banner {
     display: none; }
 
