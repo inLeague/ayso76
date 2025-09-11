@@ -8,9 +8,9 @@
 
         <cfinclude template="inc/meganav.cfm" />
 
-        <!--<section class="banner-img">
+        <section class="banner-img">
             <img src="#m.siteConfig('ThemeAssetPath')#/images/hero-image.jpg" class="full-width-img" alt="AYSO 76">
-        </section>-->
+        </section>
         <section class="entry-wrapper">
             <div class="container">
                 <div class="row">
