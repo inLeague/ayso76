@@ -12,8 +12,8 @@
             <img src="#m.siteConfig('ThemeAssetPath')#/images/hero-image.jpg" class="full-width-img" alt="AYSO 76">
         </section>
         <section class="entry-wrapper">
-            <div class="container">
-                <div class="row">
+          <!--  <div class="container">
+                <div class="row">-->
                             <h1 style="text-align:center;">#m.content('title')#</h1>
                             #$.renderEditableAttribute(attribute="body",type="htmlEditor")#
                 </div>
