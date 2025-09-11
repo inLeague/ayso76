@@ -1,0 +1,139 @@
+/* Wrapper */
+.r76-wrap {
+  max-width: 100%;
+  margin: 0 auto;
+  position: relative;
+  font-family: Arial, sans-serif;
+}
+
+/* Carousel core */
+.carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  position: relative;
+}
+
+/* Images: responsive, no crop */
+.carousel-slide img {
+  width: 100%;
+  height: auto;
+  max-height: 100vh;
+  object-fit: contain;
+  display: block;
+}
+
+/* Full-width caption band pinned to bottom */
+.caption {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  bottom: 0;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: center;
+  color: #fff;
+
+  padding: 20px 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0));
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+/* One-line, auto-scaling text with ellipsis */
+.caption h2 {
+  margin: 0;
+  font-size: clamp(16px, 5.5vw, 76px); /* scales down, max kept */
+  line-height: 1.2;
+  text-shadow: 3px 3px 8px rgba(0,0,0,0.95);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.caption p {
+  margin: 14px 0 0;
+  font-size: clamp(14px, 3.2vw, 38px); /* scales down, max kept */
+  line-height: 1.3;
+  color: #fff;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Arrows */
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.carousel-button.prev { left: 15px; }
+.carousel-button.next { right: 15px; }
+
+.carousel-button img {
+  width: 40px;
+  height: 40px;
+}
+
+/* Thumbnails strip */
+.carousel-nav {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 15px;
+  background: #fff;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x mandatory;
+}
+
+.carousel-nav::-webkit-scrollbar { display: none; }
+
+.carousel-nav img {
+  flex: 0 0 auto;
+  width: 120px;
+  max-width: 20vw;
+  height: auto;
+  cursor: pointer;
+  border: 3px solid transparent;
+  border-radius: 4px;
+  transition: border 0.3s, opacity 0.3s;
+  scroll-snap-align: start;
+}
+
+.carousel-nav img:hover { opacity: 0.6; }
+
+/* Active thumb border */
+.carousel-nav img.active {
+  border: 3px solid #333;
+}
+
+/* Responsive arrow sizing */
+@media (max-width: 768px) {
+  .carousel-button img { width: 45px; height: 45px; }
+}
+@media (max-width: 480px) {
+  .carousel-button img { width: 50px; height: 50px; }
+}
