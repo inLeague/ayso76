@@ -8,11 +8,11 @@
 
         <cfinclude template="inc/meganav.cfm" />
 
-        <!--<section class="banner-img">
+        <section class="banner-img">
             <img src="#m.siteConfig('ThemeAssetPath')#/images/hero-image.jpg" class="full-width-img" alt="AYSO 76">
-        </section>-->
+        </section>
         <section class="entry-wrapper">
-            <div class="container">
+            <div class="container" style="max-width:1600px;">
                 <div class="row">
                             <h1 style="text-align:center;">#m.content('title')#</h1>
                             #$.renderEditableAttribute(attribute="body",type="htmlEditor")#
