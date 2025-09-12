@@ -4,19 +4,19 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 /* Floating slider with bottom-only shadow + thin border */
 .r76-wrap{
-  width: 99vw;          /* ← 99% of the window width */
-  max-width: 99vw;
+  width: min(99vw, 1600px);  /* 99% of viewport, capped at 1600px */
+  max-width: 1600px;
   margin: 0 auto;
   position: relative;
   font-family: Arial, sans-serif;
 
   border-radius: 12px;
   overflow: hidden;                 /* clip corners and internals */
-  background: transparent;          /* no fill */
+  background: transparent;
 
-  border: 1px solid rgba(0,0,0,.14);/* thin border around slider */
+  border: 1px solid rgba(0,0,0,.14);/* thin border */
 
-  /* bottom-only “lift” shadow via drop-shadow (downward offsets) */
+  /* bottom-only “lift” shadow via drop-shadow */
   box-shadow: none;
   filter:
     drop-shadow(0 30px 60px rgba(0,0,0,.32))
