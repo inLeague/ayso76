@@ -16,7 +16,6 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   /* new: shadow + rounded corners + background for edge blends */
   box-shadow: 0 12px 28px rgba(0,0,0,.18), 0 4px 12px rgba(0,0,0,.12);
   border-radius:12px;            /* set to 0 for square corners */
-  background:#000;               /* helps gradient band blend at edges */
 }
 
 /* Carousel core */
