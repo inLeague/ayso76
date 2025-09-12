@@ -5,24 +5,25 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* Wrapper */
 /* Elevate the whole slider */
 /* Floating slider: no background, deeper multi-layer shadow */
+/* Floating slider with bottom-only shadow (no background fill) */
 .r76-wrap{
   max-width:100%;
   margin:0 auto;
   position:relative;
   font-family:Arial, sans-serif;
 
-  /* keep corners + prevent horizontal overflow */
-  overflow:hidden;
+  /* keep rounded corners + clip internals */
   border-radius:12px;
+  overflow:hidden;
 
-  /* no fill behind the slider */
+  /* no background fill */
   background:transparent;
 
-  /* deeper, floating-style shadow */
-box-shadow:
-  0 30px 80px rgba(0,0,0,.38),
-  0 16px 36px rgba(0,0,0,.26),
-  0 4px 14px rgba(0,0,0,.16);
+  /* bottom-only shadow via downward-offset drop-shadows */
+  box-shadow:none; /* ensure old shadow is removed */
+  filter:
+    drop-shadow(0 30px 60px rgba(0,0,0,.32))  /* big, soft base */
+    drop-shadow(0 12px 24px rgba(0,0,0,.18)); /* secondary lift */
 }
 
 /* Carousel core */
