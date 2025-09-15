@@ -1,147 +1,98 @@
-/* === Thumbnails === */
-.thumb-container {
-  text-align: center;
-  margin: 20px 0;
-}
-
-.thumb-container h3 {
-  margin-bottom: 8px;
-  font-size: 1.2rem;
-  color: #333;
-}
-
+/* Thumbnails */
+.thumb-container { text-align: center; margin: 20px 0; }
+.thumb-container h3 { margin-bottom: 8px; font-size: 1.2rem; color: #333; }
 .thumb-container img {
-  max-width: 200px;
-  height: auto;              /* keep proportions */
-  cursor: pointer;
-  border-radius: 6px;
+  max-width: 200px; height: auto;
+  cursor: pointer; border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   transition: transform 0.2s ease;
 }
+.thumb-container img:hover { transform: scale(1.05); }
 
-.thumb-container img:hover {
-  transform: scale(1.05);
-}
-
-/* === Overlay === */
+/* Overlay */
 #overlay {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
+  display: none; position: fixed; top: 0; left: 0;
   width: 100%; height: 100%;
   background: rgba(0,0,0,0.8);
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  transition: background 0.3s ease;
+  justify-content: center; align-items: center;
+  z-index: 9999; transition: background 0.3s ease;
 }
+#overlay.active { display: flex; }
 
-#overlay.active {
-  display: flex;
-}
-
-/* Wrapper for image + controls */
+/* Wrapper */
 #overlay-img-wrapper {
-  position: relative;
-  display: inline-block;
-  max-width: 90%;
-  max-height: 80%;
-  text-align: center;
+  position: relative; display: inline-block;
+  max-width: 90%; max-height: 80%;
+  text-align: center; overflow: hidden;
 }
 
 /* Enlarged image */
 #overlay-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
+  max-width: 100%; height: auto; display: block;
   border-radius: 8px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.6);
   transition: transform 0.3s ease;
-  cursor: grab;
+  cursor: grab; position: relative; z-index: 1;
 }
 
-/* Close button (X) */
+/* Close button */
 #close-btn {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  font-size: 24px;
-  color: #fff;
+  position: absolute; top: 8px; right: 8px;
+  font-size: 24px; color: #fff;
   background: rgba(0,0,0,0.5);
-  border-radius: 50%;
-  padding: 4px 10px;
-  cursor: pointer;
-  opacity: 0.7;
-  user-select: none;
-  transition: opacity 0.3s ease;
+  border-radius: 50%; padding: 4px 10px;
+  cursor: pointer; opacity: 0.7;
+  user-select: none; transition: opacity 0.3s ease;
 }
+#close-btn:hover { opacity: 1; }
 
-#close-btn:hover {
-  opacity: 1;
+/* Reset button */
+#reset-btn {
+  position: absolute; top: 8px; left: 8px;
+  font-size: 22px; color: #fff;
+  background: rgba(0,0,0,0.5);
+  border-radius: 50%; padding: 4px 10px;
+  cursor: pointer; opacity: 0.7;
+  user-select: none; transition: opacity 0.3s ease;
+  display: none;
 }
+#reset-btn:hover { opacity: 1; }
 
-/* Title below image */
+/* Title */
 #overlay-title {
-  position: absolute;
-  bottom: -40px;
-  left: 50%;
+  position: absolute; bottom: -40px; left: 50%;
   transform: translateX(-50%);
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #fff;
-  white-space: nowrap;
-  padding: 4px 10px;
-  border-radius: 6px;
+  font-size: 1.3rem; font-weight: bold;
+  color: #fff; white-space: nowrap;
+  padding: 4px 10px; border-radius: 6px;
   background: rgba(0,0,0,0.4);
   box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-  opacity: 0.9;
-  transition: opacity 0.3s ease;
+  opacity: 0.9; transition: opacity 0.3s ease;
 }
 
-/* Navigation arrows */
+/* Arrows */
 #nav-left, #nav-right {
-  position: absolute;
-  top: 50%;
+  position: absolute; top: 50%;
   transform: translateY(-50%);
-  font-size: 40px;
-  color: #fff;
-  cursor: pointer;
-  user-select: none;
-  opacity: 0.5;
-  transition: opacity 0.3s ease;
+  font-size: 40px; color: #fff;
+  cursor: pointer; user-select: none;
+  opacity: 0.5; transition: opacity 0.3s ease;
 }
-
-#nav-left:hover, #nav-right:hover {
-  opacity: 1;
-}
-
-#nav-left { left: 20px; }
-#nav-right { right: 20px; }
-
-/* Hide arrows on small/touch devices */
+#nav-left:hover, #nav-right:hover { opacity: 1; }
+#nav-left { left: 20px; } #nav-right { right: 20px; }
 @media (hover: none) and (pointer: coarse) {
-  #nav-left, #nav-right {
-    display: none;
-  }
+  #nav-left, #nav-right { display: none; }
 }
 
-/* Auto-dim support (JS sets opacity) */
-#overlay-title,
-#close-btn,
-#nav-left,
-#nav-right {
-  transition: opacity 0.3s ease;
+/* Slide animation */
+.slide-in, .slide-out {
+  position: absolute; top: 0; width: 100%; max-width: 100%;
 }
+.slide-in { z-index: 2; }
+.slide-out { z-index: 1; }
 
-/* === Touch behavior === */
-#overlay,
-#overlay-img-wrapper,
-#overlay-img {
-  touch-action: none;       /* let JS handle pinch and pan */
-  -ms-touch-action: none;   /* old Edge */
+/* Touch */
+#overlay, #overlay-img-wrapper, #overlay-img {
+  touch-action: none; -ms-touch-action: none;
 }
-
-/* Prevent page scroll when overlay open */
-body.no-scroll {
-  overflow: hidden;
-}
+body.no-scroll { overflow: hidden; }
