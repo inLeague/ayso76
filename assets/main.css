@@ -31,7 +31,36 @@ h1, h4, h5, h6 {
   font-family: 'Fjalla One', sans-serif; }
 
 #home_heading {
-  font-size: clamp(24px, 32px, 38.8px);}
+  font-size: 39px;     /* 2.425em ≈ 39px (assuming 16px base) */
+  line-height: 60px;   /* your current 3.75rem ≈ 60px */
+}
+@media screen and (max-width: 1200px) {
+  #home_heading {
+    font-size: 35px;
+    line-height: 52px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  #home_heading {
+    font-size: 32px;
+    line-height: 48px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #home_heading {
+    font-size: 28px;
+    line-height: 44px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  #home_heading {
+    font-size: 24px;
+    line-height: 38px;
+  }
+}
 
 h1 {
   text-transform: uppercase;
