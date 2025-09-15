@@ -1,4 +1,6 @@
-/* Thumbnail container */
+/* --------------------------
+   Thumbnail styles
+-------------------------- */
 .thumb-container {
   margin: 20px 0;
   text-align: center;
@@ -10,7 +12,6 @@
   color: #333;
 }
 
-/* Thumbnails */
 .thumb-container img {
   width: 200px;
   height: auto;
@@ -28,7 +29,9 @@
   }
 }
 
-/* Overlay background */
+/* --------------------------
+   Overlay container
+-------------------------- */
 #overlay {
   position: fixed;
   top: 0; left: 0;
@@ -41,14 +44,17 @@
   z-index: 9999;
   opacity: 0;
   pointer-events: none;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, opacity 0.3s ease;
 }
+
 #overlay.active {
   opacity: 1;
   pointer-events: auto;
 }
 
-/* Image wrapper */
+/* --------------------------
+   Image wrapper
+-------------------------- */
 #overlay-img-wrapper {
   position: relative;
   display: inline-block;
@@ -67,7 +73,9 @@
   display: block;
 }
 
-/* Close button inside image wrapper */
+/* --------------------------
+   Close button
+-------------------------- */
 #close-btn {
   position: absolute;
   top: 8px;
@@ -78,23 +86,30 @@
   border-radius: 50%;
   padding: 4px 10px;
   cursor: pointer;
-  opacity: 0.5;
+  opacity: 0.5; /* idle dim default */
   transition: opacity 0.3s ease, transform 0.3s ease;
   user-select: none;
 }
 
-/* Caption */
+/* --------------------------
+   Title (anchored below image)
+-------------------------- */
 #overlay-title {
-  margin-top: 12px;
+  position: absolute;
+  bottom: -32px;   /* sits just below image wrapper */
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 1.3rem;
   font-weight: bold;
   color: #fff;
-  text-align: center;
-  opacity: 0.7;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  white-space: nowrap;
+  opacity: 0.7; /* idle default */
+  transition: opacity 0.3s ease;
 }
 
-/* Arrows */
+/* --------------------------
+   Arrows
+-------------------------- */
 #nav-left, #nav-right {
   position: absolute;
   top: 50%;
@@ -105,10 +120,11 @@
   border-radius: 50%;
   padding: 8px 14px;
   cursor: pointer;
-  opacity: 0.5;
+  opacity: 0.5; /* idle dim default */
   transition: opacity 0.3s ease, transform 0.3s ease;
   user-select: none;
 }
+
 #nav-left { left: 20px; }
 #nav-right { right: 20px; }
 
