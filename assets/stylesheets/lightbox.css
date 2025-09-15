@@ -1,72 +1,148 @@
-/* Thumbnails */
-.thumb-container { text-align:center; margin:20px 0; }
-.thumb-container h3 { margin-bottom:8px; font-size:1.2rem; color:#333; }
+/* === Thumbnails === */
+.thumb-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.thumb-container h3 {
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
 .thumb-container img {
-  max-width:200px; height:auto; cursor:pointer;
-  border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.2);
-  transition:transform 0.2s ease;
+  max-width: 200px;
+  height: auto;              /* keep proportions */
+  cursor: pointer;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease;
 }
-.thumb-container img:hover { transform:scale(1.05); }
 
-/* Overlay */
+.thumb-container img:hover {
+  transform: scale(1.05);
+}
+
+/* === Overlay === */
 #overlay {
-  display:none; position:fixed; inset:0;
-  background:rgba(0,0,0,0.8);
-  justify-content:center; align-items:center;
-  z-index:9999;
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: background 0.3s ease;
 }
-#overlay.active { display:flex; }
 
-/* Wrapper */
+#overlay.active {
+  display: flex;
+}
+
+/* Wrapper for image + controls */
 #overlay-img-wrapper {
-  position:relative; display:inline-block;
-  max-width:90%; max-height:80%;
-  text-align:center; overflow:hidden;
-  touch-action:none;
+  position: relative;
+  display: inline-block;
+  max-width: 90%;
+  max-height: 80%;
+  text-align: center;
 }
 
-/* Slides */
-.slide-img {
-  position:absolute; top:0; left:0;
-  width:100%; height:auto;
-  border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.6);
-  will-change:transform;
-  z-index:1;
+/* Enlarged image */
+#overlay-img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  transition: transform 0.3s ease;
+  cursor: grab;
 }
 
-/* Controls & Title */
-#close-btn, #reset-btn, #overlay-title {
-  position:absolute; z-index:2;
-  user-select:none; cursor:pointer;
-}
+/* Close button (X) */
 #close-btn {
-  top:8px; right:8px; font-size:24px;
-  color:#fff; background:rgba(0,0,0,0.5);
-  border-radius:50%; padding:4px 10px; opacity:0.8;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 24px;
+  color: #fff;
+  background: rgba(0,0,0,0.5);
+  border-radius: 50%;
+  padding: 4px 10px;
+  cursor: pointer;
+  opacity: 0.7;
+  user-select: none;
+  transition: opacity 0.3s ease;
 }
-#reset-btn {
-  top:8px; left:8px; font-size:22px;
-  color:#fff; background:rgba(0,0,0,0.5);
-  border-radius:50%; padding:4px 10px; opacity:0.8;
-  display:none;
+
+#close-btn:hover {
+  opacity: 1;
 }
+
+/* Title below image */
 #overlay-title {
-  bottom:-40px; left:50%; transform:translateX(-50%);
-  font-size:1.3rem; font-weight:bold; color:#fff;
-  background:rgba(0,0,0,0.4);
-  padding:4px 10px; border-radius:6px;
-  opacity:0.95;
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #fff;
+  white-space: nowrap;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(0,0,0,0.4);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
 }
 
-/* Arrows */
-#nav-left,#nav-right {
-  position:absolute; top:50%; transform:translateY(-50%);
-  font-size:40px; color:#fff; cursor:pointer;
-  opacity:0.5; user-select:none;
+/* Navigation arrows */
+#nav-left, #nav-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 40px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
 }
-#nav-left:hover,#nav-right:hover { opacity:1; }
-#nav-left { left:20px; } #nav-right { right:20px; }
-@media(hover:none) and (pointer:coarse){ #nav-left,#nav-right { display:none; } }
 
-/* Prevent page scroll */
-body.no-scroll { overflow:hidden; }
+#nav-left:hover, #nav-right:hover {
+  opacity: 1;
+}
+
+#nav-left { left: 20px; }
+#nav-right { right: 20px; }
+
+/* Hide arrows on small/touch devices */
+@media (hover: none) and (pointer: coarse) {
+  #nav-left, #nav-right {
+    display: none;
+  }
+}
+
+/* Auto-dim support (JS sets opacity) */
+#overlay-title,
+#close-btn,
+#nav-left,
+#nav-right {
+  transition: opacity 0.3s ease;
+}
+
+/* === Touch behavior === */
+#overlay,
+#overlay-img-wrapper,
+#overlay-img {
+  touch-action: none;       /* let JS handle pinch and pan */
+  -ms-touch-action: none;   /* old Edge */
+}
+
+/* Prevent page scroll when overlay open */
+body.no-scroll {
+  overflow: hidden;
+}
+
