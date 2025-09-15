@@ -30,6 +30,11 @@ p {
 h1, h4, h5, h6 {
   font-family: 'Fjalla One', sans-serif; }
 
+#home_heading {
+  font-size: clamp(1.5em, 2vw + 1em, 2.425em);
+  line-height: clamp(2rem, 1vw + 2.5rem, 3.75rem);
+}
+
 h1 {
   text-transform: uppercase;
   letter-spacing: 0.025em;
