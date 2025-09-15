@@ -14,7 +14,7 @@
         <section class="entry-wrapper">
           <!--  <div class="container" style="max-width:1600px;">
                 <div class="row">-->
-                            <h1 class="home_heading" style="text-align:center;">#m.content('title')#</h1>
+                            <h1 id="home_heading" style="text-align:center;">#m.content('title')#</h1>
                             #$.renderEditableAttribute(attribute="body",type="htmlEditor")#
                 </div>
             </div>
