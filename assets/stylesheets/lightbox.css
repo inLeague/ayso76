@@ -1,146 +1,246 @@
-/* Reset & Base */
+/* ================================
+   Global Reset & Base
+   ================================ */
 *,
 *::before,
-*::after { box-sizing: border-box; margin: 0; padding: 0; }
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 html, body {
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 100%;
   font-family: Arial, Helvetica, sans-serif;
   background: #f9f9f9;
   color: #333;
 }
 
-img { max-width: 100%; height: auto; display: block; }
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
 
 .visually-hidden {
   position: absolute !important;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0,0,0,0); border: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
 }
 
-/* Thumbnails */
+/* ================================
+   Thumbnail Gallery
+   ================================ */
 .gallery {
-  display: flex; flex-direction: column;
+  display: flex;
+  flex-direction: column;
   gap: clamp(16px, 3vw, 32px);
   padding: clamp(12px, 4vw, 40px);
 }
-.thumb-block { text-align: left; }
+
+.thumb-block {
+  text-align: left;
+}
+
 .thumb-block h3 {
   font-weight: bold;
   font-size: clamp(1rem, 2vw, 1.5rem);
   margin-bottom: 8px;
 }
+
 .thumb-block img.thumb {
   width: clamp(150px, 40vw, 300px);
   cursor: pointer;
-  border: 2px solid #ddd; border-radius: 6px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
+
 .thumb-block img.thumb:hover {
   transform: scale(1.03);
   border-color: #aaa;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
-/* Lightbox */
-.lightbox {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.9);
-  display: none; align-items: center; justify-content: center;
-  z-index: 9999; opacity: 0;
+.thumb-block img.thumb:active {
+  transform: scale(0.98);
+  border-color: #666;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
 }
+
+/* ================================
+   Lightbox Overlay
+   ================================ */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+}
+
 .lightbox.open {
   display: flex !important;
   animation: fadeInOverlay 0.3s ease forwards;
 }
-@keyframes fadeInOverlay { from {opacity:0;} to {opacity:1;} }
 
-/* Viewer */
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ================================
+   Viewer & Stage
+   ================================ */
 .viewer {
   position: relative;
-  width: 100vw; height: 100vh;
+  width: 100vw;
+  height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr;
-  align-items: center; justify-items: center;
-}
-.slide-stage {
-  position: relative; width: 100%; height: 100%;
-  overflow: hidden; display: flex;
-  align-items: center; justify-content: center;
+  align-items: center;
+  justify-items: center;
 }
 
-/* Slides */
+.slide-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================================
+   Slides & Transitions
+   ================================ */
 .slide {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; transform: translateX(0);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateX(0);
   transition: transform 0.45s ease-in-out, opacity 0.45s ease-in-out;
 }
-.slide.center { opacity: 1 !important; transform: translateX(0); z-index: 2; }
-.slide.from-right { transform: translateX(100%); }
-.slide.from-left { transform: translateX(-100%); }
-.slide.to-left { transform: translateX(-100%); opacity:0; z-index:1; }
-.slide.to-right { transform: translateX(100%); opacity:0; z-index:1; }
 
-.slide-inner {
-  position: relative;
-  display: inline-block;
+.slide.center {
+  opacity: 1 !important;
+  transform: translateX(0);
+  z-index: 2;
 }
-.slide-inner img {
-  max-width: 90vw; max-height: 90vh; object-fit: contain;
+
+.slide.from-right { transform: translateX(100%); }
+.slide.from-left  { transform: translateX(-100%); }
+.slide.to-left    { transform: translateX(-100%); opacity: 0; z-index: 1; }
+.slide.to-right   { transform: translateX(100%);  opacity: 0; z-index: 1; }
+
+.slide img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
   box-shadow: 0 8px 24px rgba(0,0,0,0.6);
   border-radius: 4px;
 }
 
-/* Title */
+/* ================================
+   Lightbox Title
+   ================================ */
 .lightbox-title {
-  color: #fff; font-weight: bold; text-align: center;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
   font-size: clamp(1rem, 2vw, 1.5rem);
   margin-bottom: clamp(8px, 2vw, 20px);
   opacity: 0;
   animation: fadeInTitle 0.3s ease forwards;
 }
-@keyframes fadeInTitle { from {opacity:0; transform:translateY(-6px);} to {opacity:1; transform:translateY(0);} }
 
-/* Controls */
+@keyframes fadeInTitle {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================
+   Close Button (positioned by JS)
+   ================================ */
 .btn-close {
   position: absolute;
-  top: 8px; right: 8px;
-  font-size: clamp(1.25rem, 4vw, 2rem);
+  left: 0;   /* dynamically set by JS */
+  top: 0;    /* dynamically set by JS */
+  opacity: 0; /* hidden until positioned */
+  pointer-events: none;
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
   font-weight: bold;
   color: #fff;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.45);
   border: none;
   border-radius: 50%;
-  cursor: pointer;
-  z-index: 5;
-  width: 36px; height: 36px;
-  display: flex; align-items: center; justify-content: center;
-  transition: color 0.2s, background 0.2s, transform 0.2s;
-}
-.btn-close:hover {
-  background: rgba(0,0,0,0.6); color: #ff4444;
-  transform: scale(1.1);
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  transition: background 0.2s ease, transform 0.2s ease, opacity 0.15s ease;
 }
 
-.control.btn-prev, .control.btn-next {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  font-size: clamp(1.5rem, 4vw, 3rem); font-weight: bold; color: #fff;
-  background: rgba(0,0,0,0.3); border: none; cursor: pointer;
-  padding: clamp(6px, 1.5vw, 12px); z-index: 1000; opacity: 0;
-  transition: background 0.2s, transform 0.2s;
+.btn-close:hover {
+  background: rgba(0,0,0,0.65);
+  transform: scale(1.06);
+}
+
+/* ================================
+   Navigation Arrows
+   ================================ */
+.control.btn-prev,
+.control.btn-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: bold;
+  color: #fff;
+  background: rgba(0,0,0,0.3);
+  border: none;
+  cursor: pointer;
+  padding: clamp(6px, 1.5vw, 12px);
+  z-index: 1000;
+  opacity: 0;
+  transition: background 0.2s ease, transform 0.2s ease;
   animation: fadeInControls 0.3s ease forwards 0.3s;
 }
+
 .control.btn-prev { left: clamp(8px, 2vw, 20px); }
 .control.btn-next { right: clamp(8px, 2vw, 20px); }
-.control.btn-prev:hover, .control.btn-next:hover {
-  background: rgba(0,0,0,0.6); transform: translateY(-50%) scale(1.1);
+
+.control.btn-prev:hover,
+.control.btn-next:hover {
+  background: rgba(0,0,0,0.6);
+  transform: translateY(-50%) scale(1.1);
 }
-@keyframes fadeInControls { from {opacity:0; transform:scale(0.9);} to {opacity:1; transform:scale(1);} }
+
+@keyframes fadeInControls {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
 
 /* Hide arrows on mobile */
 @media (max-width: 768px) {
-  .control.btn-prev, .control.btn-next { display: none !important; }
+  .control.btn-prev,
+  .control.btn-next {
+    display: none !important;
+  }
 }
