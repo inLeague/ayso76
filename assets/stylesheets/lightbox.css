@@ -53,6 +53,7 @@
   align-items: center;
   justify-content: center;
 }
+/* Lightbox slide container */
 .slide-stage {
   position: relative;
   width: 100%;
@@ -60,27 +61,23 @@
   overflow: hidden;
 }
 
-/* ================================
-   Slides
-   ================================ */
+/* Every slide is positioned in the center by default */
 .slide {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  opacity: 0;
+  opacity: 0;             /* hidden by default */
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
+
+/* The active slide */
 .slide.center {
-  opacity: 1 !important;
+  opacity: 1 !important;  /* always visible */
   z-index: 2;
 }
-.slide.from-right { transform: translate(100%, -50%); }
-.slide.from-left  { transform: translate(-200%, -50%); }
-.slide.to-left    { transform: translate(-200%, -50%); opacity: 0; z-index: 1; }
-.slide.to-right   { transform: translate(100%, -50%);  opacity: 0; z-index: 1; }
 
-/* Lightbox images: scale automatically */
+/* Slide images always scale to fit */
 .slide img {
   max-width: 90vw;
   max-height: 90vh;
@@ -88,6 +85,8 @@
   height: auto;
   object-fit: contain;
   display: block;
+  opacity: 1 !important;   /* force visible */
+  visibility: visible !important;
 }
 
 /* ================================
@@ -171,14 +170,4 @@
   .control.btn-next {
     display: none !important;
   }
-}
-.slide img {
-  opacity: 1 !important;
-  visibility: visible !important;
-  display: block !important;
-}
-.slide.center img {
-  opacity: 1 !important;
-  visibility: visible !important;
-  display: block !important;
 }
