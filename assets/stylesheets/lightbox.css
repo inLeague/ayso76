@@ -30,18 +30,18 @@
 }
 .lightbox {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
+  inset: 0;                    /* shorthand for top/right/bottom/left:0 */
+  width: 100vw;
+  height: 100vh;
   background: rgba(0,0,0,0.9);
-  display: none;
+  display: none;               /* hidden by default */
   align-items: center;
   justify-content: center;
-  z-index: 9999;
-  opacity: 0;
+  z-index: 9999;               /* ensure it sits on top */
 }
+
 .lightbox.open {
-  display: flex;
-  animation: fadeInOverlay 0.3s ease forwards;
+  display: flex !important;    /* force flex when open */
 }
 .viewer {
   position: relative;
