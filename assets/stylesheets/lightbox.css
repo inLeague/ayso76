@@ -101,8 +101,8 @@
 .zoom-wrap img {
   width: auto;
   height: auto;
-  max-width: none;
-  max-height: none;
+  max-width: 80vw;   /* default: fit to screen */
+  max-height: 80vh;
   border-radius: 12px;
   display: block;
 }
