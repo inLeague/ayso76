@@ -59,7 +59,7 @@
   opacity: 1;
 }
 
-/* Ensure slides animate within a clipped, positioned stage */
+/* Slide stage */
 .slide-stage {
   position: relative;
   overflow: hidden;
@@ -73,7 +73,7 @@
   border-radius: 12px;
 }
 
-/* Slides stack on top of the probe and animate via transform */
+/* Slides */
 .slide {
   position: absolute;
   inset: 0;
@@ -90,12 +90,20 @@
 .to-left    { transform: translateX(-100%); opacity: 0; }
 .to-right   { transform: translateX(100%);  opacity: 0; }
 
-.slide img {
+/* Zoom wrapper */
+.zoom-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(0,0) scale(1);
+  transition: transform 0.2s ease;
+  will-change: transform;
+}
+.zoom-wrap img {
   max-width: 80vw;
   max-height: 80vh;
   border-radius: 12px;
   display: block;
-  background: #111;
 }
 
 /* --- Controls --- */
