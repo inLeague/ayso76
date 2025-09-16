@@ -59,12 +59,37 @@
   opacity: 1;
 }
 
+/* Ensure slides animate within a clipped, positioned stage */
 .slide-stage {
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+}
+.size-probe {
+  display: block;
+  visibility: hidden;
+  max-width: 80vw;
+  max-height: 80vh;
+  border-radius: 12px;
+}
+
+/* Slides stack on top of the probe and animate via transform */
+.slide {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  touch-action: none;
+  background: #111;
+  will-change: transform, opacity;
+  transition: transform 320ms ease, opacity 320ms ease;
 }
+.from-right { transform: translateX(100%); opacity: 0; }
+.from-left  { transform: translateX(-100%); opacity: 0; }
+.center     { transform: translateX(0);     opacity: 1; }
+.to-left    { transform: translateX(-100%); opacity: 0; }
+.to-right   { transform: translateX(100%);  opacity: 0; }
+
 .slide img {
   max-width: 80vw;
   max-height: 80vh;
@@ -74,53 +99,35 @@
 }
 
 /* --- Controls --- */
-.control {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 44px; height: 44px;
-  border: none;
-  border-radius: 999px;
-  background: rgba(0,0,0,.5);
-  color: white;
-  font-size: 22px;
-  line-height: 44px;
-  text-align: center;
-  cursor: pointer;
-}
-.control:hover { background: rgba(0,0,0,.7); }
-.btn-prev { left: 10px; }
-.btn-next { right: 10px; }
-
+.control,
 .btn-close {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 40px; height: 40px;
-  border-radius: 999px;
-  border: none;
-  background: rgba(0,0,0,.5);
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-}
-.btn-close:hover { background: rgba(0,0,0,.7); }
-
-/* --- Slide Animations --- */
-.slide {
-  position: absolute;
-  inset: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #111;
-  transition: transform 320ms ease, opacity 320ms ease;
+  border: none;
+  border-radius: 999px;
+  background: rgba(0,0,0,.5);
+  color: #fff;
+  cursor: pointer;
 }
-.from-right { transform: translateX(100%); opacity: 0; }
-.from-left  { transform: translateX(-100%); opacity: 0; }
-.center     { transform: translateX(0); opacity: 1; }
-.to-left    { transform: translateX(-100%); opacity: 0; }
-.to-right   { transform: translateX(100%); opacity: 0; }
+.control {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px; height: 44px;
+  font-size: 22px;
+  line-height: 44px;
+}
+.btn-prev { left: 10px; }
+.btn-next { right: 10px; }
+.btn-close {
+  top: 10px;
+  right: 10px;
+  width: 40px; height: 40px;
+  font-size: 20px;
+}
+.control:hover, .btn-close:hover { background: rgba(0,0,0,.7); }
 
 /* --- Accessibility helpers --- */
 .visually-hidden {
