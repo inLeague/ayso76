@@ -148,6 +148,13 @@ img {
 .slide.to-left    { transform: translateX(-100%); opacity: 0; z-index: 1; }
 .slide.to-right   { transform: translateX(100%);  opacity: 0; z-index: 1; }
 
+/* Swipe down close */
+.slide.swipe-down {
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
 .slide img {
   max-width: 90vw;
   max-height: 90vh;
