@@ -6,12 +6,14 @@
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   color: #222;
 }
-.thumb-block { margin: 20px 0 28px; }
+.thumb-block { margin: 20px 0 28px;
+text-align: center; }
 /* Center thumbnail headers */
 .thumb-block h3 {
+  display: block;
   text-align: center;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin: 0 0 8px 0; /* remove default margins and add bottom spacing */
 }
 .thumb {
   width: 200px !important;
