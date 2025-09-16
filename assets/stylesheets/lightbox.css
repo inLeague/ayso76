@@ -154,3 +154,19 @@
   opacity: 0;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
+/* Title styling */
+.lightbox-title {
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.25rem;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+/* Hide prev/next arrows on mobile */
+@media (max-width: 768px) {
+  .control.btn-prev,
+  .control.btn-next {
+    display: none !important;
+  }
+}
