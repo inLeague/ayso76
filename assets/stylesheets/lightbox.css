@@ -248,3 +248,19 @@ img {
     display: none !important;
   }
 }
+/* ===== Mobile: slide-only transitions (no fade) ===== */
+@media (max-width: 768px) {
+  /* Turn off fading on mobile */
+  .slide {
+    opacity: 1;                           /* no fade */
+    transition: transform 0.32s ease;     /* slide only */
+    will-change: transform;
+  }
+
+  /* Define horizontal positions for states used by JS */
+  .slide.center      { transform: translateX(0); }
+  .slide.from-right  { transform: translateX(100%); }   /* start off-screen right */
+  .slide.from-left   { transform: translateX(-100%); }  /* start off-screen left */
+  .slide.to-left     { transform: translateX(-100%); }  /* exit left */
+  .slide.to-right    { transform: translateX(100%); }   /* exit right */
+}
