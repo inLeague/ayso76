@@ -1,89 +1,141 @@
-/* Thumbnails */
-.thumb-container { text-align: center; margin: 20px 0; }
-.thumb-container h3 { margin-bottom: 8px; font-size: 1.2rem; color: #333; }
-.thumb-container img {
-  max-width: 200px; height: auto; cursor: pointer;
-  border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  transition: transform 0.2s ease;
+/* --- Thumbnails & Layout --- */
+.gallery {
+  max-width: 1000px;
+  margin: 24px auto;
+  padding: 0 16px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: #222;
 }
-.thumb-container img:hover { transform: scale(1.05); }
+.thumb-block { margin: 20px 0 28px; }
+.thumb-block h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.thumb {
+  width: 200px;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  box-shadow: 0 2px 10px rgba(0,0,0,.15);
+  cursor: zoom-in;
+}
 
-/* Overlay */
-#overlay {
-  display: none; position: fixed; top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.8);
-  justify-content: center; align-items: center;
-  z-index: 9999; transition: background 0.3s ease;
+/* --- Lightbox Overlay --- */
+.lightbox {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  touch-action: none; /* we'll manage gestures with Pointer Events */
 }
-#overlay.active { display: flex; }
-#overlay-img-wrapper {
-  width: 90%; height: 80%;
-  display: flex; align-items: center; justify-content: center;
+.lightbox.open { display: flex; }
+
+/* Container keeps transforms separate from overlay clicks */
+.viewer {
   position: relative;
+  max-width: 80vw;
+  max-height: 80vh;
+  width: 80vw;             /* “80% of full screen” */
+  height: 80vh;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #111;
+  box-shadow: 0 10px 40px rgba(0,0,0,.5);
 }
-#overlay-img {
-  width: auto; max-width: 100%; max-height: 100%;
-  height: auto; display: block; margin: 0 auto;
-  border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+
+/* Image wrapper is what we pan/zoom/animate */
+.slide-stage {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translate3d(0,0,0) scale(1);
+  transition: transform 300ms ease;
   cursor: grab;
+}
+.slide-stage:active { cursor: grabbing; }
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform, opacity;
+  background: #111;
+}
+.slide img {
+  max-width: 100%;
+  max-height: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none; /* interactions handled on stage */
+}
+
+/* --- Controls --- */
+.control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px; height: 44px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255,255,255,.15);
+  backdrop-filter: blur(6px);
+  color: white;
+  font-size: 22px;
+  line-height: 44px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 200ms ease, transform 150ms ease;
+}
+.control:hover { background: rgba(255,255,255,.25); }
+.control:active { transform: translateY(-50%) scale(.96); }
+
+.btn-prev { left: -60px; }
+.btn-next { right: -60px; }
+
+/* Hide arrows on coarse pointers (touch-first devices) */
+@media (pointer: coarse) {
+  .btn-prev, .btn-next { display: none; }
 }
 
 /* Close button */
-#close-btn {
-  position: absolute; top: 8px; right: 8px;
-  font-size: 24px; color: #fff;
-  background: rgba(0,0,0,0.5);
-  border-radius: 50%; padding: 4px 10px;
-  cursor: pointer; opacity: 0.7;
-  user-select: none; transition: opacity 0.3s ease;
+.btn-close {
+  position: absolute;
+  top: -54px; right: -4px;
+  width: 40px; height: 40px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255,255,255,.15);
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
 }
-#close-btn:hover { opacity: 1; }
+.btn-close:hover { background: rgba(255,255,255,.25); }
 
-/* Title */
-#overlay-title {
-  position: absolute; bottom: -40px; left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.3rem; font-weight: bold;
-  color: #fff; white-space: nowrap;
-  padding: 4px 10px; border-radius: 6px;
-  background: rgba(0,0,0,0.4);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-  opacity: 0.9;
+/* If there’s not enough outer space (very small screens), bring controls inside */
+@media (max-width: 640px) {
+  .btn-prev { left: 10px; }
+  .btn-next { right: 10px; }
+  .btn-close { top: 10px; right: 10px; }
 }
 
-/* Arrows */
-#nav-left, #nav-right {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  font-size: 40px; color: #fff;
-  cursor: pointer; user-select: none;
-  opacity: 0.5; transition: opacity 0.3s ease;
-  padding: 8px 12px; background: rgba(0,0,0,0.3);
-  border-radius: 50%;
+/* --- Slide Animations --- */
+.animate { transition: transform 320ms ease, opacity 320ms ease; }
+
+.from-right { transform: translateX(100%); opacity: 0; }
+.from-left  { transform: translateX(-100%); opacity: 0; }
+.center     { transform: translateX(0); opacity: 1; }
+.to-left    { transform: translateX(-100%); opacity: 0; }
+.to-right   { transform: translateX(100%); opacity: 0; }
+
+/* --- Accessibility helpers --- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
-#nav-left:hover, #nav-right:hover { opacity: 1; }
-#overlay-img-wrapper #nav-left { left: -60px; }
-#overlay-img-wrapper #nav-right { right: -60px; }
-
-@media (max-width: 600px) {
-  #nav-left, #nav-right { display: none; }
-  #close-btn { font-size: 32px; padding: 8px 14px; top: 12px; right: 12px; }
-}
-
-/* Smooth Slide Animations (stagger) */
-.slide-in-left, 
-.slide-in-right, 
-.slide-out-left, 
-.slide-out-right, 
-.slide-active {
-  transition: transform 0.35s ease-in-out, opacity 0.35s ease-in-out;
-  will-change: transform, opacity;
-}
-
-.slide-in-left  { transform: translateX(-100%); opacity: 0; }
-.slide-in-right { transform: translateX(100%);  opacity: 0; }
-.slide-out-left { transform: translateX(-100%); opacity: 0; }
-.slide-out-right{ transform: translateX(100%);  opacity: 0; }
-.slide-active   { transform: translateX(0);     opacity: 1; }
-
-body.no-scroll { overflow: hidden; }
