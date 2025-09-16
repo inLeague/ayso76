@@ -1,24 +1,72 @@
 /* ================================
-   Gallery Styles (Thumbnails)
+   Global Reset & Base Styles
    ================================ */
-.thumb-block {
-  display: block;
-  width: 100%;
-  text-align: left;
-  margin-bottom: clamp(12px, 3vw, 32px);
-}
-.thumb-block h3 {
-  display: block;
-  text-align: left;
-  font-weight: bold;
-  margin: 0 0 8px 0;
-  font-size: clamp(1rem, 2vw, 1.5rem);
-}
-.thumb-block img.thumb {
-  display: block;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+  background: #f9f9f9;
+  color: #333;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Accessible hidden text */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* ================================
+   Thumbnail Gallery
+   ================================ */
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 3vw, 32px);
+  padding: clamp(12px, 4vw, 40px);
+}
+
+.thumb-block {
+  text-align: left;
+}
+
+.thumb-block h3 {
+  font-weight: bold;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  margin-bottom: 8px;
+  color: #111;
+}
+
+.thumb-block img.thumb {
   width: clamp(150px, 40vw, 300px);
   height: auto;
+  cursor: pointer;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.thumb-block img.thumb:hover {
+  transform: scale(1.03);
+  border-color: #aaa;
 }
 
 /* ================================
@@ -28,6 +76,7 @@
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+
 .lightbox {
   position: fixed;
   inset: 0;
@@ -40,40 +89,21 @@
   z-index: 9999;
   opacity: 0;
 }
-.lightbox.open {
-  display: flex !important;
-  animation: fadeInOverlay 0.3s ease forwards;
-}
-/* ================================
-   Lightbox Overlay (unchanged)
-   ================================ */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.9);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  opacity: 0;
-}
+
 .lightbox.open {
   display: flex !important;
   animation: fadeInOverlay 0.3s ease forwards;
 }
 
 /* ================================
-   Viewer & Stage Sizing (NEW)
-   Make sure the stage actually has height to center the slide.
+   Viewer & Stage
    ================================ */
 .viewer {
   position: relative;
   width: 100vw;
-  height: 100vh;                /* <- key: fill viewport */
+  height: 100vh;
   display: grid;
-  grid-template-rows: auto 1fr; /* title row, then stage takes the rest */
+  grid-template-rows: auto 1fr; /* title row + stage */
   align-items: center;
   justify-items: center;
 }
@@ -81,26 +111,24 @@
 .slide-stage {
   position: relative;
   width: 100%;
-  height: 100%;  /* <- key: real height for centering */
-  min-height: 0; /* allow shrinking in grid */
+  height: 100%;
   overflow: hidden;
-  display: block; /* ensure not collapsing because of flex rules elsewhere */
+  min-height: 0;
 }
 
 /* ================================
-   Slides (one visible, centered)
+   Slides
    ================================ */
 .slide {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  opacity: 0;  /* hidden unless 'center' */
+  opacity: 0;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .slide.center {
-  opacity: 1 !important;  /* ensure visible */
+  opacity: 1 !important;
   z-index: 2;
 }
 
@@ -109,25 +137,23 @@
 .slide.to-left    { transform: translate(-200%, -50%); opacity: 0; z-index: 1; }
 .slide.to-right   { transform: translate(100%, -50%);  opacity: 0; z-index: 1; }
 
-/* Images always fit the viewport */
 .slide img {
   max-width: 90vw;
   max-height: 90vh;
-  width: auto;
-  height: auto;
   object-fit: contain;
   display: block;
-  opacity: 1 !important;  /* guard against inherited opacity */
+  opacity: 1 !important;
   visibility: visible !important;
 }
 
 /* ================================
-   Title Animation
+   Lightbox Title
    ================================ */
 @keyframes fadeInTitle {
   from { opacity: 0; transform: translateY(-6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
 .lightbox-title {
   color: #fff;
   font-weight: bold;
@@ -136,6 +162,7 @@
   margin-bottom: clamp(8px, 2vw, 20px);
   opacity: 0;
 }
+
 .lightbox.open .lightbox-title {
   animation: fadeInTitle 0.3s ease forwards;
 }
@@ -147,6 +174,7 @@
   from { opacity: 0; transform: scale(0.9); }
   to   { opacity: 1; transform: scale(1); }
 }
+
 .btn-close {
   position: absolute;
   top: clamp(8px, 2vw, 20px);
@@ -161,14 +189,17 @@
   opacity: 0;
   transition: color 0.2s ease, transform 0.2s ease;
 }
+
 .lightbox.open .btn-close {
   animation: fadeInControls 0.3s ease forwards;
   animation-delay: 0.2s;
 }
+
 .btn-close:hover {
   color: #ff4444;
   transform: scale(1.15);
 }
+
 .control.btn-prev,
 .control.btn-next {
   position: absolute;
@@ -185,18 +216,23 @@
   opacity: 0;
   transition: background 0.2s ease, transform 0.2s ease;
 }
+
 .lightbox.open .control.btn-prev,
 .lightbox.open .control.btn-next {
   animation: fadeInControls 0.3s ease forwards;
   animation-delay: 0.3s;
 }
+
 .control.btn-prev { left: clamp(8px, 2vw, 20px); }
 .control.btn-next { right: clamp(8px, 2vw, 20px); }
+
 .control.btn-prev:hover,
 .control.btn-next:hover {
   background: rgba(0,0,0,0.6);
   transform: translateY(-50%) scale(1.1);
 }
+
+/* Hide arrows on mobile */
 @media (max-width: 768px) {
   .control.btn-prev,
   .control.btn-next {
