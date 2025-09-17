@@ -16,10 +16,8 @@ html, body {
 img { max-width: 100%; height: auto; display: block; }
 
 .visually-hidden {
-  position: absolute !important;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0,0,0,0); border: 0;
+  position: absolute !important; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;
 }
 
 /* ================================
@@ -63,7 +61,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ================================
-   Lightbox Overlay
+   Lightbox
    ================================ */
 .lightbox {
   position: fixed;
@@ -75,20 +73,11 @@ img { max-width: 100%; height: auto; display: block; }
   z-index: 9999;
   opacity: 0;
 }
+.lightbox.open { display: flex !important; animation: fadeInOverlay .3s ease forwards; }
 
-.lightbox.open {
-  display: flex !important;
-  animation: fadeInOverlay .3s ease forwards;
-}
+@keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
 
-@keyframes fadeInOverlay {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-/* ================================
-   Viewer & Stage (true centering)
-   ================================ */
+/* Centering container */
 .viewer {
   position: relative;
   width: 100vw;
@@ -99,12 +88,19 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .slide-stage {
-  position: relative;           /* anchor for the close button */
+  position: relative;           /* anchor for X and caption */
   width: 100%;
   height: 100%;
-  display: grid;                /* true centering */
+  display: grid;
   place-items: center;
   overflow: hidden;
+}
+
+/* Hide UI (caption + X) when toggled */
+.slide-stage.ui-hidden #lbCaption,
+.slide-stage.ui-hidden #lbClose {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* ================================
@@ -113,65 +109,64 @@ img { max-width: 100%; height: auto; display: block; }
 .slide {
   position: absolute;
   inset: 0;
-  display: grid;                /* keeps content centered */
+  display: grid;
   place-items: center;
   opacity: 0;
   transform: translateX(0);
   transition: transform .45s ease-in-out, opacity .45s ease-in-out;
-  pointer-events: none;         /* let background taps through unless active */
+  pointer-events: none;
 }
-
 .slide.center {
   opacity: 1 !important;
   transform: translateX(0) !important;
   z-index: 2;
   pointer-events: auto;
 }
-
 .slide.from-right { transform: translateX(100%); }
 .slide.from-left  { transform: translateX(-100%); }
 .slide.to-left    { transform: translateX(-100%); opacity: 0; z-index: 1; }
 .slide.to-right   { transform: translateX(100%);  opacity: 0; z-index: 1; }
 
-/* Figure (image + caption) */
-.slide .figure {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  max-width: 92vw;
-}
-
+/* Image in slide */
 .slide img {
   max-width: 90vw;
-  max-height: 82vh;            /* base; JS may reduce to fit caption */
+  max-height: 82vh;            /* JS may reduce further to fit caption */
   object-fit: contain;
   box-shadow: 0 8px 24px rgba(0,0,0,.6);
   border-radius: 4px;
-  pointer-events: auto;         /* image handles swipe/tap */
+  pointer-events: auto;        /* image handles tap/swipe */
 }
 
-.slide .caption {
-  display: block;
+/* ================================
+   Caption (under image)
+   ================================ */
+#lbCaption {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   color: #fff;
   text-align: center;
   font-weight: 600;
   font-size: clamp(.95rem, 2.2vw, 1.25rem);
-  line-height: 1.3;
-  margin-top: 8px;
-  max-width: 92vw;
-  text-wrap: balance;
+  line-height: 1.35;
+  max-width: min(92vw, 1000px);
+  z-index: 2147483646;
+  pointer-events: none;
+  opacity: 1;
+  /* readability background */
+  background: rgba(0,0,0,.35);
+  border-radius: 10px;
+  padding: 8px 12px;
+  backdrop-filter: blur(2px); /* safe to ignore if unsupported */
 }
 
 /* ================================
-   Close Button (created by JS as #lbClose)
-   - visible by default in top-right of stage
-   - JS repositions it to image corner (no left/top transition)
+   Close Button (X)
    ================================ */
-.lightbox .slide-stage > #lbClose {
+#lbClose {
   position: absolute;
-  top: 16px;
-  right: 16px;                 /* default visible location */
+  top: 16px;                  /* default visible spot; JS repositions to image corner */
+  right: 16px;
   opacity: 1;
   pointer-events: auto;
   z-index: 2147483647;
@@ -187,20 +182,16 @@ img { max-width: 100%; height: auto; display: block; }
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,.35);
-
-  transition: opacity .12s ease,
-              transform .15s ease,
-              background .15s ease;  /* no left/top/right transitions */
+  transition: opacity .12s ease, transform .15s ease, background .15s ease;
 }
-
-.lightbox .slide-stage > #lbClose:hover {
+#lbClose:hover {
   background: rgba(0,0,0,.65);
   color: #ff4444;
   transform: scale(1.06);
 }
 
 /* ================================
-   Navigation Arrows
+   Arrows
    ================================ */
 .control.btn-prev,
 .control.btn-next {
@@ -219,10 +210,8 @@ img { max-width: 100%; height: auto; display: block; }
   transition: background .2s ease, transform .2s ease;
   animation: fadeInControls .3s ease forwards .3s;
 }
-
 .control.btn-prev { left: 16px; }
 .control.btn-next { right: 16px; }
-
 .control.btn-prev:hover,
 .control.btn-next:hover {
   background: rgba(0,0,0,.6);
