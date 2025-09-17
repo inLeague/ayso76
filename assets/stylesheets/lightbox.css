@@ -19,7 +19,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ================================
-   Thumbnail Gallery
+   Thumbnails
    ================================ */
 .gallery { display: flex; flex-direction: column; gap: 24px; padding: 24px; }
 .thumb-block { text-align: left; }
@@ -33,7 +33,7 @@ img { max-width: 100%; height: auto; display: block; }
 .thumb-block img.thumb:active { transform: scale(.98); border-color: #666; box-shadow: 0 1px 3px rgba(0,0,0,.4); }
 
 /* ================================
-   Lightbox Overlay
+   Lightbox
    ================================ */
 .lightbox {
   position: fixed; inset: 0; background: rgba(0,0,0,.9);
@@ -43,15 +43,14 @@ img { max-width: 100%; height: auto; display: block; }
 .lightbox.open { display: flex !important; animation: fadeInOverlay .3s ease forwards; }
 @keyframes fadeInOverlay { from {opacity:0;} to {opacity:1;} }
 
-/* ================================
-   Viewer & Stage (true centering)
-   ================================ */
+/* Centering */
 .viewer {
   position: relative; width: 100vw; height: 100vh;
   display: flex; align-items: center; justify-content: center;
 }
+
 .slide-stage {
-  position: relative; /* anchor for JS-positioned X */
+  position: relative;           /* anchor for X (left/top) */
   width: 100%; height: 100%;
   display: grid; place-items: center;
   overflow: hidden;
@@ -65,7 +64,7 @@ img { max-width: 100%; height: auto; display: block; }
   display: grid; place-items: center;
   opacity: 0; transform: translateX(0);
   transition: transform .45s ease-in-out, opacity .45s ease-in-out;
-  pointer-events: none; /* let background taps through */
+  pointer-events: none; /* let background clicks through */
 }
 .slide.center {
   opacity: 1 !important; transform: translateX(0) !important;
@@ -83,25 +82,30 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ================================
-   Close Button (X) — JS pins to image corner
+   Close Button (X)
    ================================ */
-.btn-close {
-  position: absolute;               /* JS sets left/top precisely */
-  left: 16px; top: 16px;            /* sensible default so it's visible immediately */
-  opacity: 0;                       /* shown by JS after final position */
-  pointer-events: auto; z-index: 2000;
+/* Visible by default in top-right of the stage so it never disappears */
+.lightbox .slide-stage > .btn-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;          /* default visible location */
+  opacity: 1;           /* visible by default */
+  pointer-events: auto;
+  z-index: 2000;
 
   font-size: clamp(1.1rem, 3vw, 1.6rem);
   font-weight: bold; color: #fff;
   background: rgba(0,0,0,.45);
   border: none; border-radius: 50%;
   width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
-  transition: background .2s ease, transform .2s ease, opacity .15s ease, color .2s ease;
+  transition: background .2s ease, transform .2s ease, opacity .15s ease, color .2s ease, left .15s ease, top .15s ease, right .15s ease;
 }
-.btn-close:hover { background: rgba(0,0,0,.65); color: #ff4444; transform: scale(1.06); }
+.lightbox .slide-stage > .btn-close:hover {
+  background: rgba(0,0,0,.65); color: #ff4444; transform: scale(1.06);
+}
 
 /* ================================
-   Navigation Arrows
+   Arrows
    ================================ */
 .control.btn-prev, .control.btn-next {
   position: absolute; top: 50%; transform: translateY(-50%);
