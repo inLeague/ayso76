@@ -74,7 +74,6 @@ img { max-width: 100%; height: auto; display: block; }
   opacity: 0;
 }
 .lightbox.open { display: flex !important; animation: fadeInOverlay .3s ease forwards; }
-
 @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
 
 /* Centering container */
@@ -96,7 +95,7 @@ img { max-width: 100%; height: auto; display: block; }
   overflow: hidden;
 }
 
-/* Hide UI (caption + X) when toggled */
+/* Hide UI (caption + X) during swipe */
 .slide-stage.ui-hidden #lbCaption,
 .slide-stage.ui-hidden #lbClose {
   opacity: 0;
@@ -134,7 +133,7 @@ img { max-width: 100%; height: auto; display: block; }
   object-fit: contain;
   box-shadow: 0 8px 24px rgba(0,0,0,.6);
   border-radius: 4px;
-  pointer-events: auto;        /* image handles tap/swipe */
+  pointer-events: auto;        /* image handles swipe/tap */
 }
 
 /* ================================
@@ -153,11 +152,12 @@ img { max-width: 100%; height: auto; display: block; }
   z-index: 2147483646;
   pointer-events: none;
   opacity: 1;
+
   /* readability background */
   background: rgba(0,0,0,.35);
   border-radius: 10px;
   padding: 8px 12px;
-  backdrop-filter: blur(2px); /* safe to ignore if unsupported */
+  backdrop-filter: blur(2px);
 }
 
 /* ================================
@@ -217,11 +217,7 @@ img { max-width: 100%; height: auto; display: block; }
   background: rgba(0,0,0,.6);
   transform: translateY(-50%) scale(1.1);
 }
-
-@keyframes fadeInControls {
-  from { opacity: 0; transform: scale(.9); }
-  to   { opacity: 1; transform: scale(1); }
-}
+@keyframes fadeInControls { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: scale(1); } }
 
 /* Hide arrows on mobile */
 @media (max-width: 768px) {
