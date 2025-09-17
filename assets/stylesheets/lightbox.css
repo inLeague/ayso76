@@ -3,119 +3,57 @@
    ================================ */
 *,
 *::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   font-family: Arial, Helvetica, sans-serif;
-  background: #f9f9f9;
-  color: #333;
+  background: #f9f9f9; color: #333;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
+img { max-width: 100%; height: auto; display: block; }
 
 .visually-hidden {
-  position: absolute !important;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  border: 0;
+  position: absolute !important; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;
 }
 
 /* ================================
    Thumbnail Gallery
    ================================ */
-.gallery {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding: 24px;
-}
-
+.gallery { display: flex; flex-direction: column; gap: 24px; padding: 24px; }
 .thumb-block { text-align: left; }
-
-.thumb-block h3 {
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-bottom: 8px;
-  color: #111;
-}
-
+.thumb-block h3 { font-weight: bold; font-size: 1.2rem; margin-bottom: 8px; color: #111; }
 .thumb-block img.thumb {
-  width: clamp(150px, 40vw, 300px);
-  cursor: pointer;
-  border: 2px solid #ddd;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  width: clamp(150px, 40vw, 300px); cursor: pointer;
+  border: 2px solid #ddd; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,.2);
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
 }
-
-.thumb-block img.thumb:hover {
-  transform: scale(1.03);
-  border-color: #aaa;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.thumb-block img.thumb:active {
-  transform: scale(0.98);
-  border-color: #666;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
-}
+.thumb-block img.thumb:hover { transform: scale(1.03); border-color: #aaa; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
+.thumb-block img.thumb:active { transform: scale(.98); border-color: #666; box-shadow: 0 1px 3px rgba(0,0,0,.4); }
 
 /* ================================
    Lightbox Overlay
    ================================ */
 .lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.9);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  opacity: 0;
+  position: fixed; inset: 0; background: rgba(0,0,0,.9);
+  display: none; align-items: center; justify-content: center;
+  z-index: 9999; opacity: 0;
 }
-
-.lightbox.open {
-  display: flex !important;
-  animation: fadeInOverlay 0.3s ease forwards;
-}
-
-@keyframes fadeInOverlay {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
+.lightbox.open { display: flex !important; animation: fadeInOverlay .3s ease forwards; }
+@keyframes fadeInOverlay { from {opacity:0;} to {opacity:1;} }
 
 /* ================================
    Viewer & Stage (true centering)
    ================================ */
 .viewer {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative; width: 100vw; height: 100vh;
+  display: flex; align-items: center; justify-content: center;
 }
-
 .slide-stage {
-  position: relative;           /* anchor for JS-positioned X button */
-  width: 100%;
-  height: 100%;
-  display: grid;                /* true centering */
-  place-items: center;
+  position: relative; /* anchor for JS-positioned X */
+  width: 100%; height: 100%;
+  display: grid; place-items: center;
   overflow: hidden;
 }
 
@@ -123,107 +61,61 @@ img {
    Slides & Transitions
    ================================ */
 .slide {
-  position: absolute;
-  inset: 0;
-  display: grid;                /* keep image centered within slide */
-  place-items: center;
-  opacity: 0;
-  transform: translateX(0);
-  transition: transform 0.45s ease-in-out, opacity 0.45s ease-in-out;
-  pointer-events: none;         /* let background clicks pass through */
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  opacity: 0; transform: translateX(0);
+  transition: transform .45s ease-in-out, opacity .45s ease-in-out;
+  pointer-events: none; /* let background taps through */
 }
-
 .slide.center {
-  opacity: 1 !important;
-  transform: translateX(0) !important;
-  z-index: 2;
-  pointer-events: auto;         /* active slide accepts interactions */
+  opacity: 1 !important; transform: translateX(0) !important;
+  z-index: 2; pointer-events: auto;
 }
-
 .slide.from-right { transform: translateX(100%); }
 .slide.from-left  { transform: translateX(-100%); }
 .slide.to-left    { transform: translateX(-100%); opacity: 0; z-index: 1; }
 .slide.to-right   { transform: translateX(100%);  opacity: 0; z-index: 1; }
 
 .slide img {
-  max-width: 90vw;
-  max-height: 90vh;
-  object-fit: contain;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-  border-radius: 4px;
-  pointer-events: auto;         /* image handles swipe/tap */
+  max-width: 90vw; max-height: 90vh; object-fit: contain;
+  box-shadow: 0 8px 24px rgba(0,0,0,.6); border-radius: 4px;
+  pointer-events: auto; /* image handles swipe/tap */
 }
 
 /* ================================
    Close Button (X) — JS pins to image corner
    ================================ */
 .btn-close {
-  position: absolute;           /* JS sets left/top to image’s top-right */
-  left: 0;                      /* (initialized; JS overwrites) */
-  top: 0;
-  opacity: 0;                   /* shown by JS after positioning */
-  pointer-events: auto;
-  z-index: 2000;
+  position: absolute;               /* JS sets left/top precisely */
+  left: 16px; top: 16px;            /* sensible default so it's visible immediately */
+  opacity: 0;                       /* shown by JS after final position */
+  pointer-events: auto; z-index: 2000;
 
   font-size: clamp(1.1rem, 3vw, 1.6rem);
-  font-weight: bold;
-  color: #fff;
-  background: rgba(0,0,0,0.45);
-  border: none;
-  border-radius: 50%;
-  width: 34px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s ease, transform 0.2s ease, opacity 0.15s ease, color 0.2s ease;
+  font-weight: bold; color: #fff;
+  background: rgba(0,0,0,.45);
+  border: none; border-radius: 50%;
+  width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+  transition: background .2s ease, transform .2s ease, opacity .15s ease, color .2s ease;
 }
-
-.btn-close:hover {
-  background: rgba(0,0,0,0.65);
-  color: #ff4444;               /* red on hover (desktop) */
-  transform: scale(1.06);
-}
+.btn-close:hover { background: rgba(0,0,0,.65); color: #ff4444; transform: scale(1.06); }
 
 /* ================================
    Navigation Arrows
    ================================ */
-.control.btn-prev,
-.control.btn-next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 2rem;
-  font-weight: bold;
-  color: #fff;
-  background: rgba(0,0,0,0.3);
-  border: none;
-  cursor: pointer;
-  padding: 10px;
-  z-index: 1000;
-  opacity: 0;
-  transition: background 0.2s ease, transform 0.2s ease;
-  animation: fadeInControls 0.3s ease forwards 0.3s;
+.control.btn-prev, .control.btn-next {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  font-size: 2rem; font-weight: bold; color: #fff;
+  background: rgba(0,0,0,.3); border: none; cursor: pointer; padding: 10px;
+  z-index: 1000; opacity: 0; transition: background .2s ease, transform .2s ease;
+  animation: fadeInControls .3s ease forwards .3s;
 }
-
 .control.btn-prev { left: 16px; }
 .control.btn-next { right: 16px; }
-
-.control.btn-prev:hover,
-.control.btn-next:hover {
-  background: rgba(0,0,0,0.6);
-  transform: translateY(-50%) scale(1.1);
-}
-
-@keyframes fadeInControls {
-  from { opacity: 0; transform: scale(0.9); }
-  to   { opacity: 1; transform: scale(1); }
-}
+.control.btn-prev:hover, .control.btn-next:hover { background: rgba(0,0,0,.6); transform: translateY(-50%) scale(1.1); }
+@keyframes fadeInControls { from {opacity:0; transform:scale(.9);} to {opacity:1; transform:scale(1);} }
 
 /* Hide arrows on mobile */
 @media (max-width: 768px) {
-  .control.btn-prev,
-  .control.btn-next {
-    display: none !important;
-  }
+  .control.btn-prev, .control.btn-next { display: none !important; }
 }
