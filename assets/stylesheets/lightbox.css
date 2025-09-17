@@ -21,6 +21,12 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ================================
+   CMS tolerance
+   ================================ */
+/* Neutralize random paragraphs the CMS inserts inside gallery/lightbox */
+#gallery p, .lightbox p { margin: 0 !important; }
+
+/* ================================
    Thumbnails (stacked, left-aligned)
    ================================ */
 .gallery {
@@ -32,6 +38,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .thumb-block { text-align: left; }
 
+/* H3 optional: titles primarily come from data-title on <img> */
 .thumb-block h3 {
   font-weight: bold;
   font-size: 1.2rem;
