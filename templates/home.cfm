@@ -8,8 +8,8 @@
 
         <cfinclude template="inc/meganav.cfm" />
 
-      <section class="banner-img" style="border-bottom:3px solid #ef832f;">
-       <!--     <img src="#m.siteConfig('ThemeAssetPath')#/images/hero-image.jpg" class="full-width-img" alt="AYSO 76"> -->
+      <section class="banner-img">
+            <img src="#m.siteConfig('ThemeAssetPath')#/images/hero-image.jpg" class="full-width-img" alt="AYSO 76">
         </section>
         <section class="entry-wrapper" style="padding: 15px 0;">
           <!--  <div class="container" style="max-width:1600px;">
