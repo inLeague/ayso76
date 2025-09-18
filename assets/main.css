@@ -12,7 +12,8 @@ body {
   -moz-osx-font-smoothing: antialiased;
   font-family: "Noto Sans";
   letter-spacing: 0.015em;
-  line-height: 2rem; }
+  line-height: 2rem;
+  background-color: #fff; }
 p {
   font-family: "Noto Sans";
   letter-spacing: 0.015em;
