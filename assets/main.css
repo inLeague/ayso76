@@ -347,7 +347,7 @@ nav.navbar {
       font-size: 1.5em;
       letter-spacing: 0.05em;
       padding: 0;
-      text-align: center; }
+      text-align: left; }
     #navbarMobileNav .nav-list li:focus > a, #navbarMobileNav .nav-list li:hover > a, #navbarMobileNav .nav-list li.active > a {
       color: #ef832f;
       text-decoration: none; }
