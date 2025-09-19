@@ -39,6 +39,7 @@
   .wrap-for-mobile-menu.show {
     width: 50%;
     box-shadow: 10px 0 22px 1px rgba(0, 0, 0, .2);
+    z-index: 99999;
     .col-lg-10.col-md-9.col-sm-12 {
       flex: 0 0 100%;
       max-width: 100%;
