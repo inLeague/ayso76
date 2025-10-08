@@ -281,7 +281,7 @@ nav.navbar {
   display: none;
   min-width: 20em; }
   .dropdown-toggle .dropdown-menu.dropdown-menu-lg {
-    min-width: 680px;
+    min-width: 980px;
     width: 100%; }
 
 .dropdown-toggle:hover .dropdown-menu {
