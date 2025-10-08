@@ -56,9 +56,12 @@
   .dropdown-toggle .dropdown-menu.dropdown-menu-lg {
     min-width: initial;
     .col-sm-4 {
-      max-width: 100%;
+      max-width: 25%;
       flex: 100%;
     }
   }
+  .row {
+  flex-wrap:no-wrap !important;
+}
   }
 
