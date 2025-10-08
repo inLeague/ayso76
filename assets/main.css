@@ -34,6 +34,10 @@ p {
 h1, h4, h5, h6 {
   font-family: 'Fjalla One', sans-serif; }
 
+.row {
+  flex-wrap:no-wrap;
+}
+
 #home_heading {
   font-size: 39px;     /* 2.425em ≈ 39px (assuming 16px base) */
   line-height: 60px;   /* your current 3.75rem ≈ 60px */}
