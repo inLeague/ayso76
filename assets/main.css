@@ -281,7 +281,7 @@ nav.navbar {
   display: none;
   min-width: 20em; }
   .dropdown-toggle .dropdown-menu.dropdown-menu-lg {
-    min-width: 980px;
+    min-width: fit-content;
     width: 100%; }
 
 .dropdown-toggle:hover .dropdown-menu {
@@ -732,6 +732,7 @@ footer {
         flex: 0 0 25%;
         flex-grow: 1;
         max-width: 100%;
+        min-width:200px;
     }
   }
 /*# sourceMappingURL=main.css.map */
