@@ -206,7 +206,7 @@
                         </cfloop>
                         </cfif>
                        </div>
-                        <div class="col-sm-4">
+                    <!--    <div class="col-sm-4">
                         <cfset feed = $.getBean('feed').loadBy(name='TeamsCupSubNavItem')>
                         <cfset it = feed.getIterator()>
                         <cfif it.hasNext()>
@@ -220,7 +220,7 @@
                              </li>
                            </cfloop>
                            </cfif>
-                        </div>
+                        </div> -->
                         <div class="col-sm-4">
                             <cfset feed = $.getBean('feed').loadBy(name='refereesCupSubNavItem')>
                             <cfset it = feed.getIterator()>
