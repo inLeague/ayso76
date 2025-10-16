@@ -736,32 +736,42 @@ footer {
   }
   }
 @media (max-width: 991.98px) {
-  /* Make the link and the arrow share one line */
-  .navbar-nav li.dropdown-toggle {
-    position: relative;          /* create positioning context for arrow */
-    white-space: nowrap;         /* keep text + arrow on one line */
+  /* 1) Remove Bootstrap's caret that's on the <li> (wrong place for your HTML) */
+  .navbar-nav li.dropdown-toggle::after {
+    display: none !important;
   }
 
+  /* 2) Make the link a single, non-wrapping line and reserve space for a caret */
   .navbar-nav li.dropdown-toggle > .nav-link {
+    position: relative;       /* anchor becomes positioning context */
     display: block;
     width: 100%;
-    padding-right: 2.25rem;      /* reserve space for arrow on right side */
-    overflow: hidden;
-    text-overflow: ellipsis;
+    padding-right: 2.25rem;   /* space for caret */
+    white-space: nowrap;      /* prevent wrapping */
+    overflow: hidden;         /* allow truncation */
+    text-overflow: ellipsis;  /* long labels truncate instead of wrap */
     line-height: 1.3;
   }
 
-  /* Style Bootstrap caret even though it's attached to the <li> */
-  .navbar-nav li.dropdown-toggle::after {
+  /* 3) Inject a new caret on the <a>, absolutely positioned so it never wraps */
+  .navbar-nav li.dropdown-toggle > .nav-link::after {
     content: "";
     position: absolute;
-    right: 0.75rem;              /* adjust for spacing */
+    right: 0.75rem;
     top: 50%;
-    transform: translateY(-50%);
-    border: solid transparent;
-    border-width: 0.3em 0.3em 0 0.3em;
-    border-top-color: currentColor; /* classic caret look */
-    pointer-events: none;        /* arrow won't intercept taps */
+    transform: translateY(-50%);  /* vertically center */
+    pointer-events: none;
+
+    /* caret triangle */
+    border-top: .35em solid currentColor;
+    border-right: .35em solid transparent;
+    border-left: .35em solid transparent;
+    border-bottom: 0;
+  }
+
+  /* Optional: flip caret when menu is open (Bootstrap adds .show to the parent) */
+  .navbar-nav li.dropdown-toggle.show > .nav-link::after {
+    transform: translateY(-50%) rotate(180deg);
   }
 }
 
