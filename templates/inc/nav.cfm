@@ -144,9 +144,9 @@
         </ul>
     </li>
 
-    <li class="nav-item dropdown-toggle"><a class="nav-link" href="/program-info">Competitive Programs</a>
+    <li class="nav-item dropdown-toggle"><a class="nav-link" href="/competitive-programs">Competitive Programs</a>
         <ul class="dropdown-menu dropdown-menu-lg container-fluid">
-            <cfset feed = $.getBean('feed').loadBy(name='CompProgramsPgSubmenuProgramsNavItem')>
+            <cfset feed = $.getBean('feed').loadBy(name='PostSeasonSubNavItem')>
             <cfset it = feed.getIterator()>
             <cfif it.hasNext()>
             <div class="row">
