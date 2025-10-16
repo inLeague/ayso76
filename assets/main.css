@@ -354,7 +354,9 @@ nav.navbar {
       text-decoration: none; }
   #navbarMobileNav .dropdown-toggle .dropdown-menu {
     position: relative;
-    width: 100%; }
+    width: 100%;}
+  .dropdown-toggle li{
+      flex-wrap:nowrap !important;}
 
 #navbarNav .dropdown-menu.dropdown-left {
   left: auto;
