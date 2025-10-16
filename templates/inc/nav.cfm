@@ -143,7 +143,84 @@
         </cfif>
         </ul>
     </li>
-    <li class="nav-item dropdown-toggle"><a class="nav-link" href="/post-season">Post Season</a>
+
+
+
+
+    <li class="nav-item dropdown-toggle"><a class="nav-link" href="/competitive-programs">Competitive Programs</a>
+        <ul class="dropdown-menu dropdown-menu-lg container-fluid">
+            <cfset feed = $.getBean('feed').loadBy(name='CompProgramsPgSubmenuProgramsNavItem')>
+            <cfset it = feed.getIterator()>
+            <cfif it.hasNext()>
+            <div class="row">
+                <div class="col-sm-4">
+                    <cfset feed = $.getBean('feed').loadBy(name='PostSeasonSubNavItem')>
+                    <cfset it = feed.getIterator()>
+                    <cfif it.hasNext()>
+                    <li class="sub-nav-header">Post-Season</li>
+                   <cfloop condition="it.hasNext()">
+                   <cfset item = it.next()>
+                    <li<cfif $.content('contentid') eq item.getContentID()> class="active current"</cfif>>
+                        <a target="#item.getTarget()#" href="#item.getURL()#">#HTMLEditFormat(item.getMenuTitle())#</a>
+                        <!--- This is where you can specify how deep you want to go  --->
+                        #$.dspNestedNav(contentID=item.getContentID(), viewDepth=2)#
+                     </li>
+                   </cfloop>
+                   </cfif>
+                </div>
+                <div class="col-sm-4">
+                    <cfset feed = $.getBean('feed').loadBy(name='ExtraSubNavItem')>
+                    <cfset it = feed.getIterator()>
+                    <cfif it.hasNext()>
+                    <li class="sub-nav-header">Extra</li>
+                   <cfloop condition="it.hasNext()">
+                   <cfset item = it.next()>
+                    <li<cfif $.content('contentid') eq item.getContentID()> class="active current"</cfif>>
+                        <a target="#item.getTarget()#" href="#item.getURL()#">#HTMLEditFormat(item.getMenuTitle())#</a>
+                        <!--- This is where you can specify how deep you want to go  --->
+                        #$.dspNestedNav(contentID=item.getContentID(), viewDepth=2)#
+                     </li>
+                   </cfloop>
+                   </cfif>
+                </div>
+                <div class="col-sm-4">
+                    <cfset feed = $.getBean('feed').loadBy(name='AllianceSubNavItem')>
+                    <cfset it = feed.getIterator()>
+                    <cfif it.hasNext()>
+                    <li class="sub-nav-header">Alliance</li>
+                   <cfloop condition="it.hasNext()">
+                   <cfset item = it.next()>
+                    <li<cfif $.content('contentid') eq item.getContentID()> class="active current"</cfif>>
+                        <a target="#item.getTarget()#" href="#item.getURL()#">#HTMLEditFormat(item.getMenuTitle())#</a>
+                        <!--- This is where you can specify how deep you want to go  --->
+                        #$.dspNestedNav(contentID=item.getContentID(), viewDepth=2)#
+                    </li>
+                   </cfloop>
+                   </cfif>
+                </div>
+                <div class="col-sm-4">
+                    <cfset feed = $.getBean('feed').loadBy(name='UnitedSubNavItem')>
+                    <cfset it = feed.getIterator()>
+                    <cfif it.hasNext()>
+                    <li class="sub-nav-header">United</li>
+                   <cfloop condition="it.hasNext()">
+                   <cfset item = it.next()>
+                    <li<cfif $.content('contentid') eq item.getContentID()> class="active current"</cfif>>
+                        <a target="#item.getTarget()#" href="#item.getURL()#">#HTMLEditFormat(item.getMenuTitle())#</a>
+                        <!--- This is where you can specify how deep you want to go  --->
+                        #$.dspNestedNav(contentID=item.getContentID(), viewDepth=2)#
+                     </li>
+                   </cfloop>
+                   </cfif>
+                </div>
+              </div>
+        </ul>
+    </li>
+
+
+
+
+<li class="nav-item dropdown-toggle"><a class="nav-link" href="/post-season">Post Season</a>
         <ul class="dropdown-menu dropdown-left">
             <cfset feed = $.getBean('feed').loadBy(name='PostSeasonSubNavItem')>
             <cfset it = feed.getIterator()>
@@ -173,7 +250,7 @@
             </cfif>
         </ul>
     </li>
-<!--        <li class="nav-item dropdown-toggle"><a class="nav-link" href="/alliance">Alliance</a>
+        <li class="nav-item dropdown-toggle"><a class="nav-link" href="/alliance">Alliance</a>
         <ul class="dropdown-menu dropdown-left">
             <cfset feed = $.getBean('feed').loadBy(name='AllianceSubNavItem')>
             <cfset it = feed.getIterator()>
@@ -187,7 +264,7 @@
             </cfloop>
             </cfif>
         </ul>
-    </li> -->
+    </li>
     <li class="nav-item dropdown-toggle"><a class="nav-link" href="/cup">Sportsmanship Cup</a>
         <ul class="dropdown-menu dropdown-menu-lg container-fluid dropdown-left">
                     <cfset feed = $.getBean('feed').loadBy(name='GeneralCupSubNavItem')>
