@@ -144,24 +144,21 @@
         </ul>
     </li>
 
-    <li class="nav-item dropdown-toggle"><a class="nav-link" href="/competitive-programs">Competitive Programs</a>
+    <li class="nav-item dropdown-toggle"><a class="nav-link" href="/program-info">Competitive Programs</a>
         <ul class="dropdown-menu dropdown-menu-lg container-fluid">
             <cfset feed = $.getBean('feed').loadBy(name='CompProgramsPgSubmenuProgramsNavItem')>
             <cfset it = feed.getIterator()>
             <cfif it.hasNext()>
             <div class="row">
-                <div class="col-sm-4">
-                    <cfset feed = $.getBean('feed').loadBy(name='PostSeasonSubNavItem')>
-                    <cfset it = feed.getIterator()>
-                    <cfif it.hasNext()>
-                    <li class="sub-nav-header">Post-Season</li>
-                   <cfloop condition="it.hasNext()">
-                   <cfset item = it.next()>
-                    <li<cfif $.content('contentid') eq item.getContentID()> class="active current"</cfif>>
-                        <a target="#item.getTarget()#" href="#item.getURL()#">#HTMLEditFormat(item.getMenuTitle())#</a>
-                        <!--- This is where you can specify how deep you want to go  --->
-                        #$.dspNestedNav(contentID=item.getContentID(), viewDepth=2)#
-                     </li>
+              <div class="col-sm-4">
+                <li class="sub-nav-header">Post-Season</li>
+                <cfloop condition="it.hasNext()">
+                <cfset item = it.next()>
+                   <li<cfif $.content('contentid') eq item.getContentID()> class="active current"</cfif>>
+                     <a target="#item.getTarget()#" href="#item.getURL()#">#HTMLEditFormat(item.getMenuTitle())#</a>
+                     <!--- This is where you can specify how deep you want to go  --->
+                     #$.dspNestedNav(contentID=item.getContentID(), viewDepth=2)#
+                   </li>
                    </cfloop>
                    </cfif>
                 </div>
