@@ -735,17 +735,31 @@ footer {
   flex-wrap: nowrap !important;
   }
   }
-  @media (max-width: 991.98px) {
-  .navbar-nav .dropdown-toggle {
-    display: flex;
-    justify-content: space-between; /* keeps text left, arrow right */
-    align-items: center;            /* vertically centers both */
-    white-space: nowrap;            /* prevents wrapping to new line */
+@media (max-width: 991.98px) {
+  /* Force link and arrow to share one line */
+  .navbar-nav .nav-item .dropdown-toggle {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 1.3;
+    padding-right: 1.25rem; /* enough room for arrow */
   }
 
+  /* Control arrow itself */
   .navbar-nav .dropdown-toggle::after {
-    flex-shrink: 0;                 /* ensures arrow never wraps */
-    margin-left: 0.4em;             /* add a little space from text */
+    margin-left: 0.4em;
+    flex-shrink: 0;
+    vertical-align: middle;
+    position: relative;
+    top: 0;
+  }
+
+  /* optional – prevents the arrow from being forced down by long labels */
+  .navbar-nav .nav-link {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
