@@ -1,7 +1,8 @@
 <cfoutput>
 <ul class="nav-list nav">
    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-    <li class="nav-item dropdown-toggle"><a class="nav-link" href="/program-info" data-bs-toggle="dropdown"
+    <li class="nav-item dropdown-toggle" data-bs-toggle="dropdown"
+     data-bs-auto-close="outside" data-bs-boundary="viewport"><a class="nav-link" href="/program-info" data-bs-toggle="dropdown"
      data-bs-auto-close="outside" data-bs-boundary="viewport">Program Info</a>
         <ul class="dropdown-menu dropdown-menu-lg container-fluid">
             <cfset feed = $.getBean('feed').loadBy(name='GeneralPgSubmenuProgramsNavItem')>
@@ -68,7 +69,8 @@
               </div>
         </ul>
     </li>
-    <li class="nav-item dropdown-toggle"><a class="nav-link" href="/register" data-bs-toggle="dropdown"
+    <li class="nav-item dropdown-toggle" data-bs-toggle="dropdown"
+     data-bs-auto-close="outside" data-bs-boundary="viewport"><a class="nav-link" href="/register" data-bs-toggle="dropdown"
      data-bs-auto-close="outside" data-bs-boundary="viewport">Register</a>
         <ul class="dropdown-menu">
         <cfset feed = $.getBean('feed').loadBy(name='RegistrationSubNavItems')>
@@ -85,7 +87,8 @@
         </cfif>
         </ul>
     </li>
-    <li class="nav-item dropdown-toggle"><a class="nav-link" href="/coach" data-bs-toggle="dropdown"
+    <li class="nav-item dropdown-toggle" data-bs-toggle="dropdown"
+     data-bs-auto-close="outside" data-bs-boundary="viewport"><a class="nav-link" href="/coach" data-bs-toggle="dropdown"
      data-bs-auto-close="outside" data-bs-boundary="viewport">Coaches</a>
         <ul class="dropdown-menu">
             <cfset feed = $.getBean('feed').loadBy(name='CoachSubNavItem')>
@@ -101,7 +104,8 @@
             </cfif>
         </ul>
     </li>
-    <li class="nav-item dropdown-toggle"><a class="nav-link" href="/referee" data-bs-toggle="dropdown"
+    <li class="nav-item dropdown-toggle" data-bs-toggle="dropdown"
+     data-bs-auto-close="outside" data-bs-boundary="viewport"><a class="nav-link" href="/referee" data-bs-toggle="dropdown"
      data-bs-auto-close="outside" data-bs-boundary="viewport">Referees</a>
         <ul class="dropdown-menu">
             <cfset feed = $.getBean('feed').loadBy(name='RefSubNavItem')>
@@ -117,7 +121,8 @@
             </cfif>
         </ul>
     </li>
-    <li class="nav-item dropdown-toggle"><a class="nav-link" href="/volunteer" data-bs-toggle="dropdown"
+    <li class="nav-item dropdown-toggle" data-bs-toggle="dropdown"
+     data-bs-auto-close="outside" data-bs-boundary="viewport"><a class="nav-link" href="/volunteer" data-bs-toggle="dropdown"
      data-bs-auto-close="outside" data-bs-boundary="viewport">Volunteer</a>
         <ul class="dropdown-menu">
             <cfset feed = $.getBean('feed').loadBy(name='VolSubNavItem')>
@@ -133,7 +138,8 @@
             </cfif>
         </ul>
     </li>
-    <li class="nav-item dropdown-toggle"><a class="nav-link" href="/schedules" data-bs-toggle="dropdown"
+    <li class="nav-item dropdown-toggle" data-bs-toggle="dropdown"
+     data-bs-auto-close="outside" data-bs-boundary="viewport"><a class="nav-link" href="/schedules" data-bs-toggle="dropdown"
      data-bs-auto-close="outside" data-bs-boundary="viewport">Schedules / Fields</a>
         <ul class="dropdown-menu">
         <cfset feed = $.getBean('feed').loadBy(name='SchedulesSubNavItem')>
@@ -150,7 +156,8 @@
         </ul>
     </li>
 
-    <li class="nav-item dropdown-toggle"><a class="nav-link" href="/competitive-programs" data-bs-toggle="dropdown"
+    <li class="nav-item dropdown-toggle" data-bs-toggle="dropdown"
+     data-bs-auto-close="outside" data-bs-boundary="viewport"><a class="nav-link" href="/competitive-programs" data-bs-toggle="dropdown"
      data-bs-auto-close="outside" data-bs-boundary="viewport">Competitive Programs</a>
         <ul class="dropdown-menu dropdown-menu-lg container-fluid">
             <cfset feed = $.getBean('feed').loadBy(name='PostSeasonSubNavItem')>
@@ -218,7 +225,8 @@
         </ul>
     </li>
 
-    <li class="nav-item dropdown-toggle"><a class="nav-link" href="/cup" data-bs-toggle="dropdown"
+    <li class="nav-item dropdown-toggle" data-bs-toggle="dropdown"
+     data-bs-auto-close="outside" data-bs-boundary="viewport"><a class="nav-link" href="/cup" data-bs-toggle="dropdown"
      data-bs-auto-close="outside" data-bs-boundary="viewport">Sportsmanship Cup</a>
         <ul class="dropdown-menu dropdown-menu-lg container-fluid dropdown-left">
                     <cfset feed = $.getBean('feed').loadBy(name='GeneralCupSubNavItem')>
