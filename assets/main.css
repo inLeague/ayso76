@@ -745,31 +745,49 @@ footer {
 }
 }
 
-/* Default: left-align under toggle (normal behavior) */
-.nav-item.dropdown-toggle .dropdown-menu {
-  position: absolute;
-  left: 0;
-  right: auto;
-  transform: none;
-  max-width: calc(100vw - 16px);
-  width: max-content;
-  overflow-x: auto;
+/* Tweak this if you want a bigger gutter to the window edge */
+:root { --dd-gutter: 12px; }
+
+/* Make sure the LI is a positioning context */
+.navbar .nav-item.dropdown-toggle { position: relative; }
+
+/* Default: left-align under the link, but never exceed the viewport */
+.navbar .nav-item.dropdown-toggle > .dropdown-menu {
+  left: 0 !important;
+  right: auto !important;
+  transform: none !important;
+  max-width: calc(100vw - var(--dd-gutter) * 2);
+  width: max-content;              /* shrink-to-fit content up to max-width */
+  overflow-x: auto;                /* allow scroll if still tighter */
   transform-origin: top left;
   z-index: 1000;
 }
 
-/* Safety mode for narrow viewports — center it so it never clips */
+/* Right-edge items: flip inward so they don't run off-screen.
+   Adjust N to how many rightmost items your bar has. Start with 2. */
+.navbar .navbar-nav > li.nav-item.dropdown-toggle:nth-last-child(-n+2) > .dropdown-menu {
+  left: auto !important;
+  right: 0 !important;
+  transform: none !important;
+  max-width: calc(100vw - var(--dd-gutter) * 2);
+  transform-origin: top right;
+}
+
+/* Narrow viewports: center as a safety net so nothing can clip even if layout shifts */
 @media (max-width: 992px) {
-  .nav-item.dropdown-toggle .dropdown-menu {
-    left: 50%;
-    transform: translateX(-50%);
+  .navbar .nav-item.dropdown-toggle > .dropdown-menu,
+  .navbar .navbar-nav > li.nav-item.dropdown-toggle:nth-last-child(-n+2) > .dropdown-menu {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
     transform-origin: top center;
+    max-width: calc(100vw - var(--dd-gutter) * 2);
   }
 }
 
-/* Optional: mobile refinement */
+/* Optional: slightly tighter gutter on very small phones */
 @media (max-width: 576px) {
-  .nav-item.dropdown-toggle .dropdown-menu {
+  .navbar .nav-item.dropdown-toggle > .dropdown-menu {
     max-width: calc(100vw - 8px);
   }
 }
