@@ -738,7 +738,7 @@ footer {
   /* Prevent text wrapping and allow scaling */
 .nav-item.dropdown-toggle {
   white-space: nowrap;        /* keep text on one line */
-  font-size: clamp(12px, 18px, 24px); /* shrink gracefully */
+  font-size: clamp(12px, 15px, 18px); /* shrink gracefully */
   overflow: hidden;
   text-overflow: ellipsis;    /* optional: add "..." if truncated */
 }
@@ -746,7 +746,7 @@ footer {
 /* If your nav bar collapses on smaller screens, you can adjust more aggressively */
 @media (max-width: 480px) {
   .nav-item.dropdown-toggle {
-    font-size: clamp(12px, 18px, 24px);
+    font-size: clamp(10px, 13px, 16px);
   }
 }
 
