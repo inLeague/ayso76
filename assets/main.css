@@ -745,53 +745,55 @@ footer {
 }
 }
 
-/* Gutter to window edges (adjust if you want more/less) */
+/* adjustable gutter from the viewport edges */
 :root { --dd-gutter: 12px; }
 
-/* Ensure the LI is the positioning context */
+/* make the LI a positioning context */
 .navbar .nav-item.dropdown-toggle { position: relative; }
 
-/* 1) Default: left-align menus under their link */
-.navbar .nav-item.dropdown-toggle > .dropdown-menu {
-  left: 0 !important;
-  right: auto !important;
-  transform: none !important;
+/* HARD guarantee: no right overflow on desktop */
+@media (min-width: 992px) {
+  .navbar .nav-item.dropdown-toggle > .dropdown-menu {
+    right: 0 !important;             /* open inward from the toggle's right edge */
+    left: auto !important;
+    transform: none !important;
 
-  /* Never overflow the viewport */
-  max-width: calc(100vw - var(--dd-gutter) * 2);
-  width: max-content;          /* shrink-to-fit up to max-width */
-  overflow-x: auto;            /* scroll only if absolutely necessary */
-  transform-origin: top left;
-  z-index: 1000;
+    /* keep within the viewport */
+    box-sizing: border-box;
+    max-width: calc(100vw - var(--dd-gutter) * 2);
+    width: max-content;
+
+    /* if content is still too wide, allow breaking instead of pushing off-screen */
+    white-space: normal;              /* allow wrapping lines */
+    overflow-wrap: anywhere;          /* break long words/URLs */
+    word-break: break-word;           /* older fallback */
+    overflow-x: auto;                 /* last resort: horizontal scroll */
+    transform-origin: top right;
+    z-index: 1000;
+  }
 }
 
-/* 2) Flip inward for items on the RIGHT HALF of the navbar
-   -> Change 5 to the index where your right half begins.
-   Example: if you have 8 top-level items, use n+5 so items 5–8 flip inward. */
-.navbar .navbar-nav > li.nav-item.dropdown-toggle:nth-child(n+5) > .dropdown-menu {
-  left: auto !important;
-  right: 0 !important;
-  transform: none !important;
-  transform-origin: top right;
-  max-width: calc(100vw - var(--dd-gutter) * 2);
-}
-
-/* 3) Safety net on small screens: center so nothing can clip when layout wraps */
-@media (max-width: 992px) {
+/* Safety net on small/medium screens: center under the toggle */
+@media (max-width: 991.98px) {
   .navbar .nav-item.dropdown-toggle > .dropdown-menu {
     left: 50% !important;
     right: auto !important;
     transform: translateX(-50%) !important;
-    transform-origin: top center;
-  }
-  /* Keep the same hard cap */
-  .navbar .nav-item.dropdown-toggle > .dropdown-menu,
-  .navbar .navbar-nav > li.nav-item.dropdown-toggle:nth-child(n+5) > .dropdown-menu {
+
+    box-sizing: border-box;
     max-width: calc(100vw - var(--dd-gutter) * 2);
+    width: max-content;
+
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    overflow-x: auto;
+    transform-origin: top center;
+    z-index: 1000;
   }
 }
 
-/* Optional: tiny phones, a slightly tighter gutter */
+/* Optional: tiniest phones — tighter gutter */
 @media (max-width: 576px) {
   .navbar .nav-item.dropdown-toggle > .dropdown-menu {
     max-width: calc(100vw - 8px);
