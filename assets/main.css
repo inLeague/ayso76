@@ -745,49 +745,49 @@ footer {
 }
 }
 
-/* viewport gutter */
-:root { --dd-gutter: 12px; }
+/* Viewport gutter + extra nudge for left-edge items */
+:root {
+  --dd-gutter: 12px;       /* space from window edges */
+  --dd-left-bias: 28px;    /* extra push to the right for leftmost menus */
+}
 
-/* make the LI a positioning context */
+/* Make LI the positioning context */
 .navbar .nav-item.dropdown-toggle { position: relative; }
 
-/* hard override for ALL dropdown menus in your navbar */
+/* Default: centered + capped so nothing can overflow either edge */
 .navbar .nav-item.dropdown-toggle > .dropdown-menu,
 .navbar .nav-item.dropdown-toggle > .dropdown-menu[data-bs-popper] {
-  position: absolute;
-  left: 50% !important;                 /* center under the toggle */
-  right: auto !important;               /* cancel any right:0 rules */
+  left: 50% !important;
+  right: auto !important;
   transform: translateX(-50%) !important;
 
   box-sizing: border-box;
-  max-width: calc(100vw - var(--dd-gutter) * 2);  /* never exceed viewport */
-  width: max-content;                   /* shrink-to-fit until the cap */
+  max-width: calc(100vw - var(--dd-gutter) * 2);
+  width: max-content;
 
-  /* allow text to wrap so width doesn't balloon */
   white-space: normal;
   overflow-wrap: anywhere;
   word-break: break-word;
-
-  /* if an item is truly unbreakable, scroll horizontally instead of overflowing */
   overflow-x: auto;
 
   transform-origin: top center;
   z-index: 1000;
 }
 
-/* optional: slightly tighter gutter on tiny phones */
+/* ✔️ Extra nudge for the first N items so they don't look too close to the left edge
+   Adjust -n+2 to -n+3/-n+4 if you want more items biased right.
+   Increase/decrease --dd-left-bias to taste (e.g., 24px, 32px). */
+.navbar .navbar-nav > li.nav-item.dropdown-toggle:nth-child(-n+2) > .dropdown-menu,
+.navbar .navbar-nav > li.nav-item.dropdown-toggle:nth-child(-n+2) > .dropdown-menu[data-bs-popper] {
+  transform: translateX(calc(-50% + var(--dd-left-bias))) !important;
+}
+
+/* Optional: slightly tighter gutter on tiny phones */
 @media (max-width: 576px) {
   .navbar .nav-item.dropdown-toggle > .dropdown-menu,
   .navbar .nav-item.dropdown-toggle > .dropdown-menu[data-bs-popper] {
     max-width: calc(100vw - 8px);
   }
-}
-
-/* if you previously used .dropdown-menu-end anywhere, neutralize it in the navbar */
-.navbar .dropdown-menu.dropdown-menu-end {
-  right: auto !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
 }
 
 /*# sourceMappingURL=main.css.map */
