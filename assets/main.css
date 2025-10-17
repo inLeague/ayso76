@@ -739,7 +739,7 @@ footer {
 @media (max-width: 769px) {
   .nav-item.dropdown-toggle {
     white-space: nowrap;        /* keep text on one line */
-    font-size: clamp(12px, 15px, 18px); /* shrink gracefully */
+    font-size: clamp(10px, 13px, 16px); /* shrink gracefully */
     overflow: hidden;
     text-overflow: ellipsis;    /* optional: add "..." if truncated */
 }
