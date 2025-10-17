@@ -735,6 +735,14 @@ footer {
   flex-wrap: nowrap !important;
   }
   }
-  /* Prevent text wrapping and allow scaling */
+/* If your nav bar collapses on smaller screens, you can adjust more aggressively */
+@media (max-width: 769px) {
+  .nav-item.dropdown-toggle {
+    white-space: nowrap;        /* keep text on one line */
+    font-size: clamp(12px, 15px, 18px); /* shrink gracefully */
+    overflow: hidden;
+    text-overflow: ellipsis;    /* optional: add "..." if truncated */
+}
+}
 
 /*# sourceMappingURL=main.css.map */
