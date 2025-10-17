@@ -745,47 +745,53 @@ footer {
 }
 }
 
-/* Tweak this if you want a bigger gutter to the window edge */
+/* Gutter to window edges (adjust if you want more/less) */
 :root { --dd-gutter: 12px; }
 
-/* Make sure the LI is a positioning context */
+/* Ensure the LI is the positioning context */
 .navbar .nav-item.dropdown-toggle { position: relative; }
 
-/* Default: left-align under the link, but never exceed the viewport */
+/* 1) Default: left-align menus under their link */
 .navbar .nav-item.dropdown-toggle > .dropdown-menu {
   left: 0 !important;
   right: auto !important;
   transform: none !important;
+
+  /* Never overflow the viewport */
   max-width: calc(100vw - var(--dd-gutter) * 2);
-  width: max-content;              /* shrink-to-fit content up to max-width */
-  overflow-x: auto;                /* allow scroll if still tighter */
+  width: max-content;          /* shrink-to-fit up to max-width */
+  overflow-x: auto;            /* scroll only if absolutely necessary */
   transform-origin: top left;
   z-index: 1000;
 }
 
-/* Right-edge items: flip inward so they don't run off-screen.
-   Adjust N to how many rightmost items your bar has. Start with 2. */
-.navbar .navbar-nav > li.nav-item.dropdown-toggle:nth-last-child(-n+2) > .dropdown-menu {
+/* 2) Flip inward for items on the RIGHT HALF of the navbar
+   -> Change 5 to the index where your right half begins.
+   Example: if you have 8 top-level items, use n+5 so items 5–8 flip inward. */
+.navbar .navbar-nav > li.nav-item.dropdown-toggle:nth-child(n+5) > .dropdown-menu {
   left: auto !important;
   right: 0 !important;
   transform: none !important;
-  max-width: calc(100vw - var(--dd-gutter) * 2);
   transform-origin: top right;
+  max-width: calc(100vw - var(--dd-gutter) * 2);
 }
 
-/* Narrow viewports: center as a safety net so nothing can clip even if layout shifts */
+/* 3) Safety net on small screens: center so nothing can clip when layout wraps */
 @media (max-width: 992px) {
-  .navbar .nav-item.dropdown-toggle > .dropdown-menu,
-  .navbar .navbar-nav > li.nav-item.dropdown-toggle:nth-last-child(-n+2) > .dropdown-menu {
+  .navbar .nav-item.dropdown-toggle > .dropdown-menu {
     left: 50% !important;
     right: auto !important;
     transform: translateX(-50%) !important;
     transform-origin: top center;
+  }
+  /* Keep the same hard cap */
+  .navbar .nav-item.dropdown-toggle > .dropdown-menu,
+  .navbar .navbar-nav > li.nav-item.dropdown-toggle:nth-child(n+5) > .dropdown-menu {
     max-width: calc(100vw - var(--dd-gutter) * 2);
   }
 }
 
-/* Optional: slightly tighter gutter on very small phones */
+/* Optional: tiny phones, a slightly tighter gutter */
 @media (max-width: 576px) {
   .navbar .nav-item.dropdown-toggle > .dropdown-menu {
     max-width: calc(100vw - 8px);
