@@ -1,0 +1,209 @@
+/* ==========================================================
+   AYSO Region 76 – Competitive Programs Layout
+   (All-Star, Extra, Alliance, United)
+   ========================================================== */
+
+/* Basic layout structure */
+.r76-competitive * {
+  box-sizing: border-box;
+}
+
+.r76-wrap {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+/* Cards and grid layout */
+.r76-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px 18px;
+  background: #fff;
+}
+
+.r76-grid {
+  display: grid;
+  gap: 16px;
+}
+
+@media (min-width: 720px) {
+  .r76-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Quick link chips */
+.r76-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+
+.r76-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  padding: 0.5rem 0.8rem;
+  text-decoration: none;
+}
+
+.r76-chip svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Table formatting */
+.r76-table-wrap {
+  overflow: auto;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.r76-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+.r76-table caption {
+  text-align: left;
+  padding: 12px 14px;
+  font-weight: 600;
+}
+
+.r76-table th,
+.r76-table td {
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+
+/* Section spacing */
+.r76-section {
+  scroll-margin-top: 80px;
+  margin-top: 24px;
+}
+
+/* Lists and note boxes */
+.r76-list {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.r76-kicker {
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-top: 10px;
+}
+
+/* FAQ styling */
+.r76-faq details {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px 14px;
+  background: #fff;
+}
+
+.r76-faq details + details {
+  margin-top: 10px;
+}
+
+.r76-faq summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Links section */
+.r76-links {
+  display: grid;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+@media (min-width: 700px) {
+  .r76-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.r76-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  text-decoration: none;
+}
+
+.r76-link svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ----------------------------------------------------------
+   Mobile card layout for comparison table
+   ---------------------------------------------------------- */
+@media (max-width: 640px) {
+  .r76-table {
+    border: 0;
+    min-width: 0;
+  }
+
+  .r76-table thead {
+    display: none;
+  }
+
+  .r76-table tbody,
+  .r76-table tr,
+  .r76-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .r76-table tr {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 12px;
+    margin: 0 0 12px 0;
+    background: #fff;
+  }
+
+  .r76-table td {
+    border: 0;
+    padding: 6px 0;
+    display: grid;
+    grid-template-columns: 42% 1fr;
+    column-gap: 12px;
+    align-items: start;
+  }
+
+  /* Inject header labels automatically */
+  .r76-table td:nth-child(1)::before  { content: "Program"; font-weight: 700; }
+  .r76-table td:nth-child(2)::before  { content: "Best for"; font-weight: 600; }
+  .r76-table td:nth-child(3)::before  { content: "Season length"; font-weight: 600; }
+  .r76-table td:nth-child(4)::before  { content: "Tryouts / Selection"; font-weight: 600; }
+  .r76-table td:nth-child(5)::before  { content: "Weekly load"; font-weight: 600; }
+  .r76-table td:nth-child(6)::before  { content: "Travel"; font-weight: 600; }
+  .r76-table td:nth-child(7)::before  { content: "Cost"; font-weight: 600; }
+  .r76-table td:nth-child(8)::before  { content: "Roster"; font-weight: 600; }
+  .r76-table td:nth-child(9)::before  { content: "Playing time"; font-weight: 600; }
+
+  /* Emphasize first cell */
+  .r76-table td:nth-child(1) {
+    padding-top: 0;
+    font-weight: 700;
+  }
+
+  .r76-table td:last-child {
+    padding-bottom: 0;
+  }
+}
