@@ -751,7 +751,7 @@ footer {
 
 /* If your nav bar collapses on smaller screens, you can adjust more aggressively */
 @media (max-width: 769px) {
-  .nav-item.dropdown-toggle {
+  .nav-item.dropdown-toggle a{
     white-space: nowrap;        /* keep text on one line */
     font-size: clamp(10px, 13px, 16px); /* shrink gracefully */
     overflow: hidden;
