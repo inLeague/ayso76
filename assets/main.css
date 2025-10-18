@@ -762,49 +762,80 @@ footer {
 }
 }
 
-/* Base state */
-.nav-item {
-  position: relative;
+/* tune these */
+:root{
+  --open-delay: 280ms;   /* wait before menu becomes visible/clickable */
+  --tap-shield: 340ms;   /* absorb taps briefly after opening */
 }
 
-.nav-item .dropdown-menu {
+/* 1) base positioning */
+.nav-item.dropdown-toggle { position: relative; }
+.nav-item.dropdown-toggle > .dropdown-menu {
   position: absolute;
+  top: 100%;
   left: 0;
+  z-index: 1000;
+
+  /* hidden by default */
   opacity: 0;
   visibility: hidden;
   transform: translateY(-4px);
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease,
-    visibility 0s linear 0.3s;
   pointer-events: none;
+
+  /* fade/slide; keep it hidden until after transition completes */
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease,
+    visibility 0s linear calc(var(--open-delay) + 180ms);
 }
 
-/* When hovered or focused */
-.nav-item:hover .dropdown-menu,
-.nav-item:focus-within .dropdown-menu {
+/* 2) OPEN state: on hover (desktop) or focus-within (mobile tap on the link) */
+.nav-item.dropdown-toggle:hover > .dropdown-menu,
+.nav-item.dropdown-toggle:focus-within > .dropdown-menu {
+  /* delay the reveal */
+  transition-delay: var(--open-delay), var(--open-delay), 0s;
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
-  transition-delay: 0.3s; /* delay before activating menu */
   pointer-events: auto;
 }
 
-/* Optional: small delay before links become clickable */
-.nav-item:hover .dropdown-menu::before {
+/* 3) Tap shield: captures taps for a moment after opening, then removes itself */
+.nav-item.dropdown-toggle:hover > .dropdown-menu::before,
+.nav-item.dropdown-toggle:focus-within > .dropdown-menu::before {
   content: "";
   position: absolute;
-  inset: 0;
-  pointer-events: auto;
+  inset: 0;              /* cover the whole menu */
   background: transparent;
-  animation: unlock 0.3s linear forwards;
+  pointer-events: auto;  /* absorb taps initially */
   z-index: 1;
+  animation: unlock var(--tap-shield) linear forwards;
 }
 
-.nav-item .dropdown-menu > * { position: relative; z-index: 2; }
+/* menu content stays visible above the shield */
+.nav-item.dropdown-toggle > .dropdown-menu > * { position: relative; z-index: 2; }
 
+/* make long labels wrap so width doesn't force accidental clicks */
+.nav-item .dropdown-menu a,
+.nav-item .dropdown-menu li,
+.nav-item .dropdown-menu .dropdown-item {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* keyframes to turn off the tap shield */
 @keyframes unlock {
   0%, 99% { pointer-events: auto; }
-  100% { pointer-events: none; }
+  100%    { pointer-events: none; }
+}
+
+/* accessibility: honor reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  :root { --open-delay: 0ms; --tap-shield: 0ms; }
+  .nav-item.dropdown-toggle > .dropdown-menu {
+    transition: none;
+    transform: none;
+  }
 }
 /*# sourceMappingURL=main.css.map */
