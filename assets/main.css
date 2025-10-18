@@ -762,49 +762,83 @@ footer {
 }
 }
 
-/* Base dropdown styling reset */
-.navbar .dropdown-menu {
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-5px);
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease,
-    visibility 0s linear 0.3s; /* hides it after fade */
-  pointer-events: none; /* prevent clicks until shown */
+/* Tweak these to taste (milliseconds) */
+:root{
+  --dd-open-delay: 240ms;     /* wait before the menu visibly opens */
+  --dd-tap-shield: 320ms;     /* time during which taps are absorbed after open */
 }
 
-/* When open */
-.navbar .dropdown.show > .dropdown-menu,
-.navbar .nav-item.dropdown-toggle:focus-within > .dropdown-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  transition-delay: 0.25s; /* ⏳ delay before becoming clickable */
-  pointer-events: auto;
-}
+/* Only apply on mobile where accidental taps are common */
+@media (max-width: 768px){
 
-/* Mobile-only behavior */
-@media (max-width: 768px) {
-  .navbar .dropdown-menu {
+  /* Base: menu starts hidden and non-clickable */
+  .nav-item.dropdown-toggle > .dropdown-menu {
+    position: absolute;
+    left: 0;
+    right: auto;
+    transform: none;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
     transition:
-      opacity 0.3s ease,
-      transform 0.3s ease,
-      visibility 0s linear 0.3s;
+      opacity 160ms ease,
+      transform 160ms ease,
+      visibility 0s linear calc(var(--dd-open-delay) + 160ms); /* hide until after fade */
+    pointer-events: none; /* no clicks while hidden */
   }
-  .navbar .dropdown.show > .dropdown-menu,
-  .navbar .nav-item.dropdown-toggle:focus-within > .dropdown-menu {
-    transition-delay: 0.4s; /* adjust this delay for your desired “pause” */
+
+  /* When the dropdown is opened (Bootstrap adds .show to the LI) */
+  .nav-item.dropdown-toggle.show > .dropdown-menu {
+    /* Delay the reveal to prevent immediate accidental taps */
+    transition-delay: var(--dd-open-delay);
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto; /* re-enable clicks… */
+  }
+
+  /* Tap shield:
+     Immediately after open, a transparent ::before overlay absorbs taps
+     for var(--dd-tap-shield), then disables itself automatically. */
+  .nav-item.dropdown-toggle.show > .dropdown-menu::before {
+    content: "";
+    position: absolute;
+    inset: 0;                 /* cover entire menu */
+    background: transparent;
+    pointer-events: auto;     /* absorb taps initially */
+    animation: dd-unlock var(--dd-tap-shield) linear forwards;
+    /* Keep stacking sane */
+    z-index: 1;
+  }
+
+  /* Menu content above the shield (so it stays visible), but still blocked initially */
+  .nav-item.dropdown-toggle > .dropdown-menu > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Allow long labels to wrap so menu width doesn't overflow */
+  .nav-item .dropdown-menu .dropdown-item,
+  .nav-item .dropdown-menu .dropdown-header {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 }
 
-/* Optional: subtle delay between leaving one link and opening another */
-@media (max-width: 768px) {
-  .navbar .nav-item.dropdown-toggle {
-    transition: background-color 0.2s ease;
-  }
-  .navbar .nav-item.dropdown-toggle:active {
-    transition-delay: 0.25s; /* delay before next item can respond */
+/* The shield “turns itself off” at the end of the animation window */
+@keyframes dd-unlock {
+  0%   { pointer-events: auto; }
+  99%  { pointer-events: auto; }
+  100% { pointer-events: none; }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  :root{
+    --dd-open-delay: 0ms;
+    --dd-tap-shield: 0ms;
   }
 }
 
