@@ -731,7 +731,7 @@ footer {
     flex-wrap: nowrap !important; /* wins at ≥992px */
   }
 }
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   .col-sm-4 {
     -ms-flex: 0 0 25%;
     flex: 0 0 25%;
