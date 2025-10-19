@@ -341,6 +341,7 @@ nav.navbar {
   #navbarMobileNav .nav-list li {
     padding: 15px 5px; }
     #navbarMobileNav .nav-list li > a {
+    //gbz color: #06121b;
       font-family: 'Fjalla One';
       text-transform: uppercase;
       font-size: 1.5em;
@@ -354,11 +355,7 @@ nav.navbar {
     position: relative;
     width: 100%; }
 
-#navbarMobileNav .nav-list > li > a {
-  color: #D69048;
-}
-
-#navbarNav .dropdown-menu.dropdown-left {
+  #navbarNav .dropdown-menu.dropdown-left {
   left: auto;
   right: 0; }
 
