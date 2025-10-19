@@ -330,8 +330,8 @@ nav.navbar {
         font-family: "Fjalla One";
         text-transform: uppercase;
         font-size: 1.25em; }
-    #navbarMobileNav .dropdown-menu li a {
-      color: #fcc04d;
+    .dropdown-menu li a {
+      color: #D69048;
       font-weight: 600;
       font-family: "Noto Sans";
       font-size: 1.25em !important;
@@ -341,7 +341,7 @@ nav.navbar {
   #navbarMobileNav .nav-list li {
     padding: 15px 5px; }
     #navbarMobileNav .nav-list li > a {
-      color: #D69048;
+    //gbz  color: #D69048;
       font-family: 'Fjalla One';
       text-transform: uppercase;
       font-size: 1.5em;
