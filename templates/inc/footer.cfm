@@ -45,9 +45,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Treat it as "mobile mode" when either:
   //  - touch device, OR
-  //  - viewport <= 900px, OR
+  //  - viewport <= 992px, OR
   //  - your mobile menu is visibly open
-  var mqMobileWidth = window.matchMedia('(max-width: 900px)');
+  var mqMobileWidth = window.matchMedia('(max-width: 992px)');
   function isMobileMenuActive() {
     return (
       window.matchMedia('(hover: none), (pointer: coarse)').matches ||
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <style>
 /* Show/animate carets when:
    - device is touch/coarse, OR
-   - viewport is narrow (<=900px) so desktop acts like mobile */
+   - viewport is narrow (<=992px) so desktop acts like mobile */
 /* === Mobile nav caret + rotate + first-tap pulse (CF-safe: double ##) === */
 
 /* If your framework injects its own caret on generic .dropdown-toggle, hide it by default */
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 /* Also hide any inline caret elements some themes add */
-@media (hover: none), (pointer: coarse), (max-width: 900px) {
+@media (hover: none), (pointer: coarse), (max-width: 992px) {
   ##navbarMobileNav .nav-list .dropdown-toggle .caret,
   ##navbarMobileNav .nav-list .dropdown-toggle .caret-icon,
   ##navbarMobileNav .nav-list .dropdown-toggle svg.caret,
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
 }
 
 /* 2) Our single source of truth: caret on li.has-sub > a only */
-@media (hover: none), (pointer: coarse), (max-width: 900px) {
+@media (hover: none), (pointer: coarse), (max-width: 992px) {
 
   /* Ensure space for the caret */
   ##navbarMobileNav .nav-list li.has-sub > a {
