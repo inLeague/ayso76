@@ -144,21 +144,32 @@ document.addEventListener('DOMContentLoaded', function () {
 /* === Mobile nav caret + rotate + first-tap pulse (CF-safe: double ##) === */
 
 /* If your framework injects its own caret on generic .dropdown-toggle, hide it by default */
-.dropdown-toggle::after { display: none; }
+/* === Mobile nav caret + rotate + first-tap pulse (CF-safe: double ##) === */
 
-/* Show/animate carets on touch/coarse or narrow viewports */
+/* 1) Kill any framework/injected carets on dropdowns */
+.dropdown-toggle::after { display: none !important; }
+
+/* Also hide any inline caret elements some themes add */
+@media (hover: none), (pointer: coarse), (max-width: 900px) {
+  ##navbarMobileNav .nav-list .dropdown-toggle .caret,
+  ##navbarMobileNav .nav-list .dropdown-toggle .caret-icon,
+  ##navbarMobileNav .nav-list .dropdown-toggle svg.caret,
+  ##navbarMobileNav .nav-list .dropdown-toggle svg.caret-icon {
+    display: none !important;
+  }
+}
+
+/* 2) Our single source of truth: caret on li.has-sub > a only */
 @media (hover: none), (pointer: coarse), (max-width: 900px) {
 
-  /* Ensure space for caret on both patterns (li.has-sub > a and .dropdown-toggle) */
-  ##navbarMobileNav .nav-list li.has-sub > a,
-  ##navbarMobileNav .nav-list .dropdown-toggle {
+  /* Ensure space for the caret */
+  ##navbarMobileNav .nav-list li.has-sub > a {
     position: relative;
     padding-right: 1.25rem; /* room for caret */
   }
 
-  /* Caret (triangle) — works for both selectors */
-  ##navbarMobileNav .nav-list li.has-sub > a::after,
-  ##navbarMobileNav .nav-list .dropdown-toggle::after {
+  /* Draw the caret (triangle) */
+  ##navbarMobileNav .nav-list li.has-sub > a::after {
     content: "";
     position: absolute;
     right: 0.35rem;
@@ -170,20 +181,17 @@ document.addEventListener('DOMContentLoaded', function () {
     border-right: 5px solid transparent;
     border-top: 6px solid currentColor; /* small down arrow */
     pointer-events: none;
-    display: inline-block;              /* re-enable even if a framework hid it */
+    display: inline-block;
   }
 
-  /* Rotate caret when open — supports li.open, a.is-open, and .dropdown-toggle.is-open */
+  /* Rotate caret when open — supports li.open and a.is-open */
   ##navbarMobileNav .nav-list li.open > a::after,
-  ##navbarMobileNav .nav-list li.has-sub > a.is-open::after,
-  ##navbarMobileNav .nav-list .dropdown-toggle.is-open::after {
+  ##navbarMobileNav .nav-list li.has-sub > a.is-open::after {
     transform: translateY(-50%) rotate(180deg);
   }
 
-  /* First-tap hint: when your script adds .hint-next-tap to the link/toggle,
-     run a short pulse AFTER the rotate has completed (120ms delay). */
-  ##navbarMobileNav .nav-list li.has-sub > a.hint-next-tap::after,
-  ##navbarMobileNav .nav-list .dropdown-toggle.hint-next-tap::after {
+  /* First-tap hint pulse (after rotate completes) */
+  ##navbarMobileNav .nav-list li.has-sub > a.hint-next-tap::after {
     animation: caretPulseOpen 900ms ease-out 120ms 1 both;
   }
 
@@ -194,10 +202,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 }
 
-/* Respect reduced motion preferences */
+/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  ##navbarMobileNav .nav-list li.has-sub > a.hint-next-tap::after,
-  ##navbarMobileNav .nav-list .dropdown-toggle.hint-next-tap::after {
+  ##navbarMobileNav .nav-list li.has-sub > a.hint-next-tap::after {
     animation: none !important;
   }
 }
