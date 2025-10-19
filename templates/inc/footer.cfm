@@ -141,106 +141,95 @@ document.addEventListener('DOMContentLoaded', function () {
 /* Show/animate carets when:
    - device is touch/coarse, OR
    - viewport is narrow (<=900px) so desktop acts like mobile */
+/* === Mobile nav caret + rotate + first-tap pulse (CF-safe: double ##) === */
+
+/* If your framework injects its own caret on generic .dropdown-toggle, hide it by default */
+.dropdown-toggle::after { display: none; }
+
+/* Show/animate carets on touch/coarse or narrow viewports */
 @media (hover: none), (pointer: coarse), (max-width: 900px) {
-  ##navbarMobileNav .nav-list li.has-sub > a {
+
+  /* Ensure space for caret on both patterns (li.has-sub > a and .dropdown-toggle) */
+  ##navbarMobileNav .nav-list li.has-sub > a,
+  ##navbarMobileNav .nav-list .dropdown-toggle {
     position: relative;
     padding-right: 1.25rem; /* room for caret */
   }
-  ##navbarMobileNav .nav-list li.has-sub > a::after {
+
+  /* Caret (triangle) — works for both selectors */
+  ##navbarMobileNav .nav-list li.has-sub > a::after,
+  ##navbarMobileNav .nav-list .dropdown-toggle::after {
     content: "";
     position: absolute;
     right: 0.35rem;
     top: 50%;
     transform: translateY(-50%) rotate(0deg);
-    transition: transform 200ms ease;
+    transition: transform 200ms ease;   /* smooth rotation */
     width: 0; height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-top: 6px solid currentColor; /* small down arrow */
-    pointer-events: none; /* clicks go to the link */
-  }
-  ##navbarMobileNav .nav-list li.open > a::after {
-    transform: translateY(-50%) rotate(180deg);
-  }
-  .dropdown-toggle::after { display: none; }
-}
-/* === Caret rotate + pulse (integrated with your existing CSS) === */
-/* Your original media block, extended */
-@media (hover: none), (pointer: coarse), (max-width: 900px) {
-  /* Keep your spacing for links that have submenus */
-  ##navbarMobileNav .nav-list li.has-sub > a {
-    position: relative;
-    padding-right: 1.25rem; /* room for caret */
+    pointer-events: none;
+    display: inline-block;              /* re-enable even if a framework hid it */
   }
 
-  /* Your caret (triangle) */
-  ##navbarMobileNav .nav-list li.has-sub > a::after {
-    content: "";
-    position: absolute;
-    right: 0.35rem;
-    top: 50%;
-    transform: translateY(-50%) rotate(0deg);
-    transition: transform 200ms ease;
-    width: 0; height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 6px solid currentColor; /* small down arrow */
-    pointer-events: none; /* clicks go to the link */
-  }
-
-  /* Rotate caret when open — supports either li.open or a.is-open */
+  /* Rotate caret when open — supports li.open, a.is-open, and .dropdown-toggle.is-open */
   ##navbarMobileNav .nav-list li.open > a::after,
-  ##navbarMobileNav .nav-list li.has-sub > a.is-open::after {
+  ##navbarMobileNav .nav-list li.has-sub > a.is-open::after,
+  ##navbarMobileNav .nav-list .dropdown-toggle.is-open::after {
     transform: translateY(-50%) rotate(180deg);
   }
 
-  /* Hide any framework-provided ::after on .dropdown-toggle */
-  .dropdown-toggle::after { display: none; }
-
-  /* First-tap hint: make the caret pulse briefly AFTER it has opened.
-     We attach .hint-next-tap on the link itself. */
-  ##navbarMobileNav .nav-list li.has-sub > a.hint-next-tap::after {
-    animation: caretPulseOpen 900ms ease-out 0s 1;
+  /* First-tap hint: when your script adds .hint-next-tap to the link/toggle,
+     run a short pulse AFTER the rotate has completed (120ms delay). */
+  ##navbarMobileNav .nav-list li.has-sub > a.hint-next-tap::after,
+  ##navbarMobileNav .nav-list .dropdown-toggle.hint-next-tap::after {
+    animation: caretPulseOpen 900ms ease-out 120ms 1 both;
   }
 
   @keyframes caretPulseOpen {
-    0%   { transform: translateY(-50%) rotate(180deg) scale(1);    opacity: .9; }
-    40%  { transform: translateY(-50%) rotate(180deg) scale(1.15); opacity: 1;  }
-    100% { transform: translateY(-50%) rotate(180deg) scale(1);    opacity: 1;  }
+    0%   { transform: translateY(-50%) rotate(180deg) scale(1);     filter: drop-shadow(0 0 0 rgba(0,0,0,0)); opacity: .95; }
+    40%  { transform: translateY(calc(-50% - 1px)) rotate(180deg) scale(1.28); filter: drop-shadow(0 1px 0 rgba(0,0,0,.2)); opacity: 1; }
+    100% { transform: translateY(-50%) rotate(180deg) scale(1);     filter: drop-shadow(0 0 0 rgba(0,0,0,0)); opacity: 1; }
   }
 }
 
-/* Respect reduced motion */
+/* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
-  ##navbarMobileNav .nav-list li.has-sub > a.hint-next-tap::after {
+  ##navbarMobileNav .nav-list li.has-sub > a.hint-next-tap::after,
+  ##navbarMobileNav .nav-list .dropdown-toggle.hint-next-tap::after {
     animation: none !important;
   }
 }
 </style>
 </cfoutput>
 <script>
+/* === Mobile dropdown nav: drag-safe + transitions + caret hint (CF-safe) === */
 (function () {
-  // ====== CONFIG (CF-safe) ======
+  'use strict';
+
+  // ====== CONFIG ======
   const NAV_ROOT_ID   = 'navbarMobileNav';
   const TOGGLE_CLASS  = 'dropdown-toggle';
   const MENU_CLASS    = 'dropdown-menu';
   const LINK_SELECTOR = 'a';
-  const MOBILE_MAX_WIDTH = 767;
-  const DELAY_MS = 450;                 // guard delay after opening/closing
-  const TOUCH_SLOP = 12;                // px movement allowed to still count as a "tap"
+
+  const MOBILE_MAX_WIDTH = 767;  // treat as "mobile"
+  const DELAY_MS   = 450;        // tap-guard after open/close
+  const TOUCH_SLOP = 12;         // px movement allowed to still count as tap
   const ROOT_GUARD_CLASS = 'tap-guard-active';
 
   // ====== STATE ======
   let guardUntil = 0;
   let openToggle = null;
 
-  // Track a single active pointer to disambiguate drag vs tap
+  // Active-pointer state for tap vs drag
   let activePointerId = null;
-  let downX = 0, downY = 0;
-  let moved = false;
+  let downX = 0, downY = 0, moved = false;
   let downTarget = null;
 
-  const now = () => performance.now();
+  // ====== HELPERS ======
+  const now      = () => performance.now();
   const isMobile = () => window.innerWidth <= MOBILE_MAX_WIDTH;
   const inGuard  = () => isMobile() && now() < guardUntil;
   const navRoot  = () => document.getElementById(NAV_ROOT_ID);
@@ -257,10 +246,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }, DELAY_MS + 20);
   }
 
+  function isInside(el, container) { return !!(el && container && container.contains(el)); }
+
   function findMenu(toggleEl) {
     if (!toggleEl) return null;
     const scope = toggleEl.closest('li, .nav-item, .dropdown') || toggleEl;
     return scope ? scope.querySelector('.' + MENU_CLASS) : null;
+  }
+
+  function closeAllMenus(exceptToggle) {
+    const root = navRoot();
+    if (!root) return;
+    root.querySelectorAll('.' + TOGGLE_CLASS + '.is-open').forEach(t => {
+      if (t !== exceptToggle) closeMenu(t);
+    });
   }
 
   // --- Anim helpers ---
@@ -312,7 +311,9 @@ document.addEventListener('DOMContentLoaded', function () {
     menu.style.height    = menu.scrollHeight + 'px';
     menu.style.opacity   = '1';
     menu.style.transform = 'translateY(0)';
-    menu.offsetHeight; // reflow
+    // force reflow
+    // eslint-disable-next-line no-unused-expressions
+    menu.offsetHeight;
 
     requestAnimationFrame(() => {
       menu.style.height    = '0px';
@@ -339,15 +340,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (openToggle === toggleEl) openToggle = null;
   }
 
-  function closeAllMenus(exceptToggle) {
-    const root = navRoot();
-    if (!root) return;
-    root.querySelectorAll('.' + TOGGLE_CLASS + '.is-open').forEach(t => {
-      if (t !== exceptToggle) closeMenu(t);
-    });
-  }
-
-  function isInside(el, container) { return !!(el && container && container.contains(el)); }
   function getToggleFromTarget(target) { return target.closest('.' + TOGGLE_CLASS); }
   function getMenuLinkFromTarget(target) {
     const link = target.closest(LINK_SELECTOR);
@@ -355,33 +347,28 @@ document.addEventListener('DOMContentLoaded', function () {
     return link.closest('.' + MENU_CLASS) ? link : null;
   }
 
-  // ====== TAP / DRAG DETECTION ======
+  // ====== POINTER (tap vs drag) ======
   function onPointerDownStart(e) {
     if (!isMobile()) return;
     const root = navRoot();
     if (!root || !isInside(e.target, root)) return;
-
-    // If another pointer is active, ignore extras
-    if (activePointerId !== null) return;
+    if (activePointerId !== null) return; // track a single pointer
 
     activePointerId = e.pointerId;
     downX = e.clientX;
     downY = e.clientY;
     moved = false;
     downTarget = e.target;
-    // Do NOT preventDefault here — we want natural scrolling.
+    // Do not preventDefault; allow natural scrolling.
   }
 
   function onPointerMoveTrack(e) {
     if (!isMobile()) return;
     if (activePointerId === null || e.pointerId !== activePointerId) return;
-
     if (!moved) {
       const dx = Math.abs(e.clientX - downX);
       const dy = Math.abs(e.clientY - downY);
-      if (dx > TOUCH_SLOP || dy > TOUCH_SLOP) {
-        moved = true; // This interaction is a scroll/drag, not a tap.
-      }
+      if (dx > TOUCH_SLOP || dy > TOUCH_SLOP) moved = true; // scrolling
     }
   }
 
@@ -391,14 +378,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const root = navRoot();
     const upTarget = e.target;
+    activePointerId = null; // reset pointer tracking
 
-    // Reset pointer tracking ASAP
-    activePointerId = null;
-
-    // If user dragged/scrolled, do nothing.
-    if (moved) return;
-
-    // Treat as a TAP if the up occurs inside the nav
+    if (moved) return; // treated as scroll — do nothing
     if (!root || !isInside(upTarget, root)) return;
 
     const clickedToggle   = getToggleFromTarget(upTarget);
@@ -410,37 +392,31 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault(); e.stopPropagation(); return;
       }
       const isOpen = clickedToggle.classList.contains('is-open');
-
       if (!isOpen) {
-        // Open this menu
         e.preventDefault(); e.stopPropagation();
         openMenu(clickedToggle);
         startGuard();
         return;
       } else {
-        // If still within guard, swallow the second tap
         if (inGuard()) { e.preventDefault(); e.stopPropagation(); return; }
-        // Otherwise let the browser follow its default (which might be navigating if it's also a link)
+        // otherwise allow default (e.g., navigate if it's also a link)
       }
     }
 
     // Tapped a link inside an open menu
     if (clickedMenuLink) {
       if (inGuard()) { e.preventDefault(); e.stopPropagation(); return; }
-      // Close menus when navigating away
       closeAllMenus();
-      // Allow navigation to proceed naturally (no preventDefault)
+      // allow natural navigation
     }
   }
 
   function onPointerCancel(e) {
     if (!isMobile()) return;
-    if (e.pointerId === activePointerId) {
-      activePointerId = null;
-    }
+    if (e.pointerId === activePointerId) activePointerId = null;
   }
 
-  // Close on true outside *click* only (not during scroll)
+  // Close on true outside click only (not during scroll)
   function onDocumentClick(e) {
     if (!isMobile()) return;
     const root = navRoot();
@@ -451,7 +427,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Prevent outside-close while scrolling menu: stop bubbling inside menus.
+  // Prevent outside-close while interacting inside menus
   function attachMenuScrollGuards(root) {
     root.querySelectorAll('.' + MENU_CLASS).forEach(m => {
       m.addEventListener('pointerdown', e => e.stopPropagation(), { passive: true });
@@ -473,46 +449,22 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // ====== INIT ======
-  document.addEventListener('DOMContentLoaded', function () {
+  // ====== CARET HINT: "tap again to visit" pulse ======
+  function initCaretHint() {
     const root = navRoot();
     if (!root) return;
 
-    // Ensure menus start hidden for mobile
-    root.querySelectorAll('.' + MENU_CLASS).forEach(m => { m.style.display = 'none'; });
+    // Ensure li.has-sub exists wherever there is a submenu (matches your CSS)
+    root.querySelectorAll('li').forEach(li => {
+      if (li.querySelector('.' + MENU_CLASS)) li.classList.add('has-sub');
+    });
 
-    // Pointer gesture tracking (don’t act on pointerdown; decide on pointerup)
-    root.addEventListener('pointerdown', onPointerDownStart, { passive: true });
-    root.addEventListener('pointermove', onPointerMoveTrack, { passive: true });
-    root.addEventListener('pointerup',   onPointerUpWithinNav, { passive: false });
-    root.addEventListener('pointercancel', onPointerCancel, { passive: true });
-
-    // Close on real outside clicks only
-    document.addEventListener('click', onDocumentClick, true);
-    document.addEventListener('keydown', onKeyDown, false);
-    window.addEventListener('resize', onResize);
-
-    attachMenuScrollGuards(root);
-
-    console.log('Mobile nav: drag-safe tap detection + transitions loaded.');
-  });
-})();
-/* === Tiny helper: add .hint-next-tap to the parent link when it opens ===
-   Works with your current script that toggles `.is-open` on the dropdown toggle.
-   If your code uses li.open instead, this still works because we attach the
-   hint class to the <a> element when it becomes `.is-open`. */
-(function () {
-  const NAV_ROOT_ID   = 'navbarMobileNav';
-  const TOGGLE_CLASS  = 'dropdown-toggle'; // the element your main script marks is-open on
-
-  function initCaretHint() {
-    const root = document.getElementById(NAV_ROOT_ID);
-    if (!root) return;
-
-    // If your toggles are not the <a> itself, but something wrapping it,
-    // we’ll try to find the nearest link to apply the hint class.
-    function nearestLink(el) {
-      return el && (el.matches('a') ? el : el.querySelector('a'));
+    // If the toggle isn't the <a> itself, use nearest link for the hint class.
+    function nearestLinkOrSelf(el) {
+      if (!el) return null;
+      if (el.matches && el.matches('a')) return el;
+      const a = el.querySelector && el.querySelector(':scope > a, a');
+      return a || el;
     }
 
     const obs = new MutationObserver(muts => {
@@ -521,24 +473,23 @@ document.addEventListener('DOMContentLoaded', function () {
         const el = m.target;
         if (!el.classList || !el.classList.contains(TOGGLE_CLASS)) continue;
 
-        // When a toggle becomes open, add hint to its link (briefly)
+        const link = nearestLinkOrSelf(el);
+        if (!link) continue;
+
         if (el.classList.contains('is-open')) {
-          const link = nearestLink(el);
-          if (!link) continue;
-
-          // Add the hint class and auto-remove shortly after
+          // Restart animation reliably: remove then re-add after a reflow tick
+          link.classList.remove('hint-next-tap');
+          void link.offsetWidth; // force reflow
           link.classList.add('hint-next-tap');
-          clearTimeout(link._hintTimer);
-          link._hintTimer = setTimeout(() => link.classList.remove('hint-next-tap'), 1100);
 
-          // If the user taps/clicks again to navigate, remove immediately
+          // Auto-clear after animation window, or on next user action
+          clearTimeout(link._hintTimer);
+          link._hintTimer = setTimeout(() => link.classList.remove('hint-next-tap'), 1400);
+
           const clear = () => link.classList.remove('hint-next-tap');
           link.addEventListener('pointerdown', clear, { once: true, passive: true });
           link.addEventListener('click',       clear, { once: true, capture: true });
         } else {
-          // Closed: clean up
-          const link = nearestLink(el);
-          if (!link) continue;
           link.classList.remove('hint-next-tap');
           clearTimeout(link._hintTimer);
         }
@@ -548,11 +499,38 @@ document.addEventListener('DOMContentLoaded', function () {
     obs.observe(root, { subtree: true, attributes: true, attributeFilter: ['class'] });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCaretHint);
-  } else {
+  // ====== INIT ======
+  function init() {
+    const root = navRoot();
+    if (!root) return;
+
+    // Start with menus hidden
+    root.querySelectorAll('.' + MENU_CLASS).forEach(m => { m.style.display = 'none'; });
+
+    // Gesture tracking — decide on pointerup (not pointerdown)
+    root.addEventListener('pointerdown',  onPointerDownStart, { passive: true });
+    root.addEventListener('pointermove',  onPointerMoveTrack, { passive: true });
+    root.addEventListener('pointerup',    onPointerUpWithinNav, { passive: false });
+    root.addEventListener('pointercancel', onPointerCancel, { passive: true });
+
+    // Global listeners
+    document.addEventListener('click', onDocumentClick, true);
+    document.addEventListener('keydown', onKeyDown, false);
+    window.addEventListener('resize', onResize);
+
+    // Keep outside-close from firing during menu interactions
+    attachMenuScrollGuards(root);
+
+    // Caret hint observer
     initCaretHint();
+
+    console.log('Mobile nav loaded: drag-safe taps, transitions, caret hint.');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
   }
 })();
-
 </script>
