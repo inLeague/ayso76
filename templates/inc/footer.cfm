@@ -347,8 +347,6 @@ document.addEventListener('DOMContentLoaded', function () {
   .dropdown-toggle::after {
   display:none;}
 }
-/* Brief visual settle while guard is active (optional) */
-#navbarMobileNav.tap-guard-active { opacity: 0.98; transition: opacity 120ms ease; }
 
 </style>
 </cfoutput>
