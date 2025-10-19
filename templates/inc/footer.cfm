@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /* === Mobile nav caret + rotate + first-tap pulse (CF-safe: double ##) === */
 
 /* 1) Kill any framework/injected carets on dropdowns */
-.dropdown-toggle::after { display: none !important; }
+
 
 /* Also hide any inline caret elements some themes add */
 @media (hover: none), (pointer: coarse), (max-width: 900px) {
@@ -157,6 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
   ##navbarMobileNav .nav-list .dropdown-toggle svg.caret-icon {
     display: none !important;
   }
+  .dropdown-toggle::after { display: none !important; }
 }
 
 /* 2) Our single source of truth: caret on li.has-sub > a only */
