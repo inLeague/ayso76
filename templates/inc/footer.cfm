@@ -109,219 +109,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }, { passive: true });
 });
 </script>
-<script>
-//Start section of code for smooth transition of mobile navbar and delay effects.
-(function () {
-  // ====== CONFIG (no # or . so CF won't parse them) ======
-  const NAV_ROOT_ID = 'navbarMobileNav';     // was '#navbarMobileNav'
-  const TOGGLE_CLASS = 'dropdown-toggle';    // was '.dropdown-toggle'
-  const MENU_CLASS   = 'dropdown-menu';      // was '.dropdown-menu'
-  const MOBILE_MAX_WIDTH = 767;
-  const DELAY_MS = 450;
-  const ROOT_GUARD_CLASS = 'tap-guard-active';
-
-  // ====== STATE ======
-  let guardUntil = 0;
-  let openToggle = null;
-  const now = () => performance.now();
-  const isMobile = () => window.innerWidth <= MOBILE_MAX_WIDTH;
-  const inGuard = () => isMobile() && now() < guardUntil;
-
-  function navRoot() { return document.getElementById(NAV_ROOT_ID); }
-
-  function startGuard() {
-    if (!isMobile()) return;
-    guardUntil = now() + DELAY_MS;
-    const root = navRoot();
-    if (root) root.classList.add(ROOT_GUARD_CLASS);
-    clearTimeout(startGuard._t);
-    startGuard._t = setTimeout(() => {
-      const r = navRoot();
-      if (r) r.classList.remove(ROOT_GUARD_CLASS);
-    }, DELAY_MS + 10);
-  }
-
-  function findMenu(toggleEl) {
-    if (!toggleEl) return null;
-    const scope = toggleEl.closest('li, .nav-item, .dropdown') || toggleEl;
-    return scope ? scope.querySelector('.' + MENU_CLASS) : null;
-  }
-
-  // --- Transition helpers ---
-  function prepMenuForAnimation(menu) {
-    menu.style.overflow = 'hidden';
-    menu.style.willChange = 'height, opacity, transform';
-    menu.style.transition = 'height 220ms ease, opacity 180ms ease, transform 180ms ease';
-    menu.style.transformOrigin = 'top';
-  }
-
-  function openMenu(toggleEl) {
-    const menu = findMenu(toggleEl);
-    if (!menu) return;
-
-    closeAllMenus(toggleEl);
-
-    prepMenuForAnimation(menu);
-    menu.style.display = 'block';
-    menu.style.height = '0px';
-    menu.style.opacity = '0';
-    menu.style.transform = 'translateY(-4px)';
-
-    const targetHeight = menu.scrollHeight;
-
-    requestAnimationFrame(() => {
-      toggleEl.setAttribute('aria-expanded', 'true');
-      toggleEl.classList.add('is-open');
-      menu.classList.add('show');
-      menu.style.height = targetHeight + 'px';
-      menu.style.opacity = '1';
-      menu.style.transform = 'translateY(0)';
-    });
-
-    const done = (e) => {
-      if (e.propertyName !== 'height') return;
-      menu.style.height = 'auto';
-      menu.removeEventListener('transitionend', done);
-    };
-    menu.addEventListener('transitionend', done);
-
-    openToggle = toggleEl;
-  }
-
-  function closeMenu(toggleEl) {
-    const menu = findMenu(toggleEl);
-    if (!menu) return;
-
-    prepMenuForAnimation(menu);
-    menu.style.height = menu.scrollHeight + 'px';
-    menu.style.opacity = '1';
-    menu.style.transform = 'translateY(0)';
-    menu.offsetHeight; // force reflow
-
-    requestAnimationFrame(() => {
-      menu.style.height = '0px';
-      menu.style.opacity = '0';
-      menu.style.transform = 'translateY(-4px)';
-      toggleEl.setAttribute('aria-expanded', 'false');
-      toggleEl.classList.remove('is-open');
-      menu.classList.remove('show');
-    });
-
-    const done = (e) => {
-      if (e.propertyName !== 'height') return;
-      menu.style.display = 'none';
-      menu.style.transition = '';
-      menu.style.height = '';
-      menu.style.opacity = '';
-      menu.style.transform = '';
-      menu.style.overflow = '';
-      menu.style.willChange = '';
-      menu.removeEventListener('transitionend', done);
-    };
-    menu.addEventListener('transitionend', done);
-
-    if (openToggle === toggleEl) openToggle = null;
-  }
-
-  function closeAllMenus(exceptToggle) {
-    const root = navRoot();
-    if (!root) return;
-    root.querySelectorAll('.' + TOGGLE_CLASS + '.is-open').forEach(t => {
-      if (t !== exceptToggle) closeMenu(t);
-    });
-  }
-
-  function isInside(el, container) {
-    return !!(el && container && container.contains(el));
-  }
-
-  function getToggleFromTarget(target) {
-    return target.closest('.' + TOGGLE_CLASS);
-  }
-
-  function getMenuLinkFromTarget(target) {
-    const link = target.closest('a');
-    if (!link) return null;
-    return link.closest('.' + MENU_CLASS) ? link : null;
-  }
-
-  // ====== MAIN HANDLERS ======
-  function onPointerDown(e) {
-    if (!isMobile()) return;
-
-    const root = navRoot();
-    if (!root) return;
-
-    const target = e.target;
-    const clickedToggle = getToggleFromTarget(target);
-    const clickedMenuLink = getMenuLinkFromTarget(target);
-
-    if (!isInside(target, root)) {
-      if (openToggle) {
-        closeAllMenus();
-        startGuard();
-      }
-      return;
-    }
-
-    if (clickedToggle) {
-      if (inGuard() && clickedToggle !== openToggle) {
-        e.preventDefault(); e.stopPropagation(); return false;
-      }
-      const isOpen = clickedToggle.classList.contains('is-open');
-      if (!isOpen) {
-        e.preventDefault(); e.stopPropagation();
-        openMenu(clickedToggle);
-        startGuard();
-        return false;
-      } else {
-        if (inGuard()) {
-          e.preventDefault(); e.stopPropagation(); return false;
-        }
-      }
-    }
-
-    if (clickedMenuLink) {
-      if (inGuard()) {
-        e.preventDefault(); e.stopPropagation(); return false;
-      } else {
-        closeAllMenus();
-      }
-    }
-  }
-
-  function onKeyDown(e) {
-    if (e.key === 'Escape' && openToggle) {
-      closeAllMenus();
-      startGuard();
-    }
-  }
-
-  function onResize() {
-    if (!isMobile()) {
-      closeAllMenus();
-      guardUntil = 0;
-      const root = navRoot();
-      if (root) root.classList.remove(ROOT_GUARD_CLASS);
-    }
-  }
-
-  // ====== INIT ======
-  document.addEventListener('DOMContentLoaded', function () {
-    const root = navRoot();
-    if (!root) return;
-
-    root.querySelectorAll('.' + MENU_CLASS).forEach(m => { m.style.display = 'none'; });
-
-    const passiveFalse = { passive: false };
-    root.addEventListener('pointerdown', onPointerDown, passiveFalse);
-    document.addEventListener('pointerdown', onPointerDown, passiveFalse);
-    document.addEventListener('keydown', onKeyDown, false);
-    window.addEventListener('resize', onResize);
-  });
-})();
-</script>
-
 <style>
 /* Show/animate carets only on touch/coarse devices */
 @media (hover: none), (pointer: coarse) {
@@ -351,3 +138,201 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </style>
 </cfoutput>
+<script>
+(function () {
+  // ====== CONFIG (CF-safe: no # or . in strings) ======
+  const NAV_ROOT_ID  = 'navbarMobileNav';     // was '#navbarMobileNav'
+  const TOGGLE_CLASS = 'dropdown-toggle';     // was '.dropdown-toggle'
+  const MENU_CLASS   = 'dropdown-menu';       // was '.dropdown-menu'
+  const MOBILE_MAX_WIDTH = 767;
+  const DELAY_MS = 450;
+  const ROOT_GUARD_CLASS = 'tap-guard-active';
+
+  // ====== STATE ======
+  let guardUntil = 0;
+  let openToggle = null;
+  const now = () => performance.now();
+  const isMobile = () => window.innerWidth <= MOBILE_MAX_WIDTH;
+  const inGuard  = () => isMobile() && now() < guardUntil;
+  const navRoot  = () => document.getElementById(NAV_ROOT_ID);
+
+  // --- guard ---
+  function startGuard() {
+    if (!isMobile()) return;
+    guardUntil = now() + DELAY_MS;
+    const root = navRoot();
+    if (root) root.classList.add(ROOT_GUARD_CLASS);
+    clearTimeout(startGuard._t);
+    startGuard._t = setTimeout(() => {
+      const r = navRoot();
+      if (r) r.classList.remove(ROOT_GUARD_CLASS);
+    }, DELAY_MS + 10);
+  }
+
+  // --- utils ---
+  function findMenu(toggleEl) {
+    if (!toggleEl) return null;
+    const scope = toggleEl.closest('li, .nav-item, .dropdown') || toggleEl;
+    return scope ? scope.querySelector('.' + MENU_CLASS) : null;
+  }
+
+  function prepMenuForAnimation(menu) {
+    menu.style.overflow = 'hidden';
+    menu.style.willChange = 'height, opacity, transform';
+    menu.style.transition = 'height 220ms ease, opacity 180ms ease, transform 180ms ease';
+    menu.style.transformOrigin = 'top';
+  }
+
+  function openMenu(toggleEl) {
+    const menu = findMenu(toggleEl);
+    if (!menu) return;
+
+    closeAllMenus(toggleEl);
+    prepMenuForAnimation(menu);
+
+    menu.style.display   = 'block';
+    menu.style.height    = '0px';
+    menu.style.opacity   = '0';
+    menu.style.transform = 'translateY(-4px)';
+
+    const targetHeight = menu.scrollHeight;
+
+    requestAnimationFrame(() => {
+      toggleEl.setAttribute('aria-expanded', 'true');
+      toggleEl.classList.add('is-open');
+      menu.classList.add('show');
+      menu.style.height    = targetHeight + 'px';
+      menu.style.opacity   = '1';
+      menu.style.transform = 'translateY(0)';
+    });
+
+    const done = (e) => {
+      if (e.propertyName !== 'height') return;
+      menu.style.height = 'auto';
+      menu.removeEventListener('transitionend', done);
+    };
+    menu.addEventListener('transitionend', done);
+
+    openToggle = toggleEl;
+  }
+
+  function closeMenu(toggleEl) {
+    const menu = findMenu(toggleEl);
+    if (!menu) return;
+
+    prepMenuForAnimation(menu);
+    menu.style.height    = menu.scrollHeight + 'px';
+    menu.style.opacity   = '1';
+    menu.style.transform = 'translateY(0)';
+    menu.offsetHeight; // reflow
+
+    requestAnimationFrame(() => {
+      menu.style.height    = '0px';
+      menu.style.opacity   = '0';
+      menu.style.transform = 'translateY(-4px)';
+      toggleEl.setAttribute('aria-expanded', 'false');
+      toggleEl.classList.remove('is-open');
+      menu.classList.remove('show');
+    });
+
+    const done = (e) => {
+      if (e.propertyName !== 'height') return;
+      menu.style.display    = 'none';
+      menu.style.transition = '';
+      menu.style.height     = '';
+      menu.style.opacity    = '';
+      menu.style.transform  = '';
+      menu.style.overflow   = '';
+      menu.style.willChange = '';
+      menu.removeEventListener('transitionend', done);
+    };
+    menu.addEventListener('transitionend', done);
+
+    if (openToggle === toggleEl) openToggle = null;
+  }
+
+  function closeAllMenus(exceptToggle) {
+    const root = navRoot();
+    if (!root) return;
+    root.querySelectorAll('.' + TOGGLE_CLASS + '.is-open').forEach(t => {
+      if (t !== exceptToggle) closeMenu(t);
+    });
+  }
+
+  function isInside(el, container) {
+    return !!(el && container && container.contains(el));
+  }
+  function getToggleFromTarget(target)    { return target.closest('.' + TOGGLE_CLASS); }
+  function getMenuLinkFromTarget(target)  {
+    const link = target.closest('a');
+    if (!link) return null;
+    return link.closest('.' + MENU_CLASS) ? link : null;
+  }
+
+  // --- handlers ---
+  function onPointerDown(e) {
+    if (!isMobile()) return;
+    const root = navRoot();
+    if (!root) return;
+
+    const target = e.target;
+    const clickedToggle   = getToggleFromTarget(target);
+    const clickedMenuLink = getMenuLinkFromTarget(target);
+
+    if (!isInside(target, root)) {
+      if (openToggle) { closeAllMenus(); startGuard(); }
+      return;
+    }
+
+    if (clickedToggle) {
+      if (inGuard() && clickedToggle !== openToggle) {
+        e.preventDefault(); e.stopPropagation(); return false;
+      }
+      const isOpen = clickedToggle.classList.contains('is-open');
+      if (!isOpen) {
+        e.preventDefault(); e.stopPropagation();
+        openMenu(clickedToggle);
+        startGuard();
+        return false;
+      } else {
+        if (inGuard()) { e.preventDefault(); e.stopPropagation(); return false; }
+      }
+    }
+
+    if (clickedMenuLink) {
+      if (inGuard()) { e.preventDefault(); e.stopPropagation(); return false; }
+      closeAllMenus();
+    }
+  }
+
+  function onKeyDown(e) {
+    if (e.key === 'Escape' && openToggle) { closeAllMenus(); startGuard(); }
+  }
+
+  function onResize() {
+    if (!isMobile()) {
+      closeAllMenus();
+      guardUntil = 0;
+      const root = navRoot();
+      if (root) root.classList.remove(ROOT_GUARD_CLASS);
+    }
+  }
+
+  // --- init ---
+  document.addEventListener('DOMContentLoaded', function () {
+    const root = navRoot();
+    if (!root) return;
+
+    root.querySelectorAll('.' + MENU_CLASS).forEach(m => { m.style.display = 'none'; });
+
+    const passiveFalse = { passive: false };
+    root.addEventListener('pointerdown', onPointerDown, passiveFalse);
+    document.addEventListener('pointerdown', onPointerDown, passiveFalse);
+    document.addEventListener('keydown', onKeyDown, false);
+    window.addEventListener('resize', onResize);
+
+    // sanity check
+    console.log('Mobile nav delay+transition loaded (CF-safe).');
+  });
+})();
+</script>
