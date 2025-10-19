@@ -169,17 +169,25 @@ document.addEventListener('DOMContentLoaded', function () {
 <script>
 (function () {
   // ====== CONFIG (CF-safe) ======
-  const NAV_ROOT_ID  = 'navbarMobileNav';
-  const TOGGLE_CLASS = 'dropdown-toggle';
-  const MENU_CLASS   = 'dropdown-menu';
+  const NAV_ROOT_ID   = 'navbarMobileNav';
+  const TOGGLE_CLASS  = 'dropdown-toggle';
+  const MENU_CLASS    = 'dropdown-menu';
   const LINK_SELECTOR = 'a';
   const MOBILE_MAX_WIDTH = 767;
-  const DELAY_MS = 450;
+  const DELAY_MS = 450;                 // guard delay after opening/closing
+  const TOUCH_SLOP = 12;                // px movement allowed to still count as a "tap"
   const ROOT_GUARD_CLASS = 'tap-guard-active';
 
   // ====== STATE ======
   let guardUntil = 0;
   let openToggle = null;
+
+  // Track a single active pointer to disambiguate drag vs tap
+  let activePointerId = null;
+  let downX = 0, downY = 0;
+  let moved = false;
+  let downTarget = null;
+
   const now = () => performance.now();
   const isMobile = () => window.innerWidth <= MOBILE_MAX_WIDTH;
   const inGuard  = () => isMobile() && now() < guardUntil;
@@ -194,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function () {
     startGuard._t = setTimeout(() => {
       const r = navRoot();
       if (r) r.classList.remove(ROOT_GUARD_CLASS);
-    }, DELAY_MS + 10);
+    }, DELAY_MS + 20);
   }
 
   function findMenu(toggleEl) {
@@ -295,42 +303,92 @@ document.addEventListener('DOMContentLoaded', function () {
     return link.closest('.' + MENU_CLASS) ? link : null;
   }
 
-  // ====== HANDLERS ======
-  function onPointerDownWithinNav(e) {
+  // ====== TAP / DRAG DETECTION ======
+  function onPointerDownStart(e) {
     if (!isMobile()) return;
     const root = navRoot();
-    if (!root) return;
+    if (!root || !isInside(e.target, root)) return;
 
-    const target = e.target;
-    const clickedToggle   = getToggleFromTarget(target);
-    const clickedMenuLink = getMenuLinkFromTarget(target);
+    // If another pointer is active, ignore extras
+    if (activePointerId !== null) return;
 
-    // Tapping a toggle
+    activePointerId = e.pointerId;
+    downX = e.clientX;
+    downY = e.clientY;
+    moved = false;
+    downTarget = e.target;
+    // Do NOT preventDefault here — we want natural scrolling.
+  }
+
+  function onPointerMoveTrack(e) {
+    if (!isMobile()) return;
+    if (activePointerId === null || e.pointerId !== activePointerId) return;
+
+    if (!moved) {
+      const dx = Math.abs(e.clientX - downX);
+      const dy = Math.abs(e.clientY - downY);
+      if (dx > TOUCH_SLOP || dy > TOUCH_SLOP) {
+        moved = true; // This interaction is a scroll/drag, not a tap.
+      }
+    }
+  }
+
+  function onPointerUpWithinNav(e) {
+    if (!isMobile()) return;
+    if (activePointerId === null || e.pointerId !== activePointerId) return;
+
+    const root = navRoot();
+    const upTarget = e.target;
+
+    // Reset pointer tracking ASAP
+    activePointerId = null;
+
+    // If user dragged/scrolled, do nothing.
+    if (moved) return;
+
+    // Treat as a TAP if the up occurs inside the nav
+    if (!root || !isInside(upTarget, root)) return;
+
+    const clickedToggle   = getToggleFromTarget(upTarget);
+    const clickedMenuLink = getMenuLinkFromTarget(upTarget);
+
+    // Tapped a dropdown toggle
     if (clickedToggle) {
       if (inGuard() && clickedToggle !== openToggle) {
-        e.preventDefault(); e.stopPropagation(); return false;
+        e.preventDefault(); e.stopPropagation(); return;
       }
       const isOpen = clickedToggle.classList.contains('is-open');
 
       if (!isOpen) {
+        // Open this menu
         e.preventDefault(); e.stopPropagation();
         openMenu(clickedToggle);
         startGuard();
-        return false;
+        return;
       } else {
-        if (inGuard()) { e.preventDefault(); e.stopPropagation(); return false; }
+        // If still within guard, swallow the second tap
+        if (inGuard()) { e.preventDefault(); e.stopPropagation(); return; }
+        // Otherwise let the browser follow its default (which might be navigating if it's also a link)
       }
     }
 
-    // Tapping a link inside an open menu very soon after open
+    // Tapped a link inside an open menu
     if (clickedMenuLink) {
-      if (inGuard()) { e.preventDefault(); e.stopPropagation(); return false; }
-      // Close on navigate
+      if (inGuard()) { e.preventDefault(); e.stopPropagation(); return; }
+      // Close menus when navigating away
       closeAllMenus();
+      // Allow navigation to proceed naturally (no preventDefault)
     }
   }
 
-  // NEW: close on true outside *click* only (not on pointerdown)
+  function onPointerCancel(e) {
+    if (!isMobile()) return;
+    if (e.pointerId === activePointerId) {
+      activePointerId = null;
+    }
+  }
+
+  // Close on true outside *click* only (not during scroll)
   function onDocumentClick(e) {
     if (!isMobile()) return;
     const root = navRoot();
@@ -341,14 +399,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Prevent outside-close while scrolling menu:
-  // Stop bubbling of start/end events inside a menu so document click won't see them as outside.
+  // Prevent outside-close while scrolling menu: stop bubbling inside menus.
   function attachMenuScrollGuards(root) {
     root.querySelectorAll('.' + MENU_CLASS).forEach(m => {
       m.addEventListener('pointerdown', e => e.stopPropagation(), { passive: true });
       m.addEventListener('pointerup',   e => e.stopPropagation(), { passive: true });
       m.addEventListener('click',       e => e.stopPropagation(), true); // capture
-      // Allow natural scrolling
     });
   }
 
@@ -370,17 +426,23 @@ document.addEventListener('DOMContentLoaded', function () {
     const root = navRoot();
     if (!root) return;
 
+    // Ensure menus start hidden for mobile
     root.querySelectorAll('.' + MENU_CLASS).forEach(m => { m.style.display = 'none'; });
 
-    const passiveFalse = { passive: false };
-    root.addEventListener('pointerdown', onPointerDownWithinNav, passiveFalse);
-    document.addEventListener('click', onDocumentClick, true); // close on real outside clicks only
+    // Pointer gesture tracking (don’t act on pointerdown; decide on pointerup)
+    root.addEventListener('pointerdown', onPointerDownStart, { passive: true });
+    root.addEventListener('pointermove', onPointerMoveTrack, { passive: true });
+    root.addEventListener('pointerup',   onPointerUpWithinNav, { passive: false });
+    root.addEventListener('pointercancel', onPointerCancel, { passive: true });
+
+    // Close on real outside clicks only
+    document.addEventListener('click', onDocumentClick, true);
     document.addEventListener('keydown', onKeyDown, false);
     window.addEventListener('resize', onResize);
 
     attachMenuScrollGuards(root);
 
-    console.log('Mobile nav: scroll-safe guard + transitions loaded.');
+    console.log('Mobile nav: drag-safe tap detection + transitions loaded.');
   });
 })();
 </script>
