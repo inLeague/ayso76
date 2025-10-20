@@ -1,6 +1,6 @@
-/* === YouTube Lightbox Popup (Option A) === */
+/* === YouTube Lightbox Popup (CMS-safe) === */
 
-/* Trigger button styles */
+/* Trigger */
 .yt-trigger {
   display: inline-flex;
   align-items: center;
@@ -14,31 +14,27 @@
   cursor: pointer;
   transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease;
 }
-.yt-trigger .yt-icon {
-  fill: #fff;
-}
+.yt-trigger .yt-icon { fill: #fff; }
 .yt-trigger:hover,
 .yt-trigger:focus-visible {
   transform: scale(1.06);
   box-shadow: 0 6px 16px rgba(0,0,0,.25);
   outline: none;
 }
-.yt-trigger:active {
-  transform: scale(0.97);
-}
+.yt-trigger:active { transform: scale(0.97); }
 
-/* Overlay */
-.yt-overlay[hidden] {
-  display: none !important;
-}
+/* Overlay (built by JS and appended to <body>) */
 .yt-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,.65);
-  display: grid;
+  display: none;             /* default off */
   place-items: center;
   z-index: 9999;
   opacity: 0;
+}
+.yt-overlay.is-open {
+  display: grid;             /* on when open */
   animation: ytFadeIn .18s ease forwards;
 }
 
@@ -50,67 +46,37 @@
   border-radius: 12px;
   box-shadow: 0 20px 60px rgba(0,0,0,.5);
   transform: scale(.96);
-  animation: ytPop .22s ease forwards;
   overflow: hidden;
+}
+.yt-overlay.is-open .yt-dialog {
+  animation: ytPop .22s ease forwards;
 }
 
 /* Close button */
 .yt-close {
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  width: 36px;
-  height: 36px;
-  border: none;
-  background: rgba(0,0,0,.45);
-  color: #fff;
-  font-size: 28px;
-  line-height: 1;
-  border-radius: 8px;
+  position: absolute; top: 8px; right: 10px;
+  width: 36px; height: 36px;
+  border: none; background: rgba(0,0,0,.45); color: #fff;
+  font-size: 28px; line-height: 1; border-radius: 8px;
   cursor: pointer;
   transition: background .15s ease, transform .12s ease;
 }
-.yt-close:hover,
-.yt-close:focus-visible {
-  background: rgba(0,0,0,.7);
-  outline: none;
-  transform: scale(1.05);
+.yt-close:hover, .yt-close:focus-visible {
+  background: rgba(0,0,0,.7); outline: none; transform: scale(1.05);
 }
 
-/* Frame wrapper maintains 16:9; iframe fills it */
-.yt-frame-wrap {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #000;
-}
-.yt-frame-wrap iframe {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
+/* Aspect wrapper; iframe fills it */
+.yt-frame-wrap { width: 100%; aspect-ratio: 16 / 9; background: #000; }
+.yt-frame-wrap iframe { display: block; width: 100%; height: 100%; border: 0; }
 
-/* Prevent body scroll when lightbox is open */
-body.yt-no-scroll {
-  overflow: hidden;
-}
+/* Prevent page scroll when open */
+body.yt-no-scroll { overflow: hidden; }
 
 /* Animations */
-@keyframes ytFadeIn {
-  to {
-    opacity: 1;
-  }
-}
-@keyframes ytPop {
-  to {
-    transform: scale(1);
-  }
-}
+@keyframes ytFadeIn { to { opacity: 1; } }
+@keyframes ytPop { to { transform: scale(1); } }
 
-/* Reduced motion support */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .yt-overlay,
-  .yt-dialog {
-    animation: none;
-  }
+  .yt-overlay.is-open, .yt-dialog { animation: none !important; }
 }
