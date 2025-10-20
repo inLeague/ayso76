@@ -1,52 +1,26 @@
-/* === YouTube Lightbox Popup (FINAL, CMS-safe) === */
+/* === YouTube Lightbox Popup (no arrow, CMS-safe) === */
 
-/* Inline layout: text → arrow → icon */
+/* Inline layout: text → icon */
 .yt-inline {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 10px;               /* space between text and icon */
   line-height: 1.4;
   flex-wrap: nowrap;
   white-space: nowrap;
 }
 
-/* Clickable text + LONG ARROW */
+/* Clickable text */
 .yt-text {
   font-size: 1rem;
-  color: #000; /* change to your brand color if desired */
+  color: #000;             /* change to brand color if desired */
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
   outline: none;
-  position: relative;
-  display: inline-flex;
-  align-items: center;
 }
 
-/* LONG ARROW (shaft + head — single pseudo-element) */
-.yt-text::after {
-  content: "";
-  display: inline-block;
-  margin-left: 10px;         /* space after sentence */
-  width: 32px;               /* arrow shaft length */
-  height: 2px;               /* shaft thickness */
-  background: currentColor;  /* shaft color */
-  position: relative;
-  top: 0;
-}
-
-.yt-text::after {
-  /* Add arrowhead at the end of the shaft */
-  box-shadow: 32px 0 currentColor;
-  clip-path: polygon(0 0, 100% 50%, 0 100%);
-  width: 12px;              /* arrowhead width */
-  height: 8px;              /* arrowhead height */
-  margin-left: 6px;
-  background: currentColor;
-  transform: translateY(-2px); /* vertical alignment */
-}
-
-/* YouTube Play Icon (normal <img>) */
+/* Icon (normal <img>) */
 .yt-img {
   display: inline-block;
   width: 36px;
@@ -82,7 +56,7 @@
   animation: ytFadeIn .18s ease forwards;
 }
 
-/* Dialog (YouTube popup) */
+/* Dialog */
 .yt-dialog {
   position: relative;
   width: min(92vw, 960px);
@@ -91,9 +65,6 @@
   box-shadow: 0 20px 60px rgba(0,0,0,.5);
   transform: scale(.96);
   overflow: hidden;
-}
-.yt-overlay.is-open .yt-dialog {
-  animation: ytPop .22s ease forwards;
 }
 
 /* Close button */
@@ -138,17 +109,13 @@ body.yt-no-scroll {
 }
 
 /* Animations */
-@keyframes ytFadeIn {
-  to { opacity: 1; }
-}
-@keyframes ytPop {
-  to { transform: scale(1); }
-}
+@keyframes ytFadeIn { to { opacity: 1; } }
+@keyframes ytPop { to { transform: scale(1); } }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .yt-overlay.is-open,
   .yt-dialog {
     animation: none !important;
   }
 }
+.yt-inline { gap: 14px; }
