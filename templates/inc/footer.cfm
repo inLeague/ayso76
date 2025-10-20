@@ -218,7 +218,7 @@ $('button.navbar-toggler').click(function(){
     const clickedToggle   = getToggleFromTarget(upTarget);
     const clickedMenuLink = getMenuLinkFromTarget(upTarget);
 
-    // Tapped a dropdown toggle (this includes taps on the link text itself, since the <a> sits inside the LI.toggle)
+    // Tapped a dropdown toggle (includes taps on the <a> inside the toggle)
     if (clickedToggle) {
       if (inGuard() && clickedToggle !== openToggle) {
         e.preventDefault(); e.stopPropagation(); return;
@@ -226,19 +226,16 @@ $('button.navbar-toggler').click(function(){
       const isOpen = clickedToggle.classList.contains('is-open');
 
       // Behavior A:
-      // - First tap on link text (menu closed) => OPEN
-      // - Second tap on link text (menu open)  => FOLLOW (allow default)
-      // - Caret taps are handled separately to only toggle (see injectCaretButtons)
+      // First tap on link text (menu closed) => OPEN (no navigate)
+      // Second tap on link text (menu open)  => FOLLOW (allow default)
       if (!isOpen) {
         e.preventDefault(); e.stopPropagation();
         openMenu(clickedToggle);
         startGuard();
         return;
       } else {
-        // Menu is already open
         if (inGuard()) { e.preventDefault(); e.stopPropagation(); return; }
-        // Otherwise, allow default: if the target was actually the link text, browser will navigate.
-        // If target was the LI itself (not common), nothing happens.
+        // Allow default navigation on the second tap
       }
     }
 
@@ -253,6 +250,46 @@ $('button.navbar-toggler').click(function(){
   function onPointerCancel(e) {
     if (!isMobile()) return;
     if (e.pointerId === activePointerId) activePointerId = null;
+  }
+
+  // ====== CRITICAL FIX: intercept link "click" when menu is closed ======
+  // Some browsers will still follow the link unless we stop the click event.
+  function onClickWithinNav(e) {
+    if (!isMobile()) return;
+
+    const root = navRoot();
+    if (!root || !isInside(e.target, root)) return;
+
+    // Ignore clicks inside dropdown menus (let them navigate normally)
+    if (e.target.closest('.' + MENU_CLASS)) return;
+
+    const link = e.target.closest('a');
+    if (!link) return;
+
+    // Let the dedicated caret handler take over if caret was tapped
+    if (e.target.closest('.mobile-caret')) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+
+    const toggle = link.closest('.' + TOGGLE_CLASS);
+    if (!toggle) return;
+
+    const isOpen = toggle.classList.contains('is-open');
+
+    if (!isOpen) {
+      // FIRST CLICK on link text when closed → open (do NOT navigate)
+      e.preventDefault();
+      e.stopPropagation();
+      openMenu(toggle);
+      startGuard();
+      return;
+    } else {
+      // SECOND CLICK with menu already open → allow navigation unless in guard
+      if (inGuard()) { e.preventDefault(); e.stopPropagation(); return; }
+      // else fall through: browser navigates
+    }
   }
 
   // Close on true outside click only (not during scroll)
@@ -373,8 +410,7 @@ $('button.navbar-toggler').click(function(){
           closeMenu(toggle);          // collapse if open
         } else {
           openMenu(toggle);           // expand if closed
-          // Since user used caret, keep link's 2-tap behavior intact (Behavior A):
-          // do NOT consume their "first tap" on the link.
+          // Do not consume link's two-tap behavior
         }
         startGuard();
       };
@@ -398,6 +434,9 @@ $('button.navbar-toggler').click(function(){
     root.addEventListener('pointerup',    onPointerUpWithinNav, { passive: false });
     root.addEventListener('pointercancel', onPointerCancel, { passive: true });
 
+    // CRITICAL: capture-phase click interceptor to block first-click navigation
+    root.addEventListener('click', onClickWithinNav, true);
+
     // Global listeners
     document.addEventListener('click', onDocumentClick, true);
     document.addEventListener('keydown', onKeyDown, false);
@@ -412,7 +451,7 @@ $('button.navbar-toggler').click(function(){
     // Build tappable carets
     injectCaretButtons();
 
-    console.log('Mobile nav (<=991px): 2-tap links, caret toggle-only, drag-safe, transitions, hint pulse.');
+    console.log('Mobile nav (<=991px): 2-tap links (fixed), caret toggle-only, drag-safe, transitions, hint pulse.');
   }
 
   if (document.readyState === 'loading') {
