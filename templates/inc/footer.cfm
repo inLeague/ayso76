@@ -29,113 +29,446 @@
 <!-- End Constant Contact Active Forms -->
 
 <script>
- $('button.navbar-toggler').click(function(){
-   $('.wrap-for-mobile-menu').toggleClass('show');
-   $('.mobile-collapse').toggleClass('show');
-   $('body').toggleClass('absolute-fix');
- });
-
-/* --- Mobile dropdown behavior: 1st click opens, 2nd click follows link --- */
-/* Works on touch and desktop when in mobile layout */
-/* CF-safe: doubled ## in selectors inside strings */
-
-document.addEventListener('DOMContentLoaded', function () {
-  var nav = document.querySelector('##navbarMobileNav');
-  if (!nav) return;
-
-  // Treat it as "mobile mode" when either:
-  //  - touch device, OR
-  //  - viewport <= 992px, OR
-  //  - your mobile menu is visibly open
-  var mqMobileWidth = window.matchMedia('(max-width: 992px)');
-  function isMobileMenuActive() {
-    return (
-      window.matchMedia('(hover: none), (pointer: coarse)').matches ||
-      mqMobileWidth.matches ||
-      document.body.classList.contains('absolute-fix') ||
-      document.querySelector('.wrap-for-mobile-menu.show') ||
-      document.querySelector('.mobile-collapse.show')
-    );
-  }
-
-  // Close all other open dropdowns
-  function closeOthers(currentLI) {
-    nav.querySelectorAll('.nav-list li.open').forEach(function (li) {
-      if (li !== currentLI) {
-        li.classList.remove('open');
-        var a = li.querySelector(':scope > a[aria-expanded="true"]');
-        if (a) a.setAttribute('aria-expanded', 'false');
-        if (a && a.dataset) delete a.dataset.firstTap;
-      }
-    });
-  }
-
-  // Enable first-click open / second-click navigate
-  Array.prototype.slice.call(nav.querySelectorAll('.nav-list li > a')).forEach(function (link) {
-    var submenu = link.nextElementSibling;
-    if (!submenu || !submenu.classList.contains('dropdown-menu')) return;
-
-    // mark for caret
-    link.parentElement.classList.add('has-sub');
-    link.setAttribute('aria-haspopup', 'menu');
-    link.setAttribute('aria-expanded', 'false');
-
-    link.addEventListener('click', function (e) {
-      if (!isMobileMenuActive()) return; // desktop full nav: do nothing special
-
-      var li = link.parentElement;
-      var isOpen = li.classList.contains('open');
-      var firstTapDone = link.dataset.firstTap === '1';
-
-      // FIRST CLICK — open menu
-      if (!isOpen) {
-        e.preventDefault();
-        closeOthers(li);
-        li.classList.add('open');
-        link.setAttribute('aria-expanded', 'true');
-        link.dataset.firstTap = '1';
-        return;
-      }
-
-      // IF OPEN BUT firstTap wasn't marked, treat as first click
-      if (!firstTapDone) {
-        e.preventDefault();
-        link.dataset.firstTap = '1';
-        return;
-      }
-
-      // SECOND CLICK — NAVIGATE
-      e.preventDefault();
-      delete link.dataset.firstTap;
-      link.setAttribute('aria-expanded', 'false');
-      li.classList.remove('open');
-      window.location.href = link.href;
-    });
-  });
-
-  // Close menus when clicking outside
-  document.addEventListener('click', function (evt) {
-    if (!nav.contains(evt.target)) {
-      nav.querySelectorAll('.nav-list li.open').forEach(function (li) {
-        li.classList.remove('open');
-        var a = li.querySelector(':scope > a[aria-expanded="true"]');
-        if (a) a.setAttribute('aria-expanded', 'false');
-        if (a && a.dataset) delete a.dataset.firstTap;
-      });
-    }
-  }, { passive: true });
-
-  // If screen resizes across breakpoint, reset menu
-  mqMobileWidth.addEventListener('change', function () {
-    nav.querySelectorAll('.nav-list li.open').forEach(function (li) {
-      li.classList.remove('open');
-      var a = li.querySelector(':scope > a[aria-expanded="true"]');
-      if (a) a.setAttribute('aria-expanded', 'false');
-      if (a && a.dataset) delete a.dataset.firstTap;
-    });
-  });
+/* ====== Mobile menu show/hide button (unchanged) ====== */
+$('button.navbar-toggler').click(function(){
+    $('.wrap-for-mobile-menu').toggleClass('show');
+      $('.mobile-collapse').toggleClass('show');
+        $('body').toggleClass('absolute-fix');
 });
+
+/* ====== Mobile dropdown nav: drag-safe taps, transitions, caret toggle, hint pulse (<= 991px) ====== */
+(function () {
+    'use strict';
+
+      // ====== CONFIG ======
+        const NAV_ROOT_ID   = 'navbarMobileNav';
+          const TOGGLE_CLASS  = 'dropdown-toggle'; // usually on <li> wrapper
+            const MENU_CLASS    = 'dropdown-menu';
+              const LINK_SELECTOR = 'a';
+
+                const MOBILE_MAX_WIDTH = 991;  // treat <= 991px as "mobile"
+                  const DELAY_MS   = 450;        // tap-guard after open/close
+                    const TOUCH_SLOP = 12;         // px movement allowed to still count as tap
+
+                      const ROOT_GUARD_CLASS = 'tap-guard-active';
+
+                        // ====== STATE ======
+                          let guardUntil = 0;
+                            let openToggle = null;
+
+                              // Active-pointer state for tap vs drag
+                                let activePointerId = null;
+                                  let downX = 0, downY = 0, moved = false;
+
+                                    // ====== HELPERS ======
+                                      const now      = () => performance.now();
+                                        const isMobile = () => window.innerWidth <= MOBILE_MAX_WIDTH;
+                                          const inGuard  = () => isMobile() && now() < guardUntil;
+                                            const navRoot  = () => document.getElementById(NAV_ROOT_ID);
+
+                                              function startGuard() {
+                                                    if (!isMobile()) return;
+                                                        guardUntil = now() + DELAY_MS;
+                                                            const root = navRoot();
+                                                                if (root) root.classList.add(ROOT_GUARD_CLASS);
+                                                                    clearTimeout(startGuard._t);
+                                                                        startGuard._t = setTimeout(() => {
+                                                                                const r = navRoot();
+                                                                                      if (r) r.classList.remove(ROOT_GUARD_CLASS);
+                                                                        }, DELAY_MS + 20);
+                                              }
+
+                                                function isInside(el, container) { return !!(el && container && container.contains(el)); }
+
+                                                  function findMenu(toggleEl) {
+                                                        if (!toggleEl) return null;
+                                                            const scope = toggleEl.closest('li, .nav-item, .dropdown') || toggleEl;
+                                                                return scope ? scope.querySelector('.' + MENU_CLASS) : null;
+                                                  }
+
+                                                    function closeAllMenus(exceptToggle) {
+                                                          const root = navRoot();
+                                                              if (!root) return;
+                                                                  root.querySelectorAll('.' + TOGGLE_CLASS + '.is-open').forEach(t => {
+                                                                          if (t !== exceptToggle) closeMenu(t);
+                                                                  });
+                                                    }
+
+                                                      // --- Anim helpers ---
+                                                        function prepMenuForAnimation(menu) {
+                                                              menu.style.overflow = 'hidden';
+                                                                  menu.style.willChange = 'height, opacity, transform';
+                                                                      menu.style.transition = 'height 220ms ease, opacity 180ms ease, transform 180ms ease';
+                                                                          menu.style.transformOrigin = 'top';
+                                                        }
+
+                                                          function openMenu(toggleEl) {
+                                                                const menu = findMenu(toggleEl);
+                                                                    if (!menu) return;
+
+                                                                        closeAllMenus(toggleEl);
+                                                                            prepMenuForAnimation(menu);
+
+                                                                                // initial collapsed state
+                                                                                    menu.style.display   = 'block';
+                                                                                        menu.style.height    = '0px';
+                                                                                            menu.style.opacity   = '0';
+                                                                                                menu.style.transform = 'translateY(-4px)';
+
+                                                                                                    const targetHeight = menu.scrollHeight;
+
+                                                                                                        requestAnimationFrame(() => {
+                                                                                                                toggleEl.setAttribute('aria-expanded', 'true');
+                                                                                                                      toggleEl.classList.add('is-open');
+                                                                                                                            menu.classList.add('show');
+                                                                                                                                  menu.style.height    = targetHeight + 'px';
+                                                                                                                                        menu.style.opacity   = '1';
+                                                                                                                                              menu.style.transform = 'translateY(0)';
+                                                                                                        });
+
+                                                                                                            const done = (e) => {
+                                                                                                                    if (e.propertyName !== 'height') return;
+                                                                                                                          menu.style.height = 'auto';
+                                                                                                                                menu.removeEventListener('transitionend', done);
+                                                                                                            };
+                                                                                                                menu.addEventListener('transitionend', done);
+
+                                                                                                                    openToggle = toggleEl;
+                                                          }
+
+                                                            function closeMenu(toggleEl) {
+                                                                  const menu = findMenu(toggleEl);
+                                                                      if (!menu) return;
+
+                                                                          prepMenuForAnimation(menu);
+                                                                              menu.style.height    = menu.scrollHeight + 'px';
+                                                                                  menu.style.opacity   = '1';
+                                                                                      menu.style.transform = 'translateY(0)';
+                                                                                          // force reflow
+                                                                                              // eslint-disable-next-line no-unused-expressions
+                                                                                                  menu.offsetHeight;
+
+                                                                                                      requestAnimationFrame(() => {
+                                                                                                              menu.style.height    = '0px';
+                                                                                                                    menu.style.opacity   = '0';
+                                                                                                                          menu.style.transform = 'translateY(-4px)';
+                                                                                                                                toggleEl.setAttribute('aria-expanded', 'false');
+                                                                                                                                      toggleEl.classList.remove('is-open');
+                                                                                                                                            menu.classList.remove('show');
+                                                                                                      });
+
+                                                                                                          const done = (e) => {
+                                                                                                                  if (e.propertyName !== 'height') return;
+                                                                                                                        menu.style.display    = 'none';
+                                                                                                                              menu.style.transition = '';
+                                                                                                                                    menu.style.height     = '';
+                                                                                                                                          menu.style.opacity    = '';
+                                                                                                                                                menu.style.transform  = '';
+                                                                                                                                                      menu.style.overflow   = '';
+                                                                                                                                                            menu.style.willChange = '';
+                                                                                                                                                                  menu.removeEventListener('transitionend', done);
+                                                                                                          };
+                                                                                                              menu.addEventListener('transitionend', done);
+
+                                                                                                                  if (openToggle === toggleEl) openToggle = null;
+                                                            }
+
+                                                              function getToggleFromTarget(target) { return target.closest('.' + TOGGLE_CLASS); }
+                                                                function getMenuLinkFromTarget(target) {
+                                                                      const link = target.closest(LINK_SELECTOR);
+                                                                          if (!link) return null;
+                                                                              return link.closest('.' + MENU_CLASS) ? link : null;
+                                                                }
+
+                                                                  // ====== POINTER (tap vs drag) ======
+                                                                    function onPointerDownStart(e) {
+                                                                          if (!isMobile()) return;
+                                                                              const root = navRoot();
+                                                                                  if (!root || !isInside(e.target, root)) return;
+                                                                                      if (activePointerId !== null) return; // track a single pointer
+
+                                                                                          activePointerId = e.pointerId;
+                                                                                              downX = e.clientX;
+                                                                                                  downY = e.clientY;
+                                                                                                      moved = false;
+                                                                                                          // Do not preventDefault; allow natural scrolling.
+                                                                    }
+
+                                                                      function onPointerMoveTrack(e) {
+                                                                            if (!isMobile()) return;
+                                                                                if (activePointerId === null || e.pointerId !== activePointerId) return;
+                                                                                    if (!moved) {
+                                                                                            const dx = Math.abs(e.clientX - downX);
+                                                                                                  const dy = Math.abs(e.clientY - downY);
+                                                                                                        if (dx > TOUCH_SLOP || dy > TOUCH_SLOP) moved = true; // scrolling
+                                                                                    }
+                                                                      }
+
+                                                                        function onPointerUpWithinNav(e) {
+                                                                              if (!isMobile()) return;
+                                                                                  if (activePointerId === null || e.pointerId !== activePointerId) return;
+
+                                                                                      const root = navRoot();
+                                                                                          const upTarget = e.target;
+                                                                                              activePointerId = null; // reset pointer tracking
+
+                                                                                                  if (moved) return; // treated as scroll — do nothing
+                                                                                                      if (!root || !isInside(upTarget, root)) return;
+
+                                                                                                          const clickedToggle   = getToggleFromTarget(upTarget);
+                                                                                                              const clickedMenuLink = getMenuLinkFromTarget(upTarget);
+
+                                                                                                                  // Tapped a dropdown toggle (this includes taps on the link text itself, since the <a> sits inside the LI.toggle)
+                                                                                                                      if (clickedToggle) {
+                                                                                                                              if (inGuard() && clickedToggle !== openToggle) {
+                                                                                                                                        e.preventDefault(); e.stopPropagation(); return;
+                                                                                                                              }
+                                                                                                                                    const isOpen = clickedToggle.classList.contains('is-open');
+
+                                                                                                                                          // Behavior A:
+                                                                                                                                                // - First tap on link text (menu closed) => OPEN
+                                                                                                                                                      // - Second tap on link text (menu open)  => FOLLOW (allow default)
+                                                                                                                                                            // - Caret taps are handled separately to only toggle (see injectCaretButtons)
+                                                                                                                                                                  if (!isOpen) {
+                                                                                                                                                                            e.preventDefault(); e.stopPropagation();
+                                                                                                                                                                                    openMenu(clickedToggle);
+                                                                                                                                                                                            startGuard();
+                                                                                                                                                                                                    return;
+                                                                                                                                                                  } else {
+                                                                                                                                                                            // Menu is already open
+                                                                                                                                                                                    if (inGuard()) { e.preventDefault(); e.stopPropagation(); return; }
+                                                                                                                                                                                            // Otherwise, allow default: if the target was actually the link text, browser will navigate.
+                                                                                                                                                                                                    // If target was the LI itself (not common), nothing happens.
+                                                                                                                                                                  }
+                                                                                                                      }
+
+                                                                                                                          // Tapped a link inside an open dropdown menu
+                                                                                                                              if (clickedMenuLink) {
+                                                                                                                                      if (inGuard()) { e.preventDefault(); e.stopPropagation(); return; }
+                                                                                                                                            closeAllMenus();
+                                                                                                                                                  // allow natural navigation
+                                                                                                                              }
+                                                                        }
+
+                                                                          function onPointerCancel(e) {
+                                                                                if (!isMobile()) return;
+                                                                                    if (e.pointerId === activePointerId) activePointerId = null;
+                                                                          }
+
+                                                                            // Close on true outside click only (not during scroll)
+                                                                              function onDocumentClick(e) {
+                                                                                    if (!isMobile()) return;
+                                                                                        const root = navRoot();
+                                                                                            if (!root) return;
+                                                                                                if (!isInside(e.target, root) && openToggle) {
+                                                                                                        closeAllMenus();
+                                                                                                              startGuard();
+                                                                                                }
+                                                                              }
+
+                                                                                // Prevent outside-close while interacting inside menus
+                                                                                  function attachMenuScrollGuards(root) {
+                                                                                        root.querySelectorAll('.' + MENU_CLASS).forEach(m => {
+                                                                                                m.addEventListener('pointerdown', e => e.stopPropagation(), { passive: true });
+                                                                                                      m.addEventListener('pointerup',   e => e.stopPropagation(), { passive: true });
+                                                                                                            m.addEventListener('click',       e => e.stopPropagation(), true); // capture
+                                                                                        });
+                                                                                  }
+
+                                                                                    function onKeyDown(e) {
+                                                                                          if (e.key === 'Escape' && openToggle) { closeAllMenus(); startGuard(); }
+                                                                                    }
+
+                                                                                      function onResize() {
+                                                                                            if (!isMobile()) {
+                                                                                                    closeAllMenus();
+                                                                                                          guardUntil = 0;
+                                                                                                                const root = navRoot();
+                                                                                                                      if (root) root.classList.remove(ROOT_GUARD_CLASS);
+                                                                                            }
+                                                                                      }
+
+                                                                                        // ====== CARET HINT: "tap again to visit" pulse on link text ======
+                                                                                          function initCaretHint() {
+                                                                                                const root = navRoot();
+                                                                                                    if (!root) return;
+
+                                                                                                        // Ensure li.has-sub exists wherever there is a submenu (keeps CSS in sync if used)
+                                                                                                            root.querySelectorAll('li').forEach(li => {
+                                                                                                                    if (li.querySelector('.' + MENU_CLASS)) li.classList.add('has-sub');
+                                                                                                            });
+
+                                                                                                                // If the toggle isn't the <a> itself, use nearest link for the hint class.
+                                                                                                                    function nearestLinkOrSelf(el) {
+                                                                                                                            if (!el) return null;
+                                                                                                                                  if (el.matches && el.matches('a')) return el;
+                                                                                                                                        const a = el.querySelector && el.querySelector(':scope > a, a');
+                                                                                                                                              return a || el;
+                                                                                                                    }
+
+                                                                                                                        const obs = new MutationObserver(muts => {
+                                                                                                                                for (const m of muts) {
+                                                                                                                                          if (m.type !== 'attributes' || m.attributeName !== 'class') continue;
+                                                                                                                                                  const el = m.target;
+                                                                                                                                                          if (!el.classList || !el.classList.contains(TOGGLE_CLASS)) continue;
+
+                                                                                                                                                                  const link = nearestLinkOrSelf(el);
+                                                                                                                                                                          if (!link) continue;
+
+                                                                                                                                                                                  if (el.classList.contains('is-open')) {
+                                                                                                                                                                                              // Restart animation reliably: remove then re-add after a reflow tick
+                                                                                                                                                                                                        link.classList.remove('hint-next-tap');
+                                                                                                                                                                                                                  void link.offsetWidth; // force reflow
+                                                                                                                                                                                                                            link.classList.add('hint-next-tap');
+
+                                                                                                                                                                                                                                      // Auto-clear after animation, or on next user action
+                                                                                                                                                                                                                                                clearTimeout(link._hintTimer);
+                                                                                                                                                                                                                                                          link._hintTimer = setTimeout(() => link.classList.remove('hint-next-tap'), 1400);
+
+                                                                                                                                                                                                                                                                    const clear = () => link.classList.remove('hint-next-tap');
+                                                                                                                                                                                                                                                                              link.addEventListener('pointerdown', clear, { once: true, passive: true });
+                                                                                                                                                                                                                                                                                        link.addEventListener('click',       clear, { once: true, capture: true });
+                                                                                                                                                                                  } else {
+                                                                                                                                                                                              link.classList.remove('hint-next-tap');
+                                                                                                                                                                                                        clearTimeout(link._hintTimer);
+                                                                                                                                                                                  }
+                                                                                                                                }
+                                                                                                                        });
+
+                                                                                                                            obs.observe(root, { subtree: true, attributes: true, attributeFilter: ['class'] });
+                                                                                          }
+
+                                                                                            // ====== REAL, TAPPABLE CARET BUTTONS (toggle-only) ======
+                                                                                              function injectCaretButtons() {
+                                                                                                    const root = navRoot();
+                                                                                                        if (!root) return;
+
+                                                                                                            root.querySelectorAll('.' + TOGGLE_CLASS).forEach(toggle => {
+                                                                                                                    const link = toggle.querySelector(':scope > a') || toggle.querySelector('a');
+                                                                                                                          const menu = findMenu(toggle);
+                                                                                                                                if (!link || !menu) return;
+
+                                                                                                                                      // Avoid duplicates
+                                                                                                                                            if (link.querySelector('.mobile-caret')) return;
+
+                                                                                                                                                  // Mark has-sub for CSS hooks (if used)
+                                                                                                                                                        link.closest('li')?.classList.add('has-sub');
+
+                                                                                                                                                              // Create caret hit target
+                                                                                                                                                                    const caret = document.createElement('span');
+                                                                                                                                                                          caret.className = 'mobile-caret';
+                                                                                                                                                                                caret.setAttribute('role', 'button');
+                                                                                                                                                                                      caret.setAttribute('tabindex', '-1');
+                                                                                                                                                                                            caret.setAttribute('aria-label', 'Toggle menu');
+                                                                                                                                                                                                  link.appendChild(caret);
+
+                                                                                                                                                                                                        // Pointer handler for caret taps (toggle-only)
+                                                                                                                                                                                                              const onCaretTap = (e) => {
+                                                                                                                                                                                                                        if (!isMobile()) return; // only special behavior on mobile
+                                                                                                                                                                                                                                e.preventDefault();
+                                                                                                                                                                                                                                        e.stopPropagation();
+
+                                                                                                                                                                                                                                                const isOpen = toggle.classList.contains('is-open');
+                                                                                                                                                                                                                                                        if (isOpen) {
+                                                                                                                                                                                                                                                                    closeMenu(toggle);          // collapse if open
+                                                                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                                                                                    openMenu(toggle);           // expand if closed
+                                                                                                                                                                                                                                                                              // Since user used caret, keep link's 2-tap behavior intact (Behavior A):
+                                                                                                                                                                                                                                                                                        // do NOT consume their "first tap" on the link.
+                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                startGuard();
+                                                                                                                                                                                                              };
+
+                                                                                                                                                                                                                    caret.addEventListener('pointerup', onCaretTap, { passive: false });
+                                                                                                                                                                                                                          caret.addEventListener('click', onCaretTap, { capture: true });
+                                                                                                            });
+                                                                                              }
+
+                                                                                                // ====== INIT ======
+                                                                                                  function init() {
+                                                                                                        const root = navRoot();
+                                                                                                            if (!root) return;
+
+                                                                                                                // Start with menus hidden
+                                                                                                                    root.querySelectorAll('.' + MENU_CLASS).forEach(m => { m.style.display = 'none'; });
+
+                                                                                                                        // Gesture tracking — decide on pointerup (not pointerdown)
+                                                                                                                            root.addEventListener('pointerdown',  onPointerDownStart, { passive: true });
+                                                                                                                                root.addEventListener('pointermove',  onPointerMoveTrack, { passive: true });
+                                                                                                                                    root.addEventListener('pointerup',    onPointerUpWithinNav, { passive: false });
+                                                                                                                                        root.addEventListener('pointercancel', onPointerCancel, { passive: true });
+
+                                                                                                                                            // Global listeners
+                                                                                                                                                document.addEventListener('click', onDocumentClick, true);
+                                                                                                                                                    document.addEventListener('keydown', onKeyDown, false);
+                                                                                                                                                        window.addEventListener('resize', onResize);
+
+                                                                                                                                                            // Keep outside-close from firing during menu interactions
+                                                                                                                                                                attachMenuScrollGuards(root);
+
+                                                                                                                                                                    // Caret hint observer (pulses the link on first open)
+                                                                                                                                                                        initCaretHint();
+
+                                                                                                                                                                            // Build tappable carets
+                                                                                                                                                                                injectCaretButtons();
+
+                                                                                                                                                                                    console.log('Mobile nav (<=991px): 2-tap links, caret toggle-only, drag-safe, transitions, hint pulse.');
+                                                                                                  }
+
+                                                                                                    if (document.readyState === 'loading') {
+                                                                                                          document.addEventListener('DOMContentLoaded', init);
+                                                                                                    } else {
+                                                                                                          init();
+                                                                                                    }
+})();
 </script>
+                                                                                                    }
+                                                                                                    }
+                                                                                                  }
+                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                              }
+                                                                                                            })
+                                                                                              }
+                                                                                                                                                                                  }
+                                                                                                                                                                                  }
+                                                                                                                                }
+                                                                                                                        })
+                                                                                                                    }
+                                                                                                            })
+                                                                                          }
+                                                                                            }
+                                                                                      }
+                                                                                    }
+                                                                                        })
+                                                                                  }
+                                                                                                }
+                                                                              }
+                                                                          }
+                                                                                                                              }
+                                                                                                                                                                  }
+                                                                                                                                                                  }
+                                                                                                                              }
+                                                                                                                      }
+                                                                        }
+                                                                                    }
+                                                                      }
+                                                                    }
+                                                                }
+                                                                                                          }
+                                                                                                      })
+                                                            }
+                                                                                                            }
+                                                                                                        })
+                                                          }
+                                                        }
+                                                                  })
+                                                    }
+                                                  }
+                                                                        })
+                                              }
+})
+})
 
 <style>
 /* === Mobile nav caret + rotate + first-tap pulse (CF-safe: double ##) === */
