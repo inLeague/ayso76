@@ -249,6 +249,8 @@ nav.navbar {
         color: #ef832f;
         text-decoration: none; }
 
+ /*GBZ*/
+
 #navbarNav .dropdown-menu {
   padding: 15px 20px;
   margin-top: 0;
@@ -260,7 +262,10 @@ nav.navbar {
       color: #206B70;
       font-family: "Fjalla One";
       text-transform: uppercase; }
-  #navbarNav .dropdown-menu li a {
+
+ /*GBZ*/
+
+   #navbarNav .dropdown-menu li a {
     color: #D69048;
     font-weight: 600;
     font-family: "Noto Sans";
@@ -333,8 +338,8 @@ nav.navbar {
     #navbarMobileNav .dropdown-menu li a { 
       color: #D69048;
       font-weight: 600;
-      font-family: 'Fjalla One';
-      font-size: 1.5em;
+      font-family: 'Noto Sans';
+      font-size: .9em;
       text-transform: uppercase;
       display: inline-block;
       line-height: 1.18em;
