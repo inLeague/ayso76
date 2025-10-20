@@ -4,7 +4,7 @@
 .yt-inline {
   display: flex;
   align-items: center;
-  gap: 10px;               /* spacing between text and icon */
+  gap: 10px;               /* spacing between text, arrow, and icon */
   line-height: 1.4;
   flex-wrap: nowrap;
   white-space: nowrap;
@@ -24,10 +24,11 @@
   text-decoration: underline;
 }
 
-/* Arrow styling */
+/* Arrow (SVG) — inherits text color, no emoji/blue background */
 .yt-arrow {
-  font-weight: 600;
-  margin-left: 4px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 2px;
 }
 
 /* Image trigger (YouTube play icon) */
