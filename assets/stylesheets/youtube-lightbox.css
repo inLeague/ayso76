@@ -1,44 +1,72 @@
 /* === YouTube Lightbox Popup (CMS-safe) === */
 
-/* Trigger */
-.yt-trigger {
-  display: inline-flex;
+/* Inline single-line layout: text → arrow → icon */
+.yt-inline {
+  display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 10px;               /* spacing between text and icon */
+  line-height: 1.4;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+/* Clickable text trigger */
+.yt-text {
+  font-size: 1rem;         /* adjust as needed */
+  color: #000;             /* change to your brand color */
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  outline: none;
+}
+.yt-text:hover,
+.yt-text:focus-visible {
+  text-decoration: underline;
+}
+
+/* Arrow styling */
+.yt-arrow {
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+/* Image trigger (YouTube play icon) */
+.yt-img {
+  display: inline-block;
   width: 36px;
   height: 36px;
-  padding: 0;
-  border: none;
   border-radius: 6px;
-  background: #ff0000; /* YouTube red */
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
   cursor: pointer;
   transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease;
+  vertical-align: middle;
 }
-.yt-trigger .yt-icon { fill: #fff; }
-.yt-trigger:hover,
-.yt-trigger:focus-visible {
+.yt-img:hover,
+.yt-img:focus-visible {
   transform: scale(1.06);
   box-shadow: 0 6px 16px rgba(0,0,0,.25);
   outline: none;
 }
-.yt-trigger:active { transform: scale(0.97); }
+.yt-img:active {
+  transform: scale(0.97);
+}
 
-/* Overlay (built by JS and appended to <body>) */
+/* Lightbox overlay (inserted by JS) */
 .yt-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,.65);
-  display: none;             /* default off */
+  display: none;            /* off by default */
   place-items: center;
   z-index: 9999;
   opacity: 0;
 }
 .yt-overlay.is-open {
-  display: grid;             /* on when open */
+  display: grid;            /* on when open */
   animation: ytFadeIn .18s ease forwards;
 }
 
-/* Dialog */
+/* Dialog container */
 .yt-dialog {
   position: relative;
   width: min(92vw, 960px);
