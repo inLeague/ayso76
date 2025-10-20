@@ -129,6 +129,17 @@ body.yt-no-scroll {
 @keyframes ytPop {
   to { transform: scale(1); }
 }
+/* Arrow (pure CSS, cannot be removed by CMS) */
+.yt-arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 10px solid currentColor;
+  margin-left: 4px;
+  margin-right: 4px;
+}
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
