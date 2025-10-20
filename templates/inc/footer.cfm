@@ -193,17 +193,17 @@ document.addEventListener('DOMContentLoaded', function () {
     40%  { transform: translateY(calc(-50% - 1px)) rotate(180deg) scale(1.28); filter: drop-shadow(0 1px 0 rgba(0,0,0,.2)); opacity: 1; }
     100% { transform: translateY(-50%) rotate(180deg) scale(1);     filter: drop-shadow(0 0 0 rgba(0,0,0,0)); opacity: 1; }
   }
-  /* Make the whole link flash on the first tap, just like the caret */
+  /* Make the whole link enlarge/pulse just like the caret */
   ##navbarMobileNav .nav-list li.has-sub > a.hint-next-tap {
-      /* run alongside the caret animation timing */
-        animation: linkPulseOpen 900ms ease-out 120ms 1 both;
+      animation: linkPulseOpen 900ms ease-out 120ms 1 both;
+        display: inline-block; /* allows transform scaling without layout weirdness */
+          transform-origin: center;
   }
 
-  /* Gentle glow/flash that respects currentColor (so it matches your link color) */
   @keyframes linkPulseOpen {
-      0%   { text-shadow: 0 0 0 rgba(0,0,0,0); opacity: .95; }
-        40%  { text-shadow: 0 0 0.6em currentColor; opacity: 1; }
-          100% { text-shadow: 0 0 0 rgba(0,0,0,0); opacity: 1; }
+      0%   { transform: scale(1); opacity: .95; }
+        40%  { transform: scale(1.28); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
   }
 
   /* Respect reduced motion */
@@ -211,6 +211,10 @@ document.addEventListener('DOMContentLoaded', function () {
       ##navbarMobileNav .nav-list li.has-sub > a.hint-next-tap {
             animation: none !important;
       }
+  }
+      }
+  }
+  }
   }
       }
   }
