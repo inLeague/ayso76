@@ -1,9 +1,5 @@
 /* ===========================
-   Region 76 Hero Gallery – Full CSS
-   - Full-bleed layout
-   - Wing lines & shimmer on row (pseudo-elements)
-   - Gallery with glow, rounded corners, hover lift/zoom
-   - Crossfade synced with fadeDurationMs via --fade-ms
+   Region 76 Hero Gallery – Full CSS (Row Wings + Glint)
    =========================== */
 
 /* ====== Layout Row (wings live here) ====== */
@@ -14,7 +10,7 @@
   gap: 0;
 }
 
-/* Full-bleed: extend wings/gallery across viewport */
+/* Full-bleed: extend across viewport */
 .r76-fullbleed {
   width: 100vw;
   position: relative;
@@ -23,56 +19,60 @@
 }
 
 /* JS applies this when centered:true */
-.r76-center {
-  justify-content: center;
-}
+.r76-center { justify-content: center; }
 
-/* ====== Wings (pseudo-elements) ======
-   These stretch from gallery edges to window edges.
-   JS sets:
-     --wing-left
-     --wing-right
-*/
+/* ====== Wings on row (stable base + animated glint) ====== */
 .r76-row::before,
 .r76-row::after {
   content: "";
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  height: 2px; /* match gallery border thickness */
+  height: 2px; /* match gallery border */
   pointer-events: none;
+  /* Two layers: 1) moving glint (first), 2) constant base gold (second) */
+  background-repeat: no-repeat, no-repeat;
+  background-size: 16vw 4px, 100% 2px;  /* glint size, base size */
   box-shadow:
     0 0 14px rgba(0, 0, 0, 0.55),
     0 0 18px rgba(214, 144, 72, 0.55);
 }
 
-/* Left wing (extends to left edge of viewport) */
+/* Left wing: viewport left → gallery’s left edge */
 .r76-row::before {
   left: 0;
   width: var(--wing-left, 0px);
-  background: linear-gradient(
-    to left,
-    rgba(214,144,72,0.85) 0%,
-    rgba(214,144,72,0.55) 35%,
-    rgba(214,144,72,0.25) 60%,
-    rgba(214,144,72,0.00) 100%
-  );
+  background-image:
+    linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0) 100%),
+    linear-gradient(to left,
+      rgba(214,144,72,0.85) 0%,
+      rgba(214,144,72,0.55) 35%,
+      rgba(214,144,72,0.25) 60%,
+      rgba(214,144,72,0.00) 100%
+    );
+  background-position:
+    -20vw 50%, /* glint off-screen at start */
+    0 50%;     /* base line pinned */
 }
 
-/* Right wing (extends to right edge of viewport) */
+/* Right wing: gallery’s right edge → viewport right */
 .r76-row::after {
   right: 0;
   width: var(--wing-right, 0px);
-  background: linear-gradient(
-    to right,
-    rgba(214,144,72,0.85) 0%,
-    rgba(214,144,72,0.55) 35%,
-    rgba(214,144,72,0.25) 60%,
-    rgba(214,144,72,0.00) 100%
-  );
+  background-image:
+    linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0) 100%),
+    linear-gradient(to right,
+      rgba(214,144,72,0.85) 0%,
+      rgba(214,144,72,0.55) 35%,
+      rgba(214,144,72,0.25) 60%,
+      rgba(214,144,72,0.00) 100%
+    );
+  background-position:
+    20vw 50%,  /* glint off-screen at start */
+    0 50%;
 }
 
-/* Hover glow parity with gallery */
+/* Hover glow parity */
 .r76-row:hover::before,
 .r76-row:hover::after {
   box-shadow:
@@ -80,25 +80,28 @@
     0 0 26px rgba(214, 144, 72, 0.70);
 }
 
-/* ====== Pulse-on-slide shimmer (subtle) ======
-   JS toggles .pulse-shimmer on row
-*/
-@keyframes r76-pulse-shimmer {
-  0%   { opacity: 0; }
-  12%  { opacity: 0.9; }
-  52%  { opacity: 0.6; }
-  100% { opacity: 0; }
+/* Glint sweeps only (base line never fades) */
+@keyframes r76-glint-left {
+  0%   { background-position: -20vw 50%, 0 50%; }
+  100% { background-position: 130% 50%, 0 50%; }
+}
+@keyframes r76-glint-right {
+  0%   { background-position: 20vw 50%, 0 50%; }
+  100% { background-position: -130% 50%, 0 50%; }
 }
 
-.r76-row.pulse-shimmer::before,
+/* JS toggles .pulse-shimmer on the row for one sweep */
+.r76-row.pulse-shimmer::before {
+  animation: r76-glint-left var(--fade-ms, 2500ms) ease-out 1;
+}
 .r76-row.pulse-shimmer::after {
-  animation: r76-pulse-shimmer var(--fade-ms, 2500ms) ease-out 1;
+  animation: r76-glint-right var(--fade-ms, 2500ms) ease-out 1;
 }
 
 /* ====== Gallery Frame ====== */
 .r76-gallery {
   position: relative;
-  overflow: hidden;              /* retains rounded corners */
+  overflow: hidden;              /* keeps rounded corners */
   background: #2d2f30;
   border: 2px solid #D69048;
   border-radius: 14px;
@@ -134,7 +137,7 @@
 }
 .r76-gallery .r76-layer.show { opacity: 1; }
 
-/* ====== Image Behavior ====== */
+/* ====== Image ====== */
 .r76-gallery .r76-layer > img {
   display: block;
   width: 100%;
@@ -147,11 +150,7 @@
   transform: scale(1);
   transition: transform var(--fade-ms, 2500ms) ease;
 }
-
-/* Subtle inner zoom on hover */
-.r76-gallery:hover .r76-layer.show > img {
-  transform: scale(1.03);
-}
+.r76-gallery:hover .r76-layer.show > img { transform: scale(1.03); }
 
 /* ====== Caption ====== */
 .r76-caption {
@@ -159,7 +158,7 @@
   left: 0; right: 0; bottom: 0;
   padding: 10px 14px;
   color: #fff;
-  font: 600 14px / 1.35 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font: 600 14px/1.35 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   text-shadow: 0 1px 2px rgba(0,0,0,0.6);
   background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0));
   opacity: 0.98;
@@ -167,6 +166,4 @@
 }
 
 /* Presence before first image loads */
-#homepageImageGallery {
-  min-height: 120px;
-}
+#homepageImageGallery { min-height: 120px; }
