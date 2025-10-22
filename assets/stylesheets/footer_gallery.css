@@ -1,0 +1,87 @@
+/* ===========================
+   Region 76 Gallery (Final)
+   - 14px rounded corners
+   - Hover glow
+   - Zoom on hover
+   - Captions
+   - JS handles click-through
+   =========================== */
+
+/* Gallery frame (no <a> wrapper; JS adds click) */
+.r76-gallery {
+  position: relative;
+  overflow: hidden;              /* clips image to rounded corners */
+  width: 100%;
+  max-width: 100%;
+  background: #2d2f30;
+  border: 2px solid #D69048;
+  border-radius: 14px;           /* <- final radius */
+  box-shadow:
+    0 0 14px rgba(0, 0, 0, 0.55),
+    0 0 18px rgba(214, 144, 72, 0.55);
+  transition: box-shadow 220ms ease, transform 220ms ease;
+  cursor: pointer;               /* clickable via JS */
+}
+
+/* Hover glow */
+.r76-gallery:hover {
+  box-shadow:
+    0 0 18px rgba(0, 0, 0, 0.65),
+    0 0 26px rgba(214, 144, 72, 0.70);
+}
+
+/* Aspect wrapper (controls height shape: 640px vs fallback width ratio) */
+.r76-gallery .r76-aspect {
+  position: relative;
+  width: 100%;
+  background: #111;              /* subtle backdrop behind images */
+}
+
+/* Crossfade layers */
+.r76-gallery .r76-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--fade-ms, 900ms) ease-in-out;
+  will-change: opacity;
+}
+
+.r76-gallery .r76-layer.show { opacity: 1; }
+
+/* Images fill the frame and zoom slightly on hover */
+.r76-gallery .r76-layer > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;             /* full-bleed within frame */
+  object-position: center center;
+  pointer-events: none;          /* clicks go to frame */
+  user-drag: none;
+  -webkit-user-drag: none;
+  transform: scale(1);
+  transition: transform 320ms ease;
+}
+
+/* Zoom the *visible* image only */
+.r76-gallery:hover .r76-layer.show > img {
+  transform: scale(1.03);
+}
+
+/* Caption overlay */
+.r76-caption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 10px 14px;
+  color: #fff;
+  font: 600 14px/1.35 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0));
+  opacity: 0.98;
+  pointer-events: none;          /* keep clicks on the frame */
+}
+
+/* Safety: ensure there’s always some height even if JS hasn’t run yet */
+#homepageImageGallery,
+#homepageImageGallery .r76-aspect {
+  min-height: 120px;
+}
