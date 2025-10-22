@@ -11,8 +11,10 @@
 .r76-gallery {
   position: relative;
   overflow: hidden;              /* clips image to rounded corners */
-  width: 100%;
-  max-width: 100%;
+  /* Ensure the frame's height is fixed; width can adapt */
+  height: 640px;         /* your default */
+  width: auto;           /* let width adjust */
+  max-width: 100%;       /* never overflow layout */
   background: #2d2f30;
   border: 2px solid #D69048;
   border-radius: 14px;           /* <- final radius */
