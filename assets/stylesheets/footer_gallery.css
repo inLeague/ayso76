@@ -1,114 +1,28 @@
-/* ===========================
-   Region 76 Gallery — Full Bundle
-   =========================== */
-
-/* Row wrapper: flex with three children (left wing, gallery, right wing) */
+/* ====== Row / layout ====== */
 .r76-row {
   display: flex;
   align-items: center;
-  gap: 0;                 /* wings touch gallery border */
+  gap: 0;
 }
-
-/* Full-bleed: extend row to window edges even inside a constrained container */
 .r76-fullbleed {
   width: 100vw;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
 }
+.r76-center { justify-content: center; }
 
-/* JS adds this when centered:true */
-.r76-center {
-  justify-content: center;
-}
-
-/* Gold “wing” gradients (no straight lines) */
-.r76-wing {
-  flex: 1 1 auto;
-  height: 2px;                         /* same weight as gallery border */
-  position: relative;
-  pointer-events: none;
-  box-shadow:
-    0 0 14px rgba(0, 0, 0, 0.55),
-    0 0 18px rgba(214, 144, 72, 0.55);
-  overflow: visible;                    /* shimmer can softly bleed */
-}
-
-/* Left wing fades toward the left window edge */
-.r76-wing-left {
-  background: linear-gradient(
-    to left,
-    rgba(214, 144, 72, 0.85) 0%,
-    rgba(214, 144, 72, 0.55) 35%,
-    rgba(214, 144, 72, 0.25) 60%,
-    rgba(214, 144, 72, 0.00) 100%
-  );
-}
-
-/* Right wing fades toward the right window edge */
-.r76-wing-right {
-  background: linear-gradient(
-    to right,
-    rgba(214, 144, 72, 0.85) 0%,
-    rgba(214, 144, 72, 0.55) 35%,
-    rgba(214, 144, 72, 0.25) 60%,
-    rgba(214, 144, 72, 0.00) 100%
-  );
-}
-
-/* Intensify glow on hover of the whole row (matches gallery hover) */
-.r76-row:hover .r76-wing {
-  box-shadow:
-    0 0 18px rgba(0, 0, 0, 0.65),
-    0 0 26px rgba(214, 144, 72, 0.70);
-}
-
-/* --- Subtle pulse-on-slide shimmer (triggered by JS class) --- */
-.r76-wing::after {
-  content: "";
-  position: absolute;
-  top: -1px;
-  width: 40%;          /* narrow subtle streak */
-  height: 4px;         /* slightly larger than line to feel like a glint */
-  opacity: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(255,255,255,0) 0%,
-    rgba(255,255,255,0.28) 50%,
-    rgba(255,255,255,0) 100%
-  );
-  filter: blur(1.5px);
-  /* no animation by default; JS adds .pulse-shimmer to run it once */
-}
-
-/* Start positions & direction */
-.r76-wing-left::after  { left: -35%; }
-.r76-wing-right::after { right: -35%; transform: scaleX(-1); }
-
-/* One-shot keyframes (subtle, duration driven by --fade-ms for sync) */
-@keyframes r76-pulse-shimmer {
-  0%   { transform: translateX(0);   opacity: 0; }
-  12%  { opacity: 0.9; }
-  52%  { opacity: 0.6; }
-  100% { transform: translateX(220%); opacity: 0; }
-}
-
-/* JS toggles this class briefly to fire the shimmer once */
-.r76-wing.pulse-shimmer::after {
-  animation: r76-pulse-shimmer var(--fade-ms, 2500ms) ease-out 1;
-}
-
-/* --- Gallery core styling --- */
+/* ====== Gallery core ====== */
 .r76-gallery {
   position: relative;
-  overflow: hidden;              /* clip image to rounded corners */
+  overflow: hidden;
   background: #2d2f30;
   border: 2px solid #D69048;
   border-radius: 14px;
   box-shadow:
     0 0 14px rgba(0, 0, 0, 0.55),
     0 0 18px rgba(214, 144, 72, 0.55);
-  cursor: pointer;               /* clickable via JS toggle */
+  cursor: pointer;
   transition:
     width var(--fade-ms, 2500ms) ease,
     height var(--fade-ms, 2500ms) ease,
@@ -116,10 +30,8 @@
     transform 220ms ease;
   height: auto;
   max-width: 100%;
-  transform-origin: center center; /* nicer hover feel */
+  transform-origin: center center;
 }
-
-/* Hover glow + frame lift */
 .r76-gallery:hover {
   box-shadow:
     0 0 18px rgba(0, 0, 0, 0.65),
@@ -127,7 +39,7 @@
   transform: scale(1.02);
 }
 
-/* Crossfade layers (duration tied to --fade-ms) */
+/* Crossfade layers */
 .r76-gallery .r76-layer {
   position: absolute;
   inset: 0;
@@ -136,13 +48,11 @@
   will-change: opacity;
 }
 .r76-gallery .r76-layer.show { opacity: 1; }
-
-/* Image fills the frame; visible slide zooms slightly on hover */
 .r76-gallery .r76-layer > img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;             /* full-bleed crop */
+  object-fit: cover;
   object-position: center center;
   pointer-events: none;
   user-drag: none;
@@ -162,8 +72,83 @@
   text-shadow: 0 1px 2px rgba(0,0,0,0.6);
   background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0));
   opacity: 0.98;
-  pointer-events: none;          /* clicks go to the frame */
+  pointer-events: none;
+}
+#homepageImageGallery { min-height: 120px; }
+
+/* ====== Wings (no extra elements) ======
+   Drawn with ::before (left) and ::after (right) on the gallery.
+   Each is a 2px line that starts exactly at the gallery border and
+   extends outward toward the window edges. */
+.r76-gallery::before,
+.r76-gallery::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 2px;                       /* match gallery border weight */
+  pointer-events: none;
+  box-shadow:
+    0 0 14px rgba(0, 0, 0, 0.55),
+    0 0 18px rgba(214, 144, 72, 0.55); /* same glow stack */
 }
 
-/* Presence before first image loads */
-#homepageImageGallery { min-height: 120px; }
+/* Left wing: from gallery edge to left window edge */
+.r76-gallery::before {
+  left: -50vw;                        /* extend outward */
+  width: 50vw;
+  background: linear-gradient(
+    to left,
+    rgba(214,144,72,0.85) 0%,
+    rgba(214,144,72,0.55) 35%,
+    rgba(214,144,72,0.25) 60%,
+    rgba(214,144,72,0.00) 100%
+  );
+}
+
+/* Right wing: from gallery edge to right window edge */
+.r76-gallery::after {
+  right: -50vw;
+  width: 50vw;
+  background: linear-gradient(
+    to right,
+    rgba(214,144,72,0.85) 0%,
+    rgba(214,144,72,0.55) 35%,
+    rgba(214,144,72,0.25) 60%,
+    rgba(214,144,72,0.00) 100%
+  );
+}
+
+/* Hover glow parity for wings */
+.r76-row:hover .r76-gallery::before,
+.r76-row:hover .r76-gallery::after {
+  box-shadow:
+    0 0 18px rgba(0, 0, 0, 0.65),
+    0 0 26px rgba(214, 144, 72, 0.70);
+}
+
+/* ====== Pulse-on-slide shimmer on wings (via class on .r76-gallery) ====== */
+/* subtle glint streak */
+@keyframes r76-pulse-shimmer {
+  0%   { transform: translateY(-50%) translateX(0);   opacity: 0; }
+  12%  { opacity: 0.9; }
+  52%  { opacity: 0.6; }
+  100% { transform: translateY(-50%) translateX(220%); opacity: 0; }
+}
+
+/* Use ::before/::after overlay streaks, triggered by .pulse-shimmer */
+.r76-gallery.pulse-shimmer::before,
+.r76-gallery.pulse-shimmer::after {
+  /* add a separate shimmer layer using box-shadow-like white streak;
+     we simulate it by temporarily animating the background position */
+}
+
+/* Implement the streak using extra pseudo effects */
+.r76-gallery.pulse-shimmer::before {
+  /* left wing shimmer: run once */
+  animation: r76-pulse-shimmer var(--fade-ms, 2500ms) ease-out 1;
+}
+.r76-gallery.pulse-shimmer::after {
+  /* right wing shimmer: mirror direction via background flip */
+  animation: r76-pulse-shimmer var(--fade-ms, 2500ms) ease-out 1 reverse;
+}
