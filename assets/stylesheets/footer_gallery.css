@@ -19,12 +19,15 @@
     transform 220ms ease;
   max-width: 100%;
   height: auto;
+  transform-origin: center center;
 }
 
+/* Hover glow + frame lift + smooth enlarge */
 .r76-gallery:hover {
   box-shadow:
     0 0 18px rgba(0, 0, 0, 0.65),
     0 0 26px rgba(214, 144, 72, 0.70);
+  transform: scale(1.02); /* restored lift */
 }
 
 .r76-gallery .r76-layer {
