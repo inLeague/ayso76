@@ -3,6 +3,7 @@
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 /* Floating slider with bottom-only shadow + thin border; width ≤1600px */
+/* Floating slider: smoother hover using box-shadow (no filter animation) */
 .r76-wrap {
   width: min(99vw, 1600px);
   max-width: 1600px;
@@ -15,22 +16,27 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   background: transparent;
   border: 1px solid rgba(0,0,0,.14);
 
-  /* Floating hover-shadow (default resting state) */
-  transition: transform 0.35s ease, filter 0.35s ease;
-  filter:
-    drop-shadow(0 20px 45px rgba(0, 0, 0, 0.32))
-    drop-shadow(0 4px 12px rgba(0, 0, 0, 0.22))
-    drop-shadow(0 0 18px rgba(0, 0, 0, 0.12));
+  /* Smooth, GPU-friendly transitions */
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  will-change: transform, box-shadow;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+
+  /* Resting elevation (ambient + lower) */
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.32),
+    0  4px 12px rgba(0, 0, 0, 0.22),
+    0  0 18px rgba(0, 0, 0, 0.12);
 }
 
-/* Hover lift & deeper shadow (desktop only) */
+/* Desktop-only hover lift (no scale to avoid layout micro-shifts) */
 @media (hover: hover) and (pointer: fine) {
   .r76-wrap:hover {
-    transform: translateY(-4px) scale(1.01); /* subtle lift */
-    filter:
-      drop-shadow(0 26px 55px rgba(0, 0, 0, 0.38))
-      drop-shadow(0 6px 16px rgba(0, 0, 0, 0.25))
-      drop-shadow(0 0 22px rgba(0, 0, 0, 0.18));
+    transform: translateY(-4px); /* subtle lift without reflow */
+    box-shadow:
+      0 26px 55px rgba(0, 0, 0, 0.38),
+      0  6px 16px rgba(0, 0, 0, 0.25),
+      0  0 22px rgba(0, 0, 0, 0.18);
   }
 }
 
