@@ -184,7 +184,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 }
 /* --- Image zoom-on-hover (desktop only) --- */
 .carousel-slide img {
-  transition: transform 0.6s ease;  /* smooth animation */
+  transition: transform 1200ms ease;  /* smooth animation */
 }
 
 @media (hover: hover) and (pointer: fine) {
