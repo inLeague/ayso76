@@ -208,3 +208,52 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
     height: 45px;
   }
 }
+/* ---- Micro shadow fade on captions (sync with 1.2s zoom) ---- */
+
+/* 1) Prepare the caption to host a fading overlay */
+.caption {
+  position: absolute; /* already set in your CSS */
+  /* add the longer transition so it matches the image zoom */
+  transition: opacity .6s ease;
+}
+.caption > * {
+  position: relative;
+  z-index: 1; /* keep text above the overlay */
+}
+
+/* 2) Overlay that gently darkens on hover to lift readability */
+.caption::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* very subtle extra darkness that will fade in */
+  background: linear-gradient(to top, rgba(0,0,0,0.22), rgba(0,0,0,0) 65%);
+  opacity: 0;
+  transition: opacity 1.2s ease;  /* sync with image zoom */
+  pointer-events: none;
+  z-index: 0; /* sits behind text, above the image */
+}
+
+/* 3) Smoothly strengthen text shadows on hover (also 1.2s) */
+.caption h2,
+.caption p {
+  transition: text-shadow 1.2s ease, filter 1.2s ease;
+}
+
+/* Desktop-only hover behavior so mobile/touch won’t “stick” */
+@media (hover: hover) and (pointer: fine) {
+  .carousel-slide:hover .caption::before {
+    opacity: 1; /* fade in the micro-shadow overlay */
+  }
+
+  .carousel-slide:hover .caption h2 {
+    /* slightly stronger & broader than your base shadow */
+    text-shadow: 4px 6px 14px rgba(0,0,0,0.96);
+    filter: brightness(1.03);
+  }
+
+  .carousel-slide:hover .caption p {
+    text-shadow: 3px 4px 10px rgba(0,0,0,0.92);
+    filter: brightness(1.02);
+  }
+}
