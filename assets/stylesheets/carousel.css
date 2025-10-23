@@ -5,223 +5,171 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* Floating slider card; width ≤1600px */
 .r76-wrap {
   width: min(99vw, 1600px);
-  max-width: 1600px;
-  margin: 0 auto;
-  position: relative;
-  font-family: Arial, sans-serif;
+    max-width: 1600px;
+      margin: 0 auto;
+        position: relative;
+          font-family: Arial, sans-serif;
 
-  border-radius: 12px;
-  overflow: hidden;
-  background: transparent;
-  border: 1px solid rgba(0,0,0,.14);
+            border-radius: 12px;
+              overflow: hidden;
+                background: transparent;
+                  border: 1px solid rgba(0,0,0,.14);
 
-  /* Smooth, GPU-friendly transitions (luxury easing) */
-  transition: transform 0.35s cubic-bezier(.22, .61, .36, 1),
-              box-shadow 0.35s cubic-bezier(.22, .61, .36, 1);
-  will-change: transform, box-shadow;
-  backface-visibility: hidden;
-  transform: translateZ(0);
+                    /* Static resting elevation (no hover animation on the container) */
+                      box-shadow:
+                          0 20px 45px rgba(0, 0, 0, 0.32),
+                              0  4px 12px rgba(0, 0, 0, 0.22),
+                                  0  0 18px rgba(0, 0, 0, 0.12);
+                                  }
 
-  /* Resting elevation */
-  box-shadow:
-    0 20px 45px rgba(0, 0, 0, 0.32),
-    0  4px 12px rgba(0, 0, 0, 0.22),
-    0  0 18px rgba(0, 0, 0, 0.12);
-}
+                                  /* Carousel core */
+                                  .carousel {
+                                    position: relative;
+                                      width: 100%;
+                                        max-width: 100%;
+                                          overflow: hidden;
+                                            touch-action: pan-y;
+                                            }
+                                            .carousel-track {
+                                              display: flex;
+                                                transition: transform .5s ease-in-out;
+                                                  max-width: 100%;
+                                                  }
+                                                  .carousel-slide {
+                                                    min-width: 100%;
+                                                      position: relative;
+                                                        max-width: 100%;
+                                                          cursor: pointer;
+                                                          }
 
-/* Desktop-only hover lift */
-@media (hover: hover) and (pointer: fine) {
-  .r76-wrap:hover {
-    transform: translateY(-4px);
-    box-shadow:
-      0 26px 55px rgba(0, 0, 0, 0.38),
-      0  6px 16px rgba(0, 0, 0, 0.25),
-      0  0 22px rgba(0, 0, 0, 0.18);
-  }
-}
+                                                          /* Images: responsive + cinematic zoom (only hover effect kept) */
+                                                          .carousel-slide img {
+                                                            display: block;
+                                                              width: 100%;
+                                                                max-width: 100%;
+                                                                  height: auto;
+                                                                    max-height: 100vh;
+                                                                      object-fit: contain;
+                                                                        transition: transform 2.2s cubic-bezier(.22, .61, .36, 1); /* luxury glide */
+                                                                        }
 
-/* Carousel core */
-.carousel {
-  position: relative;
-  width: 100%;
-  max-width: 100%;
-  overflow: hidden;
-  touch-action: pan-y;
-}
-.carousel-track {
-  display: flex;
-  transition: transform .5s ease-in-out;
-  max-width: 100%;
-}
-.carousel-slide {
-  min-width: 100%;
-  position: relative;
-  max-width: 100%;
-  cursor: pointer;
-}
+                                                                        /* Zoom on hover (desktop only) */
+                                                                        @media (hover: hover) and (pointer: fine) {
+                                                                          .carousel-slide:hover img {
+                                                                              transform: scale(1.06);
+                                                                                }
+                                                                                }
 
-/* Images: responsive + cinematic zoom */
-.carousel-slide img {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  max-height: 100vh;
-  object-fit: contain;
-  transition: transform 2.2s cubic-bezier(.22, .61, .36, 1);
-}
+                                                                                /* Full-width caption band pinned to bottom */
+                                                                                .caption {
+                                                                                  position: absolute;
+                                                                                    left: 0; right: 0; bottom: 0;
+                                                                                      z-index: 10;
+                                                                                        display: flex;
+                                                                                          flex-direction: column;
+                                                                                            justify-content: flex-end;
+                                                                                              text-align: center;
+                                                                                                color: #fff;
+                                                                                                  padding: 10px 20px 16px;
+                                                                                                    background: linear-gradient(to top, rgba(0,0,0,.75), rgba(0,0,0,0));
+                                                                                                      opacity: 0;                     /* shown/hidden via JS per active slide */
+                                                                                                        transition: opacity .6s ease;   /* keep smooth fade when slide changes */
 
-/* Zoom on hover (desktop only) */
-@media (hover: hover) and (pointer: fine) {
-  .carousel-slide:hover img {
-    transform: scale(1.06);
-  }
-}
+                                                                                                          -webkit-tap-highlight-color: transparent;
+                                                                                                            touch-action: manipulation;
+                                                                                                            }
 
-/* Full-width caption band pinned to bottom */
-.caption {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  text-align: center;
-  color: #fff;
-  padding: 10px 20px 16px;
-  background: linear-gradient(to top, rgba(0,0,0,.75), rgba(0,0,0,0));
-  opacity: 0;
-  transition: opacity .6s ease;
+                                                                                                            /* One-line, JS-autofit text */
+                                                                                                            :root {
+                                                                                                              --r76-title-max: 76px;
+                                                                                                                --r76-title-min: 16px;
+                                                                                                                  --r76-subtitle-max: 38px;
+                                                                                                                    --r76-subtitle-min: 14px;
+                                                                                                                    }
+                                                                                                                    .caption h2 {
+                                                                                                                      margin: 0;
+                                                                                                                        font-size: var(--r76-title-max);
+                                                                                                                          line-height: 1.1;
+                                                                                                                            text-shadow: 3px 3px 8px rgba(0,0,0,.95);
+                                                                                                                              white-space: nowrap;
+                                                                                                                                overflow: hidden;
+                                                                                                                                  text-decoration: none;
+                                                                                                                                    user-select: none;
+                                                                                                                                      pointer-events: none;
+                                                                                                                                      }
+                                                                                                                                      .caption p {
+                                                                                                                                        margin: 8px 0 0;
+                                                                                                                                          font-size: var(--r76-subtitle-max);
+                                                                                                                                            line-height: 1.3;
+                                                                                                                                              color: #ffffff;
+                                                                                                                                                text-shadow: 2px 2px 6px rgba(0,0,0,.9);
+                                                                                                                                                  white-space: nowrap;
+                                                                                                                                                    overflow: hidden;
+                                                                                                                                                      text-decoration: none;
+                                                                                                                                                        user-select: none;
+                                                                                                                                                          pointer-events: none;
+                                                                                                                                                          }
 
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
+                                                                                                                                                          /* Keyboard focus: visible ring (accessibility) */
+                                                                                                                                                          .carousel-slide:focus-visible {
+                                                                                                                                                            outline: 2px solid rgba(255,255,255,.9);
+                                                                                                                                                              outline-offset: 4px;
+                                                                                                                                                                border-radius: 8px;
+                                                                                                                                                                }
 
-/* One-line, JS-autofit text */
-:root {
-  --r76-title-max: 76px;
-  --r76-title-min: 16px;
-  --r76-subtitle-max: 38px;
-  --r76-subtitle-min: 14px;
-}
-.caption h2 {
-  margin: 0;
-  font-size: var(--r76-title-max);
-  line-height: 1.1;
-  text-shadow: 3px 3px 8px rgba(0,0,0,.95);
-  white-space: nowrap;
-  overflow: hidden;
-  text-decoration: none;
-  user-select: none;
-  pointer-events: none;
-}
-.caption p {
-  margin: 8px 0 0;
-  font-size: var(--r76-subtitle-max);
-  line-height: 1.3;
-  color: #ffffff;
-  text-shadow: 2px 2px 6px rgba(0,0,0,.9);
-  white-space: nowrap;
-  overflow: hidden;
-  text-decoration: none;
-  user-select: none;
-  pointer-events: none;
-}
+                                                                                                                                                                /* Arrows */
+                                                                                                                                                                .carousel-button {
+                                                                                                                                                                  position: absolute;
+                                                                                                                                                                    top: 50%;
+                                                                                                                                                                      transform: translateY(-50%);
+                                                                                                                                                                        background: none;
+                                                                                                                                                                          border: none;
+                                                                                                                                                                            padding: 0;
+                                                                                                                                                                              cursor: pointer;
+                                                                                                                                                                                z-index: 20;
+                                                                                                                                                                                }
+                                                                                                                                                                                .carousel-button.prev { left: 15px; }
+                                                                                                                                                                                .carousel-button.next { right: 15px; }
+                                                                                                                                                                                .carousel-button img {
+                                                                                                                                                                                  width: 40px;
+                                                                                                                                                                                    height: 40px;
+                                                                                                                                                                                    }
 
-/* ---- Micro shadow fade on captions (sync with cinematic zoom) ---- */
-.caption > * { position: relative; z-index: 1; }
+                                                                                                                                                                                    /* Hide arrows on devices without a mouse/trackpad */
+                                                                                                                                                                                    @media (pointer: coarse) {
+                                                                                                                                                                                      .carousel-button { display: none !important; }
+                                                                                                                                                                                      }
 
-/* Subtle overlay for readability */
-.caption::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.18), rgba(0,0,0,0) 65%);
-  opacity: 0;
-  transition: opacity 2.2s cubic-bezier(.22, .61, .36, 1);
-  pointer-events: none;
-  z-index: 0;
-}
+                                                                                                                                                                                      /* Thumbnails strip: smooth, touch-friendly scrolling */
+                                                                                                                                                                                      .carousel-nav {
+                                                                                                                                                                                        display: flex;
+                                                                                                                                                                                          justify-content: flex-start;
+                                                                                                                                                                                            gap: 10px;
+                                                                                                                                                                                              padding: 15px;
+                                                                                                                                                                                                background: #fff;
+                                                                                                                                                                                                  overflow-x: auto;
+                                                                                                                                                                                                    scrollbar-width: none;
+                                                                                                                                                                                                      -ms-overflow-style: none;
+                                                                                                                                                                                                        scroll-snap-type: x proximity;
+                                                                                                                                                                                                          scroll-behavior: smooth;
+                                                                                                                                                                                                            -webkit-overflow-scrolling: touch;
+                                                                                                                                                                                                            }
+                                                                                                                                                                                                            .carousel-nav::-webkit-scrollbar { display: none; }
+                                                                                                                                                                                                            .carousel-nav img {
+                                                                                                                                                                                                              flex: 0 0 auto;
+                                                                                                                                                                                                                width: 120px;
+                                                                                                                                                                                                                  max-width: 20vw;
+                                                                                                                                                                                                                    height: auto;
+                                                                                                                                                                                                                      cursor: pointer;
+                                                                                                                                                                                                                        border: 3px solid transparent;
+                                                                                                                                                                                                                          border-radius: 4px;
+                                                                                                                                                                                                                            transition: border .3s, opacity .3s;
+                                                                                                                                                                                                                              scroll-snap-align: center;
+                                                                                                                                                                                                                              }
+                                                                                                                                                                                                                              .carousel-nav img:hover { opacity: .6; }
+                                                                                                                                                                                                                              .carousel-nav img.active { border: 3px solid #333; }
 
-/* Text shadow refinement (subtle, synced) */
-.caption h2,
-.caption p {
-  transition: text-shadow 2.2s cubic-bezier(.22, .61, .36, 1),
-              filter 2.2s cubic-bezier(.22, .61, .36, 1);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .carousel-slide:hover .caption::before { opacity: 1; }
-  .carousel-slide:hover .caption h2 {
-    text-shadow: 3.5px 5px 12px rgba(0,0,0,0.94);
-    filter: brightness(1.02);
-  }
-  .carousel-slide:hover .caption p {
-    text-shadow: 2.5px 3.5px 9px rgba(0,0,0,0.90);
-    filter: brightness(1.01);
-  }
-}
-
-/* Keyboard focus: visible ring (accessibility) */
-.carousel-slide:focus-visible {
-  outline: 2px solid rgba(255,255,255,.9);
-  outline-offset: 4px;
-  border-radius: 8px;
-}
-
-/* Arrows */
-.carousel-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  z-index: 20;
-}
-.carousel-button.prev { left: 15px; }
-.carousel-button.next { right: 15px; }
-.carousel-button img {
-  width: 40px;
-  height: 40px;
-}
-
-/* Hide arrows on devices without a mouse/trackpad */
-@media (pointer: coarse) {
-  .carousel-button { display: none !important; }
-}
-
-/* Thumbnails strip */
-.carousel-nav {
-  display: flex;
-  justify-content: flex-start;
-  gap: 10px;
-  padding: 15px;
-  background: #fff;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  scroll-snap-type: x proximity;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-}
-.carousel-nav::-webkit-scrollbar { display: none; }
-.carousel-nav img {
-  flex: 0 0 auto;
-  width: 120px;
-  max-width: 20vw;
-  height: auto;
-  cursor: pointer;
-  border: 3px solid transparent;
-  border-radius: 4px;
-  transition: border .3s, opacity .3s;
-  scroll-snap-align: center;
-}
-.carousel-nav img:hover { opacity: .6; }
-.carousel-nav img.active { border: 3px solid #333; }
-
-/* Arrow size tweak for smaller laptops/tablets */
-@media (max-width: 768px) {
-  .carousel-button img { width: 45px; height: 45px; }
-}
+                                                                                                                                                                                                                              /* Arrow size tweak for smaller laptops/tablets (if visible) */
+                                                                                                                                                                                                                              @media (max-width: 768px) {
+                                                                                                                                                                                                                                .carousel-button img { width: 45px; height: 45px; }
+                                                                                                                                                                                                                                }
