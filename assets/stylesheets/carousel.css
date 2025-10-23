@@ -2,8 +2,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
-/* Floating slider with bottom-only shadow + thin border; width ≤1600px */
-/* Floating slider: smoother hover using box-shadow (no filter animation) */
+/* Floating slider card; width ≤1600px */
 .r76-wrap {
   width: min(99vw, 1600px);
   max-width: 1600px;
@@ -16,23 +15,24 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   background: transparent;
   border: 1px solid rgba(0,0,0,.14);
 
-  /* Smooth, GPU-friendly transitions */
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  /* Smooth, GPU-friendly transitions (luxury easing) */
+  transition: transform 0.35s cubic-bezier(.22, .61, .36, 1),
+              box-shadow 0.35s cubic-bezier(.22, .61, .36, 1);
   will-change: transform, box-shadow;
   backface-visibility: hidden;
   transform: translateZ(0);
 
-  /* Resting elevation (ambient + lower) */
+  /* Resting elevation */
   box-shadow:
     0 20px 45px rgba(0, 0, 0, 0.32),
     0  4px 12px rgba(0, 0, 0, 0.22),
     0  0 18px rgba(0, 0, 0, 0.12);
 }
 
-/* Desktop-only hover lift (no scale to avoid layout micro-shifts) */
+/* Desktop-only hover lift */
 @media (hover: hover) and (pointer: fine) {
   .r76-wrap:hover {
-    transform: translateY(-4px); /* subtle lift without reflow */
+    transform: translateY(-4px);
     box-shadow:
       0 26px 55px rgba(0, 0, 0, 0.38),
       0  6px 16px rgba(0, 0, 0, 0.25),
@@ -60,7 +60,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   cursor: pointer;
 }
 
-/* Images: responsive, never exceed viewport width + ZOOM EFFECT */
+/* Images: responsive + cinematic zoom */
 .carousel-slide img {
   display: block;
   width: 100%;
@@ -68,7 +68,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   height: auto;
   max-height: 100vh;
   object-fit: contain;
-  transition: transform 1.2s ease; /* 1200ms zoom */
+  transition: transform 2.2s cubic-bezier(.22, .61, .36, 1);
 }
 
 /* Zoom on hover (desktop only) */
@@ -112,10 +112,6 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   white-space: nowrap;
   overflow: hidden;
   text-decoration: none;
-
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   pointer-events: none;
 }
@@ -128,18 +124,42 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   white-space: nowrap;
   overflow: hidden;
   text-decoration: none;
-
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   pointer-events: none;
 }
 
-/* Hover (desktop): subtle affordance */
-.carousel-slide:hover .caption h2,
-.carousel-slide:hover .caption p {
-  filter: brightness(1.05);
+/* ---- Micro shadow fade on captions (sync with cinematic zoom) ---- */
+.caption > * { position: relative; z-index: 1; }
+
+/* Subtle overlay for readability */
+.caption::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.18), rgba(0,0,0,0) 65%);
+  opacity: 0;
+  transition: opacity 2.2s cubic-bezier(.22, .61, .36, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Text shadow refinement (subtle, synced) */
+.caption h2,
+.caption p {
+  transition: text-shadow 2.2s cubic-bezier(.22, .61, .36, 1),
+              filter 2.2s cubic-bezier(.22, .61, .36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .carousel-slide:hover .caption::before { opacity: 1; }
+  .carousel-slide:hover .caption h2 {
+    text-shadow: 3.5px 5px 12px rgba(0,0,0,0.94);
+    filter: brightness(1.02);
+  }
+  .carousel-slide:hover .caption p {
+    text-shadow: 2.5px 3.5px 9px rgba(0,0,0,0.90);
+    filter: brightness(1.01);
+  }
 }
 
 /* Keyboard focus: visible ring (accessibility) */
@@ -172,7 +192,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .carousel-button { display: none !important; }
 }
 
-/* Thumbnails strip: smooth, touch-friendly scrolling */
+/* Thumbnails strip */
 .carousel-nav {
   display: flex;
   justify-content: flex-start;
@@ -201,59 +221,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .carousel-nav img:hover { opacity: .6; }
 .carousel-nav img.active { border: 3px solid #333; }
 
-/* Arrow size tweak for smaller laptops/tablets (if visible) */
+/* Arrow size tweak for smaller laptops/tablets */
 @media (max-width: 768px) {
-  .carousel-button img {
-    width: 45px;
-    height: 45px;
-  }
-}
-/* ---- Micro shadow fade on captions (sync with 1.2s zoom) ---- */
-
-/* 1) Prepare the caption to host a fading overlay */
-.caption {
-  position: absolute; /* already set in your CSS */
-  /* add the longer transition so it matches the image zoom */
-  transition: opacity .6s ease;
-}
-.caption > * {
-  position: relative;
-  z-index: 1; /* keep text above the overlay */
-}
-
-/* 2) Overlay that gently darkens on hover to lift readability */
-.caption::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  /* very subtle extra darkness that will fade in */
-  background: linear-gradient(to top, rgba(0,0,0,0.22), rgba(0,0,0,0) 65%);
-  opacity: 0;
-  transition: opacity 1.2s ease;  /* sync with image zoom */
-  pointer-events: none;
-  z-index: 0; /* sits behind text, above the image */
-}
-
-/* 3) Smoothly strengthen text shadows on hover (also 1.2s) */
-.caption h2,
-.caption p {
-  transition: text-shadow 1.2s ease, filter 1.2s ease;
-}
-
-/* Desktop-only hover behavior so mobile/touch won’t “stick” */
-@media (hover: hover) and (pointer: fine) {
-  .carousel-slide:hover .caption::before {
-    opacity: 1; /* fade in the micro-shadow overlay */
-  }
-
-  .carousel-slide:hover .caption h2 {
-    /* slightly stronger & broader than your base shadow */
-    text-shadow: 4px 6px 14px rgba(0,0,0,0.96);
-    filter: brightness(1.03);
-  }
-
-  .carousel-slide:hover .caption p {
-    text-shadow: 3px 4px 10px rgba(0,0,0,0.92);
-    filter: brightness(1.02);
-  }
+  .carousel-button img { width: 45px; height: 45px; }
 }
