@@ -158,8 +158,7 @@
 
 /* Only the image zooms on hover (frame does not scale) */
 .r76-gallery:hover .r76-layer.show > img {
-  transform: scale(1.06);
-  transition: transform 1200ms ease;  /* smooth animation */
+  transform: scale(1.03);
 }
 
 /* ====== Caption ====== */
