@@ -1,6 +1,8 @@
 /* ===========================
    Region 76 Hero Gallery – Full CSS (Row Wings + Outward Glint)
-   Hover: image zoom only (no frame scaling)
+   - Hover zoom only on hover-capable devices
+   - Hover zoom timing/easing driven by CSS vars from JS:
+       --hover-zoom-ms, --hover-zoom-ease
    =========================== */
 
 /* ====== Layout Row (wings live here) ====== */
@@ -11,7 +13,7 @@
   gap: 0;
 }
 
-/* Full-bleed: extend across viewport */
+/* Full-bleed row strip */
 .r76-fullbleed {
   width: 100vw;
   position: relative;
@@ -19,7 +21,7 @@
   transform: translateX(-50%);
 }
 
-/* JS applies this when centered:true */
+/* Centering (JS adds this when centered:true) */
 .r76-center { justify-content: center; }
 
 /* ====== Wings on row (stable base + animated outward glint) ====== */
@@ -78,7 +80,7 @@
     0 50%;
 }
 
-/* Hover glow parity */
+/* Hover glow parity (desktop aesthetic only; harmless on touch) */
 .r76-row:hover::before,
 .r76-row:hover::after {
   box-shadow:
@@ -122,7 +124,7 @@
     width var(--fade-ms, 2500ms) ease,
     height var(--fade-ms, 2500ms) ease,
     box-shadow 220ms ease;
-    /* NOTE: no frame transform scale on hover to avoid wing gap */
+  /* NOTE: no frame transform scale on hover to avoid wing gap */
 }
 
 /* Hover glow (no frame scaling) */
@@ -142,7 +144,7 @@
 }
 .r76-gallery .r76-layer.show { opacity: 1; }
 
-/* ====== Image (with hover zoom) ====== */
+/* ====== Image (hover zoom configurable by CSS vars) ====== */
 .r76-gallery .r76-layer > img {
   display: block;
   width: 100%;
@@ -153,12 +155,14 @@
   user-drag: none;
   -webkit-user-drag: none;
   transform: scale(1);
-  transition: transform var(--fade-ms, 2500ms) ease;
+  transition: transform var(--hover-zoom-ms, 1200ms) var(--hover-zoom-ease, ease);
 }
 
-/* Only the image zooms on hover (frame does not scale) */
-.r76-gallery:hover .r76-layer.show > img {
-  transform: scale(1.03);
+/* Only apply hover zoom on devices that actually support hover */
+@media (hover: hover) and (pointer: fine) {
+  .r76-gallery:hover .r76-layer.show > img {
+    transform: scale(1.03);
+  }
 }
 
 /* ====== Caption ====== */
