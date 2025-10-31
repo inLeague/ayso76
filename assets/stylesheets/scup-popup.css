@@ -1,6 +1,6 @@
 /* ==========================================================
-   AYSO Region 76 – Sportsmanship Cup Login Query (Final v3)
-   Light Theme | Equal Buttons | Matching Borders + Hover Glow
+   AYSO Region 76 – Sportsmanship Cup Login Query (Final v4)
+   Light Theme | Equal Buttons | Unified Border & Hover Glow
    ========================================================== */
 
 :root {
@@ -12,10 +12,10 @@
   --r76-ring: rgba(214,144,72,0.45);
   --r76-shadow-lg: 0 20px 50px rgba(0,0,0,.18), 0 6px 18px rgba(0,0,0,.12);
   --r76-radius: 14px;
-  --r76-border: rgba(0,0,0,.12); /* unified neutral border */
+  --r76-border: rgba(0,0,0,.12);
 }
 
-/* --- H4-styled trigger link --- */
+/* --- H4-styled trigger link (arrow + text) --- */
 .r76-trigger-heading { margin: 0 0 0.5em; }
 
 .r76-trigger-heading .r76-login-query-trigger {
@@ -40,6 +40,7 @@
   opacity: 0.95;
   transition: opacity 0.15s ease;
 }
+
 .r76-trigger-heading .r76-login-query-trigger:hover .r76-arrow-icon {
   opacity: 1;
 }
@@ -114,7 +115,11 @@
 }
 
 .r76-login-btn {
-  border: 1px solid var(--r76-border); /* identical border for both */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-clip: padding-box;
+  border: 1px solid var(--r76-border); /* identical neutral border */
   border-radius: 14px;
   background: #f9f9f9;
   color: var(--r76-text);
@@ -131,7 +136,7 @@
 
 .r76-login-btn:hover {
   background: #fff;
-  border-color: var(--r76-accent); /* unified accent border on hover */
+  border-color: var(--r76-accent); /* both use gold border on hover */
   box-shadow:
     0 0 0 3px var(--r76-ring),
     0 6px 12px rgba(214,144,72,0.25);
@@ -165,7 +170,7 @@
   opacity: 0.85;
 }
 
-/* Decorative arrow marker before sub2 */
+/* Decorative marker before sub2 */
 .r76-login-btn .sub2::before {
   content: "↳ ";
   color: var(--r76-accent);
