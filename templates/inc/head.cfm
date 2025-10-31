@@ -28,6 +28,9 @@
 <!-- Begin for the Footer Gallery -->
     <link href="#m.siteConfig('ThemeAssetPath')#/assets/stylesheets/footer_gallery.css" rel="stylesheet">
 <!-- End for the Footer Gallery -->
+<!-- Begin for the Sportsmanship Cup Popup Message -->
+    <link href="#m.siteConfig('ThemeAssetPath')#/assets/stylesheets/scup-popup.css" rel="stylesheet">
+<!-- End for the Sportsmanship Cup Popup Message -->
 <link rel="icon" type="image/png" href="#m.siteConfig('ThemeAssetPath')#/images/favicon/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="#m.siteConfig('ThemeAssetPath')#/images/favicon/favicon-16x16.png" sizes="16x16" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
