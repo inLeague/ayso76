@@ -1,4 +1,106 @@
-/* --- Buttons (equal look, with three-line hierarchy) --- */
+/* ==========================================================
+   Sportsmanship Cup Login Query – Light Theme (Final Export)
+   ========================================================== */
+
+:root {
+  --r76-surface: #ffffff;
+  --r76-text: #1f1f1f;
+  --r76-subtle: #555;
+  --r76-accent: #D69048;
+  --r76-accent-hover: #ef832f;
+  --r76-ring: rgba(214,144,72,0.45);
+  --r76-shadow-lg: 0 20px 50px rgba(0,0,0,.18), 0 6px 18px rgba(0,0,0,.12);
+  --r76-radius: 14px;
+  --r76-border: rgba(0,0,0,.08);
+}
+
+/* --- Trigger link with arrow icon --- */
+.r76-login-query-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--r76-accent);
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.15s ease;
+}
+
+.r76-login-query-trigger:hover {
+  color: var(--r76-accent-hover);
+  transform: translateX(2px);
+  text-decoration: underline;
+}
+
+.r76-login-query-trigger img.r76-arrow-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: -1px;
+  opacity: 0.85;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.r76-login-query-trigger:hover img.r76-arrow-icon {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+/* --- Screen reader utility --- */
+.r76-sr {
+  position:absolute!important;
+  width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);
+  white-space:nowrap;border:0;
+}
+
+/* --- Modal container --- */
+.r76-login-modal[hidden]{display:none!important;}
+.r76-login-modal{
+  position:fixed;inset:0;z-index:9999;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+}
+
+.r76-login-backdrop{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,.35);
+  opacity:0;transition:opacity .25s ease;
+}
+
+.r76-login-dialog{
+  position:relative;
+  max-width:clamp(320px,92vw,640px);
+  margin:min(8vh,80px) auto 0;
+  background:var(--r76-surface);
+  color:var(--r76-text);
+  border:1px solid var(--r76-border);
+  border-radius:var(--r76-radius);
+  box-shadow:var(--r76-shadow-lg);
+  transform:translateY(24px)scale(.98);
+  opacity:0;
+  transition:transform .28s ease,opacity .28s ease;
+  overflow:hidden;
+}
+
+.r76-login-modal.open .r76-login-backdrop{opacity:1;}
+.r76-login-modal.open .r76-login-dialog{transform:translateY(0)scale(1);opacity:1;}
+
+/* --- Header --- */
+.r76-login-header{
+  padding:28px 28px 12px;
+  text-align:center;
+}
+#r76LoginTitle{
+  margin:0 0 8px;
+  line-height:1.25;
+  font-size:clamp(18px,2.3vw,26px);
+}
+#r76LoginDesc{
+  margin:0;
+  color:var(--r76-subtle);
+  font-size:15px;
+}
+
+/* --- Buttons (equal look, three-line hierarchy) --- */
 .r76-login-actions {
   display: grid;
   gap: 14px;
@@ -55,7 +157,7 @@
   opacity: 0.85;
 }
 
-/* Small decorative marker for instruction line */
+/* Decorative marker for sub2 */
 .r76-login-btn .sub2::before {
   content: "↳ ";
   color: var(--r76-accent);
@@ -67,4 +169,26 @@
 .r76-login-btn:hover .main {
   color: var(--r76-accent-hover);
   transition: color 0.2s ease;
+}
+
+/* --- Close button --- */
+.r76-login-close{
+  position:absolute;top:10px;right:10px;
+  width:34px;height:34px;
+  border-radius:999px;
+  border:1px solid var(--r76-border);
+  background:#fff;
+  color:var(--r76-subtle);
+  font-size:22px;line-height:1;
+  cursor:pointer;
+  transition:background .2s ease,box-shadow .2s ease,transform .06s ease;
+}
+.r76-login-close:hover{
+  background:#f6f6f6;
+  box-shadow:0 0 0 3px rgba(0,0,0,.05);
+}
+.r76-login-close:active{transform:scale(.96);}
+
+@media(prefers-reduced-motion:reduce){
+  .r76-login-backdrop,.r76-login-dialog,.r76-login-btn{transition:none!important;}
 }
