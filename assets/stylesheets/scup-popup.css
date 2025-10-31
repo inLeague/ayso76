@@ -1,4 +1,4 @@
-/* --- Buttons (equal look, with instructional subtext) --- */
+/* --- Buttons (equal look, with three-line hierarchy) --- */
 .r76-login-actions {
   display: grid;
   gap: 14px;
@@ -10,7 +10,7 @@
   border-radius: 14px;
   background: #f9f9f9;
   color: var(--r76-text);
-  padding: 16px 18px;
+  padding: 18px 20px;
   width: 100%;
   text-align: left;
   cursor: pointer;
@@ -18,7 +18,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 2px;
+  gap: 3px;
 }
 
 .r76-login-btn:hover {
@@ -27,7 +27,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08), 0 0 0 3px var(--r76-ring);
 }
 
-/* Main label */
+/* 1️⃣ Main line (“Yes” / “No”) */
 .r76-login-btn .main {
   font-size: 24px;
   font-weight: 800;
@@ -36,26 +36,26 @@
   line-height: 1.25;
 }
 
-/* First subtext line */
+/* 2️⃣ Second line (main subtext) */
 .r76-login-btn .sub {
-  font-size: 15px;
-  color: var(--r76-text);
+  font-size: 16.5px;
   font-weight: 600;
-  line-height: 1.3;
+  color: var(--r76-text);
+  line-height: 1.35;
   margin-top: 3px;
 }
 
-/* Second subtext line (instructions) */
+/* 3️⃣ Third line (instructional helper text) */
 .r76-login-btn .sub2 {
   font-size: 13px;
   color: var(--r76-subtle);
   line-height: 1.3;
   font-style: italic;
-  margin-top: 3px;
+  margin-top: 4px;
   opacity: 0.85;
 }
 
-/* Decorative arrow marker before sub2 */
+/* Small decorative marker for instruction line */
 .r76-login-btn .sub2::before {
   content: "↳ ";
   color: var(--r76-accent);
@@ -63,7 +63,7 @@
   font-style: normal;
 }
 
-/* Hover accent lift for main label */
+/* Hover accent lift */
 .r76-login-btn:hover .main {
   color: var(--r76-accent-hover);
   transition: color 0.2s ease;
