@@ -1,5 +1,6 @@
 /* ==========================================================
-   Sportsmanship Cup Login Query – Light Theme (Final Export)
+   AYSO Region 76 – Sportsmanship Cup Login Query (Final v3)
+   Light Theme | Equal Buttons | Matching Borders + Hover Glow
    ========================================================== */
 
 :root {
@@ -11,40 +12,39 @@
   --r76-ring: rgba(214,144,72,0.45);
   --r76-shadow-lg: 0 20px 50px rgba(0,0,0,.18), 0 6px 18px rgba(0,0,0,.12);
   --r76-radius: 14px;
-  --r76-border: rgba(0,0,0,.08);
+  --r76-border: rgba(0,0,0,.12); /* unified neutral border */
 }
 
-/* Make the trigger fully inherit your H4 typography and color */
-.r76-trigger-heading { margin: 0 0 0.5em; } /* optional: keep your normal h4 spacing */
+/* --- H4-styled trigger link --- */
+.r76-trigger-heading { margin: 0 0 0.5em; }
+
 .r76-trigger-heading .r76-login-query-trigger {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font: inherit;             /* size, weight, family from your H4 */
+  font: inherit;
   line-height: inherit;
-  color: inherit;            /* use your H4 color */
-  text-decoration: none;     /* default: no underline */
+  color: inherit;
+  text-decoration: none;
 }
 
-/* Remove all shifting on hover (no translate) */
 .r76-trigger-heading .r76-login-query-trigger:hover {
-  color: inherit;            /* keep same color unless your H4 hover rules change it */
-  text-decoration: underline;/* optional: underline without shifting layout */
+  color: inherit;
+  text-decoration: underline;
 }
 
-/* Arrow image: no movement on hover */
 .r76-trigger-heading .r76-login-query-trigger .r76-arrow-icon {
   display: inline-block;
   vertical-align: middle;
-  margin-top: -1px;          /* subtle optical alignment */
+  margin-top: -1px;
   opacity: 0.95;
-  transition: opacity .15s ease;  /* no transform */
+  transition: opacity 0.15s ease;
 }
 .r76-trigger-heading .r76-login-query-trigger:hover .r76-arrow-icon {
-  opacity: 1;                /* brighten only; no movement */
+  opacity: 1;
 }
 
-/* Optional: keyboard focus ring that doesn’t shift layout */
+/* --- Focus ring for accessibility --- */
 .r76-trigger-heading .r76-login-query-trigger:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;
@@ -106,7 +106,7 @@
   font-size:15px;
 }
 
-/* --- Buttons (equal look, three-line hierarchy) --- */
+/* --- Buttons (equal look, unified border) --- */
 .r76-login-actions {
   display: grid;
   gap: 14px;
@@ -114,7 +114,7 @@
 }
 
 .r76-login-btn {
-  border: 1px solid var(--r76-border);
+  border: 1px solid var(--r76-border); /* identical border for both */
   border-radius: 14px;
   background: #f9f9f9;
   color: var(--r76-text);
@@ -122,7 +122,7 @@
   width: 100%;
   text-align: left;
   cursor: pointer;
-  transition: transform 0.06s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transition: box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -131,8 +131,10 @@
 
 .r76-login-btn:hover {
   background: #fff;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08), 0 0 0 3px var(--r76-ring);
+  border-color: var(--r76-accent); /* unified accent border on hover */
+  box-shadow:
+    0 0 0 3px var(--r76-ring),
+    0 6px 12px rgba(214,144,72,0.25);
 }
 
 /* 1️⃣ Main line (“Yes” / “No”) */
@@ -163,7 +165,7 @@
   opacity: 0.85;
 }
 
-/* Decorative marker for sub2 */
+/* Decorative arrow marker before sub2 */
 .r76-login-btn .sub2::before {
   content: "↳ ";
   color: var(--r76-accent);
@@ -171,10 +173,9 @@
   font-style: normal;
 }
 
-/* Hover accent lift */
+/* Hover accent lift for main line */
 .r76-login-btn:hover .main {
   color: var(--r76-accent-hover);
-  transition: color 0.2s ease;
 }
 
 /* --- Close button --- */
@@ -187,13 +188,13 @@
   color:var(--r76-subtle);
   font-size:22px;line-height:1;
   cursor:pointer;
-  transition:background .2s ease,box-shadow .2s ease,transform .06s ease;
+  transition:background .2s ease,box-shadow .2s ease,border-color .2s ease;
 }
 .r76-login-close:hover{
   background:#f6f6f6;
+  border-color: var(--r76-accent);
   box-shadow:0 0 0 3px rgba(0,0,0,.05);
 }
-.r76-login-close:active{transform:scale(.96);}
 
 @media(prefers-reduced-motion:reduce){
   .r76-login-backdrop,.r76-login-dialog,.r76-login-btn{transition:none!important;}
