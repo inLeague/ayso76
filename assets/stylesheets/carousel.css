@@ -137,6 +137,15 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   z-index: 20;
 }
 
+.carousel-button:focus {
+  outline: none;
+}
+.carousel-button:focus-visible {
+  outline: 2px solid rgba(255,255,255,.8);
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+
 .carousel-button.prev { left: 15px; }
 .carousel-button.next { right: 15px; }
 
