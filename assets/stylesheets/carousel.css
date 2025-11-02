@@ -60,7 +60,9 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 /* Zoom on hover (desktop only) */
 @media (hover: hover) and (pointer: fine) {
-  .carousel-slide:hover img {
+  /* Old: .carousel-slide:hover img { transform: scale(1.06); } */
+  .carousel-slide:hover img,
+  .carousel:hover .carousel-slide.active img {
     transform: scale(1.06);
   }
 }
