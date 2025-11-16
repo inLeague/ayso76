@@ -19,4 +19,4 @@ jobs:
 
       - name: Sync to /mnt/www/sites/mura/sites/ayso76/themes/ayso-theme
         run: |
-          rsync -a --delete --exclude='.git' . /mnt/www/sites/mura/sites/ayso76/themes/ayso-theme
+          rsync -rlptDo --delete --exclude='.git'  . /mnt/www/sites/mura/sites/ayso76/themes/ayso-theme
