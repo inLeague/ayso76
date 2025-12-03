@@ -70,19 +70,19 @@
   font-weight: 800;
   font-size: 1.4rem;
   margin-bottom: 0.5rem;
-  color: #ef832f;      /* Region 76 orange */
-  text-align: left;    /* left-justified */
+  color: #ef832f;       /* Region 76 orange */
+  text-align: left;
 }
 
-/* Footer — fixed small size, two lines max */
+/* Footer — fixed small size, tighter line spacing */
 .r76-age-note {
   margin-top: 0.75rem;
   color: #555;
   text-align: center;
 
   font-size: 0.72rem;   /* fixed, smallest size */
-  max-width: 420px;     /* matches tool width */
+  max-width: 420px;
   margin-left: auto;
   margin-right: auto;
-  line-height: 1.25;
+  line-height: 1.1;     /* tighter line spacing */
 }
