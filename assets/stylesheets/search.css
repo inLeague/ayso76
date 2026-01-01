@@ -12,7 +12,7 @@
 
 /* ---------- Input ---------- */
 .r76-liveSearch input{
-  width: 180px;                 /* narrow by default */
+  width: 180px;                 /* narrow desktop width */
   max-width: 100%;
   padding: 6px 10px;
   font-size: 14px;
@@ -34,10 +34,11 @@
   box-shadow: 0 6px 18px rgba(0,0,0,.15);
 
   z-index: 1000;
-  overflow: hidden;
+  overflow-y: auto;
+  max-height: 360px;            /* enables scrolling */
 }
 
-/* Bootstrap-like dropdown compatibility */
+/* Bootstrap-style dropdown compatibility */
 .r76-liveSearch__results.dropdown-menu{
   padding: 4px 0;
 }
@@ -50,10 +51,10 @@
   }
 
   .r76-liveSearch__results{
-    min-width: 420px;          /* readable base width */
-    max-width: 680px;          /* cap it */
-    width: max-content;        /* grow to longest title */
-    white-space: nowrap;       /* keep titles on one line */
+    min-width: 420px;           /* base readable width */
+    max-width: 680px;           /* cap width */
+    width: max-content;         /* fit longest link */
+    white-space: nowrap;        /* keep titles on one line */
   }
 
   .r76-liveSearch__results a{
@@ -61,8 +62,9 @@
   }
 }
 
-/* ---------- Mobile adjustments ---------- */
+/* ---------- Mobile layout ---------- */
 @media (max-width: 991px){
+
   .r76-liveSearch{
     width: 100%;
   }
@@ -75,6 +77,21 @@
     min-width: 100%;
     max-width: 100%;
     white-space: normal;
+    max-height: 300px;
+
+    /* visual separation from mobile menu */
+    margin-top: 8px;
+    border: 2px solid rgba(0,0,0,.18);
+    border-radius: 6px;
+    box-shadow:
+      0 10px 24px rgba(0,0,0,.22),
+      0 2px 6px rgba(0,0,0,.18);
+  }
+
+  /* Larger tap targets on mobile */
+  .r76-liveSearch__results a{
+    padding: 10px 16px;
+    font-size: 15px;
   }
 }
 
@@ -88,7 +105,7 @@
   cursor: pointer;
 }
 
-/* Hover / active (keyboard) state */
+/* Hover + keyboard active state */
 .r76-liveSearch__results a:hover,
 .r76-liveSearch__results a.is-active{
   background: rgba(0,0,0,.06);
@@ -101,7 +118,7 @@
   opacity: .7;
 }
 
-/* ---------- Highlighted match text ---------- */
+/* ---------- Highlighted query text ---------- */
 .r76-liveSearch__hl{
   padding: 0 2px;
   border-radius: 3px;
@@ -110,7 +127,7 @@
 /* ---------- Empty-state suggestions ---------- */
 .r76-liveSearch__suggestWrap{
   padding: 8px 14px 10px;
-  border-top: 1px solid rgba(0,0,0,.06);
+  border-top: 1px solid rgba(0,0,0,.15);
 }
 
 .r76-liveSearch__suggestLabel{
@@ -134,7 +151,15 @@
   background: rgba(0,0,0,.06);
 }
 
-/* ---------- Safety: ensure visibility when JS shows ---------- */
+/* ---------- Ensure visibility when JS toggles ---------- */
 .r76-liveSearch__results.show{
   display: block;
+}
+
+/* ---------- Optional scrollbar polish (WebKit) ---------- */
+.r76-liveSearch__results::-webkit-scrollbar{
+  width: 10px;
+}
+.r76-liveSearch__results::-webkit-scrollbar-thumb{
+  border-radius: 10px;
 }
