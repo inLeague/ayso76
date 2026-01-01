@@ -1,6 +1,6 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
 
-<!--- Parameters --->
+<!--- Params --->
 <cfparam name="url.q"   default="">
 <cfparam name="url.max" default="8">
 <cfparam name="url.raw" default="1">
@@ -10,27 +10,23 @@
 <cfif max LTE 0><cfset max = 8></cfif>
 <cfif max GT 20><cfset max = 20></cfif>
 
-<!--- Force clean JSON output (no theme, no footer, no scripts) --->
+<!--- Always output clean JSON --->
 <cfcontent type="application/json; charset=utf-8" reset="true">
 <cfheader name="Cache-Control" value="no-store, no-cache, must-revalidate, max-age=0">
 <cfheader name="Pragma" value="no-cache">
 <cfheader name="Expires" value="0">
 
-<!--- Base response --->
-<cfset out = {
-  query   = q,
-  results = []
-}>
+<cfset out = { "query" = q, "results" = [] }>
 
-<!--- Bail early if query too short --->
+<!--- Bail early --->
 <cfif len(q) LT 2>
   <cfoutput>#serializeJSON(out)#</cfoutput>
   <cfabort>
 </cfif>
 
 <!---
-  Use MASA / Mura public search engine
-  This is the SAME engine your site search page uses
+  Use Mura/Masa public search iterator (same engine as site search).
+  Then return ONLY title + destination URL.
 --->
 <cfset cm = variables.$.getBean("contentManager")>
 <cfset it = cm.getPublicSearchIterator( variables.$.event("siteid"), q )>
@@ -41,18 +37,43 @@
   <cfset bean = it.next()>
 
   <cfset title = trim(bean.getTitle())>
-  <cfset url   = bean.getURL()>
 
-  <!--- Title-only match (case-insensitive) --->
-  <cfif len(title) AND findNoCase(q, title)>
-    <cfset arrayAppend(out.results, {
-      title = title,
-      url   = url
-    })>
+  <!--- Prefer canonical URL methods --->
+  <cfset destUrl = "">
+  <cftry>
+    <!--- Most common --->
+    <cfset destUrl = bean.getURL()>
+    <cfcatch>
+      <cfset destUrl = "">
+    </cfcatch>
+  </cftry>
+
+  <!--- Fallbacks if getURL() isn't available in your bean --->
+  <cfif NOT len(destUrl)>
+    <cftry>
+      <cfset destUrl = bean.get("url")>
+      <cfcatch><cfset destUrl = ""></cfcatch>
+    </cftry>
+  </cfif>
+
+  <cfif NOT len(destUrl)>
+    <cftry>
+      <cfset destUrl = bean.get("filename")>
+      <cfcatch><cfset destUrl = ""></cfcatch>
+    </cftry>
+  </cfif>
+
+  <!--- Title-only guard + require a usable URL --->
+  <cfif len(title) AND len(destUrl)>
+    <!--- Ensure leading slash if it is site-relative --->
+    <cfif left(destUrl, 4) NEQ "http" AND left(destUrl, 1) NEQ "/">
+      <cfset destUrl = "/" & destUrl>
+    </cfif>
+
+    <cfset arrayAppend(out.results, { "title" = title, "url" = destUrl })>
     <cfset count++>
   </cfif>
 </cfloop>
 
-<!--- Output JSON and STOP --->
 <cfoutput>#serializeJSON(out)#</cfoutput>
 <cfabort>
