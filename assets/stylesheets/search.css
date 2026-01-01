@@ -1,203 +1,140 @@
 /* =========================================================
-   R76 Live Search (Dropdown-Only)
-   Narrow • Left-Justified • Header-Safe
+   R76 Live Search — FULL CSS
+   Header + Desktop + Mobile + Dropdown + Enhancements
 ========================================================= */
 
-/* --- Container --- */
+/* ---------- Base wrapper ---------- */
 .r76-liveSearch{
   position: relative;
-  display: inline-block;        /* prevents stretching */
-  width: 240px;                 /* desktop width */
-  max-width: 240px;
-  margin: 0;
-  padding: 0;
-  text-align: left;
-  align-self: center;
-  justify-self: start;
-  z-index: 2000;                /* above header elements */
+  display: inline-block;
+  vertical-align: middle;
 }
 
-/* --- Responsive widths --- */
-@media (max-width: 991px){
-  .r76-liveSearch{
-    width: 200px;
-    max-width: 200px;
-  }
-}
-@media (max-width: 480px){
-  .r76-liveSearch{
-    width: 170px;
-    max-width: 170px;
-  }
-}
-
-/* --- Input --- */
-.r76-liveSearch__input,
-#r76LiveSearchInput{
-  width: 100% !important;       /* fill container, not header */
-  height: 34px;
+/* ---------- Input ---------- */
+.r76-liveSearch input{
+  width: 180px;                 /* narrow by default */
+  max-width: 100%;
   padding: 6px 10px;
-  box-sizing: border-box;
-
   font-size: 14px;
-  line-height: 1.2;
-  color: #222;
-  text-align: left;
-
-  border: 1px solid #ccc;
+  line-height: 1.4;
   border-radius: 4px;
-  background: #fff;
-
-  outline: none;
 }
 
-/* Input focus */
-.r76-liveSearch__input:focus,
-#r76LiveSearchInput:focus{
-  border-color: #ef832f;
-  box-shadow: 0 0 0 1px rgba(239,131,47,.25);
-}
-
-/* --- Dropdown --- */
-.r76-liveSearch__results,
-#r76LiveSearchResults{
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  right: auto;
-
-  width: 100%;
-  box-sizing: border-box;
-
+/* ---------- Results container ---------- */
+.r76-liveSearch__results{
   display: none;
-  background: #fff;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
 
-  border: 1px solid #ddd;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.15);
   border-radius: 4px;
   box-shadow: 0 6px 18px rgba(0,0,0,.15);
 
-  max-height: 280px;
-  overflow-y: auto;
-
-  text-align: left;
-  z-index: 3000;
+  z-index: 1000;
+  overflow: hidden;
 }
 
-/* --- Result items --- */
-.r76-liveSearch__results a,
-#r76LiveSearchResults a{
-  display: block;
-  padding: 8px 10px;
-
-  font-size: 14px;
-  line-height: 1.3;
-  color: #222;
-  text-decoration: none;
-
-  cursor: pointer;
-  white-space: normal;
+/* Bootstrap-like dropdown compatibility */
+.r76-liveSearch__results.dropdown-menu{
+  padding: 4px 0;
 }
 
-/* Hover */
-.r76-liveSearch__results a:hover{
-  background: #f5f5f5;
-}
+/* ---------- Desktop: dropdown wider than input ---------- */
+@media (min-width: 992px){
 
-/* Keyboard active item */
-.r76-liveSearch__results a.is-active{
-  background: #ef832f;
-  color: #fff;
-}
+  .r76-liveSearch{
+    position: relative;
+  }
 
-/* --- Muted states (Searching / No results) --- */
-.r76-liveSearch__muted{
-  padding: 8px 10px;
-  font-size: 13px;
-  color: #777;
-  background: #fafafa;
-}
+  .r76-liveSearch__results{
+    min-width: 420px;          /* readable base width */
+    max-width: 680px;          /* cap it */
+    width: max-content;        /* grow to longest title */
+    white-space: nowrap;       /* keep titles on one line */
+  }
 
-/* --- Prevent header containers from clipping dropdown --- */
-header,
-.header,
-.site-header,
-.navbar,
-.nav,
-.topbar{
-  overflow: visible !important;
-}
-/* Put the search nicely inside the mobile menu */
-#r76MobileSearchMount{
-  padding: 10px 14px;
-}
-
-@media (max-width: 991px){
-  #r76MobileSearchMount .r76-liveSearch{
-    width: 100%;
-    max-width: 100%;
-    display: block;
+  .r76-liveSearch__results a{
+    white-space: nowrap;
   }
 }
-/* Highlight styling */
+
+/* ---------- Mobile adjustments ---------- */
+@media (max-width: 991px){
+  .r76-liveSearch{
+    width: 100%;
+  }
+
+  .r76-liveSearch input{
+    width: 100%;
+  }
+
+  .r76-liveSearch__results{
+    min-width: 100%;
+    max-width: 100%;
+    white-space: normal;
+  }
+}
+
+/* ---------- Result links ---------- */
+.r76-liveSearch__results a{
+  display: block;
+  padding: 6px 14px;
+  font-size: 14px;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Hover / active (keyboard) state */
+.r76-liveSearch__results a:hover,
+.r76-liveSearch__results a.is-active{
+  background: rgba(0,0,0,.06);
+}
+
+/* ---------- Muted messages ---------- */
+.r76-liveSearch__muted{
+  padding: 8px 14px;
+  font-size: 13px;
+  opacity: .7;
+}
+
+/* ---------- Highlighted match text ---------- */
 .r76-liveSearch__hl{
   padding: 0 2px;
   border-radius: 3px;
 }
 
-/* Empty-state suggestions */
+/* ---------- Empty-state suggestions ---------- */
 .r76-liveSearch__suggestWrap{
-  padding: 8px 12px 10px;
+  padding: 8px 14px 10px;
   border-top: 1px solid rgba(0,0,0,.06);
 }
+
 .r76-liveSearch__suggestLabel{
   font-size: 12px;
   opacity: .7;
   margin-bottom: 6px;
 }
+
 .r76-liveSearch__suggestBtn{
   display: inline-block;
   margin: 0 6px 6px 0;
-  padding: 4px 8px;
-  border: 1px solid rgba(0,0,0,.15);
+  padding: 4px 10px;
+  font-size: 12px;
+  border: 1px solid rgba(0,0,0,.2);
   border-radius: 999px;
   background: transparent;
   cursor: pointer;
-  font-size: 12px;
 }
+
 .r76-liveSearch__suggestBtn:hover{
-  background: rgba(0,0,0,.05);
+  background: rgba(0,0,0,.06);
 }
-/* =========================================
-   Desktop: wider dropdown than input
-========================================= */
-@media (min-width: 992px){
 
-  /* Ensure the search wrapper is the positioning anchor */
-  .r76-liveSearch{
-    position: relative;
-  }
-
-  /* Allow dropdown to extend wider than input */
-  .r76-liveSearch__results{
-    position: absolute;
-    left: 0;
-    top: 100%;
-    margin-top: 4px;
-
-    /* KEY PART */
-    min-width: 420px;          /* base readable width */
-    max-width: 680px;          /* prevents it from getting ridiculous */
-    width: max-content;        /* size to longest link */
-    white-space: nowrap;       /* prevent wrapping titles */
-
-    /* safety fallback for browsers that ignore max-content */
-    width: auto;
-
-    z-index: 1000;
-  }
-
-  /* Make sure links don’t force wrap */
-  .r76-liveSearch__results a{
-    white-space: nowrap;
-  }
+/* ---------- Safety: ensure visibility when JS shows ---------- */
+.r76-liveSearch__results.show{
+  display: block;
 }
