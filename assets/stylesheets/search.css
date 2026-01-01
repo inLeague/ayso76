@@ -1,8 +1,10 @@
 /* =========================================================
-   R76 Live Search — FULL CSS (FINAL / THEME-PROOF)
+   R76 Live Search — FULL CSS (CURRENT, AUTHORITATIVE)
 ========================================================= */
 
-/* ---------- Base wrapper ---------- */
+/* ---------------------------------------------------------
+   Base wrapper
+--------------------------------------------------------- */
 .r76-liveSearch{
   position: relative !important;
   display: inline-block;
@@ -12,7 +14,9 @@
   isolation: isolate;
 }
 
-/* ---------- Input (shorter height) ---------- */
+/* ---------------------------------------------------------
+   Input (normalized height)
+--------------------------------------------------------- */
 .r76-liveSearch input{
   height: 32px;
   line-height: 32px;
@@ -24,7 +28,7 @@
   box-sizing: border-box;
 }
 
-/* Mobile: slightly taller */
+/* Mobile: touch-friendly but compact */
 @media (max-width: 991px){
   .r76-liveSearch input{
     height: 36px;
@@ -33,7 +37,9 @@
   }
 }
 
-/* ---------- Results container ---------- */
+/* ---------------------------------------------------------
+   Results container (desktop default)
+--------------------------------------------------------- */
 .r76-liveSearch__results{
   display: none;
   position: absolute !important;
@@ -60,7 +66,9 @@
   padding: 4px 0;
 }
 
-/* ---------- FORCE DARK TEXT (theme override) ---------- */
+/* ---------------------------------------------------------
+   FORCE readable text (theme-proof)
+--------------------------------------------------------- */
 .r76-liveSearch__results,
 .r76-liveSearch__results *{
   color: #111111 !important;
@@ -72,7 +80,9 @@
   color: #111111 !important;
 }
 
-/* ---------- Desktop: wider dropdown ---------- */
+/* ---------------------------------------------------------
+   Desktop: dropdown wider than input
+--------------------------------------------------------- */
 @media (min-width: 992px){
   .r76-liveSearch__results{
     min-width: 420px;
@@ -86,19 +96,33 @@
   }
 }
 
-/* ---------- Mobile layout ---------- */
+/* ---------------------------------------------------------
+   Mobile: dropdown flows under input (NOT constrained)
+--------------------------------------------------------- */
 @media (max-width: 991px){
+
+  /* Ensure no clipping */
   .r76-liveSearch{
     width: 100%;
-    overflow-x: hidden;
+    overflow: visible !important;
   }
 
+  /* Dropdown becomes a flowing panel */
   .r76-liveSearch__results{
-    min-width: 100%;
-    max-width: 100%;
-    white-space: normal;
-    max-height: 300px;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+
     margin-top: 8px;
+
+    max-height: 320px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
 
     border: 2px solid #bbbbbb;
     border-radius: 6px;
@@ -107,12 +131,33 @@
       0 2px 6px rgba(0,0,0,.18);
   }
 
+  /* Prevent horizontal scroll anywhere */
+  .r76-liveSearch,
   .r76-liveSearch__results,
   .r76-liveSearch__results *{
     max-width: 100%;
     box-sizing: border-box;
   }
+}
 
+/* ---------------------------------------------------------
+   Result links
+--------------------------------------------------------- */
+.r76-liveSearch__results a{
+  display: block;
+  padding: 8px 14px;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.r76-liveSearch__results a:hover,
+.r76-liveSearch__results a.is-active{
+  background: rgba(0,0,0,.06) !important;
+}
+
+/* Mobile: larger tap targets */
+@media (max-width: 991px){
   .r76-liveSearch__results a{
     padding: 10px 16px;
     font-size: 15px;
@@ -122,7 +167,9 @@
   }
 }
 
-/* ---------- Sticky header ---------- */
+/* ---------------------------------------------------------
+   Sticky header
+--------------------------------------------------------- */
 .r76-liveSearch__header{
   position: sticky;
   top: 0;
@@ -148,30 +195,36 @@
   border: 0;
   background: transparent;
   font-size: 20px;
+  line-height: 1;
   cursor: pointer;
   color: #111111 !important;
 }
 
-/* ---------- Results ---------- */
-.r76-liveSearch__results a{
-  display: block;
+.r76-liveSearch__close:hover{
+  background: rgba(0,0,0,.06);
+  border-radius: 6px;
+}
+
+/* ---------------------------------------------------------
+   Muted / status text
+--------------------------------------------------------- */
+.r76-liveSearch__muted{
   padding: 8px 14px;
-  text-decoration: none;
-  cursor: pointer;
+  font-size: 13px;
+  color: rgba(0,0,0,.7) !important;
 }
 
-.r76-liveSearch__results a:hover,
-.r76-liveSearch__results a.is-active{
-  background: rgba(0,0,0,.06) !important;
-}
-
-/* ---------- Highlight ---------- */
+/* ---------------------------------------------------------
+   Highlighted query
+--------------------------------------------------------- */
 .r76-liveSearch__hl{
   padding: 0 2px;
   border-radius: 3px;
 }
 
-/* ---------- Mobile: clamp to 2 lines ---------- */
+/* ---------------------------------------------------------
+   Mobile: clamp results to 2 lines
+--------------------------------------------------------- */
 @media (max-width: 991px){
   .r76-liveSearch__title{
     display: -webkit-box;
@@ -181,24 +234,96 @@
   }
 }
 
-/* ---------- Muted ---------- */
-.r76-liveSearch__muted{
-  padding: 8px 14px;
-  font-size: 13px;
-  color: rgba(0,0,0,.7) !important;
+/* ---------------------------------------------------------
+   Suggestions ("Try:") — modern chips
+--------------------------------------------------------- */
+.r76-liveSearch__suggestWrap{
+  padding: 10px 12px 12px !important;
+  border-top: 1px solid #e5e5e5 !important;
 }
 
-/* ---------- Visibility ---------- */
+.r76-liveSearch__suggestLabel{
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  opacity: .75 !important;
+  margin: 0 0 8px 0 !important;
+}
+
+/* Chips container (optional wrapper support) */
+.r76-liveSearch__chips{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Chips (buttons) */
+.r76-liveSearch__suggestBtn{
+  appearance: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  padding: 6px 10px !important;
+  margin: 0 !important;
+
+  font-size: 13px !important;
+  line-height: 1 !important;
+
+  border-radius: 999px !important;
+  border: 1px solid #d6d6d6 !important;
+
+  background: #ffffff !important;
+  color: #111111 !important;
+
+  cursor: pointer !important;
+}
+
+.r76-liveSearch__suggestBtn:hover{
+  background: rgba(0,0,0,.06) !important;
+  border-color: #c8c8c8 !important;
+}
+
+/* ---------------------------------------------------------
+   Visibility toggle
+--------------------------------------------------------- */
 .r76-liveSearch__results.show{
   display: block;
 }
 
-/* ---------- Scrollbar (opaque) ---------- */
+/* ---------------------------------------------------------
+   Scrollbar — fully opaque
+--------------------------------------------------------- */
 .r76-liveSearch__results{
   scrollbar-width: thin;
   scrollbar-color: #666666 #e6e6e6;
 }
 
-.r76-liveSearch__results::-webkit-scrollbar{ width: 12px; }
-.r76-liveSearch__results::-webkit-scrollbar-track{ background:#e6e6e6; }
-.r76-liveSearch__results::-webkit-scrollbar-thumb{ background:#666666; }
+.r76-liveSearch__results::-webkit-scrollbar{
+  width: 12px;
+}
+
+.r76-liveSearch__results::-webkit-scrollbar-track{
+  background: #e6e6e6;
+}
+
+.r76-liveSearch__results::-webkit-scrollbar-thumb{
+  background: #666666;
+}
+
+.r76-liveSearch__results::-webkit-scrollbar-thumb:hover{
+  background: #4a4a4a;
+}
+
+/* ---------------------------------------------------------
+   Mobile mount visibility safety
+--------------------------------------------------------- */
+@media (max-width: 991px){
+  #r76MobileSearchMount,
+  #r76MobileSearchMount .r76-liveSearch{
+    display: block !important;
+  }
+
+  #r76MobileSearchMount{
+    padding: 10px 12px;
+  }
+}
