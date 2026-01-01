@@ -1,6 +1,6 @@
 /* =========================================================
-   R76 Live Search — FULL CSS
-   Header + Desktop + Mobile + Dropdown + Enhancements
+   R76 Live Search — FULL CSS (FINAL)
+   Header + Desktop + Mobile + Dropdown + Scroll + Polish
 ========================================================= */
 
 /* ---------- Base wrapper ---------- */
@@ -34,8 +34,11 @@
   box-shadow: 0 6px 18px rgba(0,0,0,.15);
 
   z-index: 1000;
+
+  /* scrolling */
+  max-height: 360px;
   overflow-y: auto;
-  max-height: 360px;            /* enables scrolling */
+  overscroll-behavior: contain;
 }
 
 /* Bootstrap-style dropdown compatibility */
@@ -51,10 +54,10 @@
   }
 
   .r76-liveSearch__results{
-    min-width: 420px;           /* base readable width */
-    max-width: 680px;           /* cap width */
-    width: max-content;         /* fit longest link */
-    white-space: nowrap;        /* keep titles on one line */
+    min-width: 420px;
+    max-width: 680px;
+    width: max-content;         /* grow to longest link */
+    white-space: nowrap;
   }
 
   .r76-liveSearch__results a{
@@ -62,7 +65,7 @@
   }
 }
 
-/* ---------- Mobile layout ---------- */
+/* ---------- Mobile layout + visual separation ---------- */
 @media (max-width: 991px){
 
   .r76-liveSearch{
@@ -79,8 +82,9 @@
     white-space: normal;
     max-height: 300px;
 
-    /* visual separation from mobile menu */
     margin-top: 8px;
+
+    /* stronger visual separation in mobile menu */
     border: 2px solid rgba(0,0,0,.18);
     border-radius: 6px;
     box-shadow:
@@ -88,7 +92,7 @@
       0 2px 6px rgba(0,0,0,.18);
   }
 
-  /* Larger tap targets on mobile */
+  /* Larger tap targets */
   .r76-liveSearch__results a{
     padding: 10px 16px;
     font-size: 15px;
@@ -105,13 +109,13 @@
   cursor: pointer;
 }
 
-/* Hover + keyboard active state */
+/* Hover + keyboard active */
 .r76-liveSearch__results a:hover,
 .r76-liveSearch__results a.is-active{
   background: rgba(0,0,0,.06);
 }
 
-/* ---------- Muted messages ---------- */
+/* ---------- Muted / status text ---------- */
 .r76-liveSearch__muted{
   padding: 8px 14px;
   font-size: 13px;
@@ -151,15 +155,36 @@
   background: rgba(0,0,0,.06);
 }
 
-/* ---------- Ensure visibility when JS toggles ---------- */
+/* ---------- JS visibility toggle ---------- */
 .r76-liveSearch__results.show{
   display: block;
 }
 
-/* ---------- Optional scrollbar polish (WebKit) ---------- */
+/* =========================================================
+   Scrollbar styling — solid, intentional (no ghost bar)
+========================================================= */
+
+/* Firefox */
+.r76-liveSearch__results{
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,.45) rgba(0,0,0,.08);
+}
+
+/* WebKit (Chrome, Edge, Safari) */
 .r76-liveSearch__results::-webkit-scrollbar{
   width: 10px;
 }
+
+.r76-liveSearch__results::-webkit-scrollbar-track{
+  background: rgba(0,0,0,.08);
+}
+
 .r76-liveSearch__results::-webkit-scrollbar-thumb{
+  background-color: rgba(0,0,0,.45);
   border-radius: 10px;
+  border: 2px solid rgba(255,255,255,.6);
+}
+
+.r76-liveSearch__results::-webkit-scrollbar-thumb:hover{
+  background-color: rgba(0,0,0,.6);
 }
