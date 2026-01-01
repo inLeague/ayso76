@@ -1,6 +1,6 @@
 <cfoutput>
 <ul class="nav-list nav">
-             <div id="r76MobileSearchMount"></div>
+             <li class="nav-item"><div id="r76MobileSearchMount"></div></li>
    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
     <li class="nav-item dropdown-toggle"><a class="nav-link" href="/program-info">Program Info</a>
         <ul class="dropdown-menu dropdown-menu-lg container-fluid">
