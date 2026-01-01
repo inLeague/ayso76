@@ -1,83 +1,197 @@
 /* =========================================================
-   R76 Live Search — FINAL CSS (LOCKED)
+   R76 Live Search — FULL CSS (FINAL)
+   Header + Desktop + Mobile + Dropdown + Scroll + Polish
 ========================================================= */
 
+/* ---------- Base wrapper ---------- */
 .r76-liveSearch{
-  position: relative;
+  position: relative !important;
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
   z-index: 999999;
   isolation: isolate;
 }
 
+/* ---------- Input (normalized height) ---------- */
 .r76-liveSearch input{
+  height: 32px;
+  line-height: 32px;
+  padding: 0 10px;
   width: 180px;
-  padding: 6px 10px;
+  max-width: 100%;
   font-size: 14px;
   border-radius: 4px;
+  box-sizing: border-box;
 }
 
-/* Dropdown */
+/* Mobile: slightly taller for touch */
+@media (max-width: 991px){
+  .r76-liveSearch input{
+    height: 36px;
+    line-height: 36px;
+    width: 100%;
+  }
+}
+
+/* ---------- Results container ---------- */
 .r76-liveSearch__results{
   display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  margin-top: 6px;
-  background: #fff;
-  border: 1px solid #ccc;
+  position: absolute !important;
+  top: calc(100% + 6px) !important;
+  left: 0 !important;
+
+  background: #ffffff !important;
+  color: #111111 !important;
+
+  border: 1px solid #cccccc;
   border-radius: 4px;
   box-shadow: 0 6px 18px rgba(0,0,0,.15);
+
+  z-index: 1000000;
+
+  /* scrolling */
   max-height: 360px;
   overflow-y: auto;
   overflow-x: hidden;
-  z-index: 1000000;
+  overscroll-behavior: contain;
 }
 
-.r76-liveSearch__results.show{ display:block; }
-
-/* Header */
-.r76-liveSearch__header{
-  position: sticky;
-  top: 0;
-  background: #fff;
-  border-bottom: 1px solid #ddd;
-  padding: 8px 12px;
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  font-weight: 600;
-  z-index: 2;
+/* Bootstrap dropdown compatibility */
+.r76-liveSearch__results.dropdown-menu{
+  padding: 4px 0;
 }
 
-.r76-liveSearch__close{
-  background: none;
-  border: 0;
-  font-size: 20px;
+/* ---------- Desktop: dropdown wider than input ---------- */
+@media (min-width: 992px){
+  .r76-liveSearch__results{
+    min-width: 420px;
+    max-width: 680px;
+    width: max-content;
+    white-space: nowrap;
+  }
+
+  .r76-liveSearch__results a{
+    white-space: nowrap;
+  }
+}
+
+/* ---------- Mobile layout + visibility ---------- */
+@media (max-width: 991px){
+
+  .r76-liveSearch{
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .r76-liveSearch__results{
+    min-width: 100%;
+    max-width: 100%;
+    white-space: normal;
+    max-height: 300px;
+
+    margin-top: 8px;
+
+    /* visual separation from mobile nav */
+    border: 2px solid #bbbbbb;
+    border-radius: 6px;
+    box-shadow:
+      0 10px 24px rgba(0,0,0,.22),
+      0 2px 6px rgba(0,0,0,.18);
+  }
+
+  /* Ensure nothing can cause horizontal scroll */
+  .r76-liveSearch,
+  .r76-liveSearch__results,
+  .r76-liveSearch__results *{
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Larger tap targets + wrapping */
+  .r76-liveSearch__results a{
+    padding: 10px 16px;
+    font-size: 15px;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* ---------- Result links ---------- */
+.r76-liveSearch__results a,
+.r76-liveSearch__results a:visited{
+  display: block;
+  padding: 8px 14px;
+  font-size: 14px;
+  color: #111111 !important;
+  text-decoration: none;
   cursor: pointer;
 }
 
-/* Results */
-.r76-liveSearch__results a{
-  display: block;
-  padding: 8px 14px;
-  text-decoration: none;
-  color: inherit;
-}
-
+/* Hover + keyboard active */
 .r76-liveSearch__results a:hover,
 .r76-liveSearch__results a.is-active{
+  background: rgba(0,0,0,.06) !important;
+  color: #111111 !important;
+}
+
+/* ---------- Sticky header ---------- */
+.r76-liveSearch__header{
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+
+  background: #ffffff !important;
+  color: #111111 !important;
+  border-bottom: 1px solid #dddddd;
+}
+
+.r76-liveSearch__headerText{
+  min-width: 0;
+}
+
+/* Close (X) button */
+.r76-liveSearch__close{
+  appearance: none;
+  border: 0;
+  background: transparent;
+  font-size: 20px;
+  line-height: 1;
+  padding: 2px 6px;
+  cursor: pointer;
+  border-radius: 6px;
+  color: #111111;
+}
+
+.r76-liveSearch__close:hover{
   background: rgba(0,0,0,.06);
 }
 
-/* Highlight */
+/* ---------- Muted/status text ---------- */
+.r76-liveSearch__muted{
+  padding: 8px 14px;
+  font-size: 13px;
+  color: rgba(0,0,0,.7) !important;
+}
+
+/* ---------- Highlighted query ---------- */
 .r76-liveSearch__hl{
   padding: 0 2px;
   border-radius: 3px;
 }
 
-/* Mobile */
+/* ---------- Mobile: 2-line clamp with ellipsis ---------- */
 @media (max-width: 991px){
-  .r76-liveSearch input{ width:100%; }
-
   .r76-liveSearch__title{
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -86,12 +200,77 @@
   }
 }
 
-/* Scrollbar (opaque) */
-.r76-liveSearch__results{
-  scrollbar-width: thin;
-  scrollbar-color: #666 #e6e6e6;
+/* ---------- Empty-state suggestions ---------- */
+.r76-liveSearch__suggestWrap{
+  padding: 8px 14px 10px;
+  border-top: 1px solid #dddddd;
 }
 
-.r76-liveSearch__results::-webkit-scrollbar{ width:12px; }
-.r76-liveSearch__results::-webkit-scrollbar-track{ background:#e6e6e6; }
-.r76-liveSearch__results::-webkit-scrollbar-thumb{ background:#666; }
+.r76-liveSearch__suggestLabel{
+  font-size: 12px;
+  opacity: .7;
+  margin-bottom: 6px;
+}
+
+.r76-liveSearch__suggestBtn{
+  display: inline-block;
+  margin: 0 6px 6px 0;
+  padding: 4px 10px;
+  font-size: 12px;
+  border: 1px solid #bbbbbb;
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.r76-liveSearch__suggestBtn:hover{
+  background: rgba(0,0,0,.06);
+}
+
+/* ---------- JS visibility toggle ---------- */
+.r76-liveSearch__results.show{
+  display: block;
+}
+
+/* =========================================================
+   Scrollbar styling — fully opaque (no transparency)
+========================================================= */
+
+/* Firefox */
+.r76-liveSearch__results{
+  scrollbar-width: thin;
+  scrollbar-color: #666666 #e6e6e6;
+}
+
+/* WebKit */
+.r76-liveSearch__results::-webkit-scrollbar{
+  width: 12px;
+}
+
+.r76-liveSearch__results::-webkit-scrollbar-track{
+  background-color: #e6e6e6;
+}
+
+.r76-liveSearch__results::-webkit-scrollbar-thumb{
+  background-color: #666666;
+  border-radius: 8px;
+  border: none;
+}
+
+.r76-liveSearch__results::-webkit-scrollbar-thumb:hover{
+  background-color: #4a4a4a;
+}
+
+/* =========================================================
+   Mobile search mount visibility
+========================================================= */
+@media (max-width: 991px){
+  #r76MobileSearchMount,
+  #r76MobileSearchMount .r76-liveSearch{
+    display: block !important;
+  }
+
+  #r76MobileSearchMount{
+    padding: 10px 12px;
+  }
+}
