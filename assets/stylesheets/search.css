@@ -126,3 +126,15 @@ header,
 .topbar{
   overflow: visible !important;
 }
+/* Put the search nicely inside the mobile menu */
+#r76MobileSearchMount{
+  padding: 10px 14px;
+}
+
+@media (max-width: 991px){
+  #r76MobileSearchMount .r76-liveSearch{
+    width: 100%;
+    max-width: 100%;
+    display: block;
+  }
+}
