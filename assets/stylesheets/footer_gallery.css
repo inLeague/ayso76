@@ -244,3 +244,10 @@
 @media (max-width: 720px){
   .r76-liveSearch{ width: 100%; max-width: none; }
 }
+/* Prevent header containers from clipping the dropdown */
+header, .header, .site-header, .navbar, .nav, .topbar {
+  overflow: visible !important;
+}
+
+/* If your header wrapper has a specific class, add it here too */
+
