@@ -1,6 +1,5 @@
 /* =========================================================
-   R76 Live Search — FULL CSS (FINAL)
-   Header + Desktop + Mobile + Dropdown + Scroll + Polish
+   R76 Live Search — FULL CSS (FINAL / THEME-PROOF)
 ========================================================= */
 
 /* ---------- Base wrapper ---------- */
@@ -13,7 +12,7 @@
   isolation: isolate;
 }
 
-/* ---------- Input (normalized height) ---------- */
+/* ---------- Input (shorter height) ---------- */
 .r76-liveSearch input{
   height: 32px;
   line-height: 32px;
@@ -25,7 +24,7 @@
   box-sizing: border-box;
 }
 
-/* Mobile: slightly taller for touch */
+/* Mobile: slightly taller */
 @media (max-width: 991px){
   .r76-liveSearch input{
     height: 36px;
@@ -50,7 +49,6 @@
 
   z-index: 1000000;
 
-  /* scrolling */
   max-height: 360px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -62,7 +60,19 @@
   padding: 4px 0;
 }
 
-/* ---------- Desktop: dropdown wider than input ---------- */
+/* ---------- FORCE DARK TEXT (theme override) ---------- */
+.r76-liveSearch__results,
+.r76-liveSearch__results *{
+  color: #111111 !important;
+}
+
+.r76-liveSearch__results a,
+.r76-liveSearch__results a:visited,
+.r76-liveSearch__results a.dropdown-item{
+  color: #111111 !important;
+}
+
+/* ---------- Desktop: wider dropdown ---------- */
 @media (min-width: 992px){
   .r76-liveSearch__results{
     min-width: 420px;
@@ -76,9 +86,8 @@
   }
 }
 
-/* ---------- Mobile layout + visibility ---------- */
+/* ---------- Mobile layout ---------- */
 @media (max-width: 991px){
-
   .r76-liveSearch{
     width: 100%;
     overflow-x: hidden;
@@ -89,10 +98,8 @@
     max-width: 100%;
     white-space: normal;
     max-height: 300px;
-
     margin-top: 8px;
 
-    /* visual separation from mobile nav */
     border: 2px solid #bbbbbb;
     border-radius: 6px;
     box-shadow:
@@ -100,15 +107,12 @@
       0 2px 6px rgba(0,0,0,.18);
   }
 
-  /* Ensure nothing can cause horizontal scroll */
-  .r76-liveSearch,
   .r76-liveSearch__results,
   .r76-liveSearch__results *{
     max-width: 100%;
     box-sizing: border-box;
   }
 
-  /* Larger tap targets + wrapping */
   .r76-liveSearch__results a{
     padding: 10px 16px;
     font-size: 15px;
@@ -116,24 +120,6 @@
     word-break: break-word;
     overflow-wrap: anywhere;
   }
-}
-
-/* ---------- Result links ---------- */
-.r76-liveSearch__results a,
-.r76-liveSearch__results a:visited{
-  display: block;
-  padding: 8px 14px;
-  font-size: 14px;
-  color: #111111 !important;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-/* Hover + keyboard active */
-.r76-liveSearch__results a:hover,
-.r76-liveSearch__results a.is-active{
-  background: rgba(0,0,0,.06) !important;
-  color: #111111 !important;
 }
 
 /* ---------- Sticky header ---------- */
@@ -156,41 +142,36 @@
   border-bottom: 1px solid #dddddd;
 }
 
-.r76-liveSearch__headerText{
-  min-width: 0;
-}
-
-/* Close (X) button */
+/* Close (X) */
 .r76-liveSearch__close{
   appearance: none;
   border: 0;
   background: transparent;
   font-size: 20px;
-  line-height: 1;
-  padding: 2px 6px;
   cursor: pointer;
-  border-radius: 6px;
-  color: #111111;
+  color: #111111 !important;
 }
 
-.r76-liveSearch__close:hover{
-  background: rgba(0,0,0,.06);
-}
-
-/* ---------- Muted/status text ---------- */
-.r76-liveSearch__muted{
+/* ---------- Results ---------- */
+.r76-liveSearch__results a{
+  display: block;
   padding: 8px 14px;
-  font-size: 13px;
-  color: rgba(0,0,0,.7) !important;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-/* ---------- Highlighted query ---------- */
+.r76-liveSearch__results a:hover,
+.r76-liveSearch__results a.is-active{
+  background: rgba(0,0,0,.06) !important;
+}
+
+/* ---------- Highlight ---------- */
 .r76-liveSearch__hl{
   padding: 0 2px;
   border-radius: 3px;
 }
 
-/* ---------- Mobile: 2-line clamp with ellipsis ---------- */
+/* ---------- Mobile: clamp to 2 lines ---------- */
 @media (max-width: 991px){
   .r76-liveSearch__title{
     display: -webkit-box;
@@ -200,77 +181,24 @@
   }
 }
 
-/* ---------- Empty-state suggestions ---------- */
-.r76-liveSearch__suggestWrap{
-  padding: 8px 14px 10px;
-  border-top: 1px solid #dddddd;
+/* ---------- Muted ---------- */
+.r76-liveSearch__muted{
+  padding: 8px 14px;
+  font-size: 13px;
+  color: rgba(0,0,0,.7) !important;
 }
 
-.r76-liveSearch__suggestLabel{
-  font-size: 12px;
-  opacity: .7;
-  margin-bottom: 6px;
-}
-
-.r76-liveSearch__suggestBtn{
-  display: inline-block;
-  margin: 0 6px 6px 0;
-  padding: 4px 10px;
-  font-size: 12px;
-  border: 1px solid #bbbbbb;
-  border-radius: 999px;
-  background: transparent;
-  cursor: pointer;
-}
-
-.r76-liveSearch__suggestBtn:hover{
-  background: rgba(0,0,0,.06);
-}
-
-/* ---------- JS visibility toggle ---------- */
+/* ---------- Visibility ---------- */
 .r76-liveSearch__results.show{
   display: block;
 }
 
-/* =========================================================
-   Scrollbar styling — fully opaque (no transparency)
-========================================================= */
-
-/* Firefox */
+/* ---------- Scrollbar (opaque) ---------- */
 .r76-liveSearch__results{
   scrollbar-width: thin;
   scrollbar-color: #666666 #e6e6e6;
 }
 
-/* WebKit */
-.r76-liveSearch__results::-webkit-scrollbar{
-  width: 12px;
-}
-
-.r76-liveSearch__results::-webkit-scrollbar-track{
-  background-color: #e6e6e6;
-}
-
-.r76-liveSearch__results::-webkit-scrollbar-thumb{
-  background-color: #666666;
-  border-radius: 8px;
-  border: none;
-}
-
-.r76-liveSearch__results::-webkit-scrollbar-thumb:hover{
-  background-color: #4a4a4a;
-}
-
-/* =========================================================
-   Mobile search mount visibility
-========================================================= */
-@media (max-width: 991px){
-  #r76MobileSearchMount,
-  #r76MobileSearchMount .r76-liveSearch{
-    display: block !important;
-  }
-
-  #r76MobileSearchMount{
-    padding: 10px 12px;
-  }
-}
+.r76-liveSearch__results::-webkit-scrollbar{ width: 12px; }
+.r76-liveSearch__results::-webkit-scrollbar-track{ background:#e6e6e6; }
+.r76-liveSearch__results::-webkit-scrollbar-thumb{ background:#666666; }
