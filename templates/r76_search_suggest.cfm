@@ -1,3 +1,11 @@
+<cfsetting enablecfoutputonly="true" showdebugoutput="false">
+<cfcontent type="application/json; charset=utf-8" reset="true">
+
+<!-- Prevent any theme/layout from appending output -->
+<cfheader name="Cache-Control" value="no-store, no-cache, must-revalidate, max-age=0">
+<cfheader name="Pragma" value="no-cache">
+<cfheader name="Expires" value="0">
+
 <cfsetting showDebugOutput="false">
 <cfcontent type="application/json; charset=utf-8">
 <cfparam name="url.q" default="">
@@ -40,3 +48,4 @@
 </cfloop>
 
 <cfoutput>#serializeJSON(out)#</cfoutput>
+<cfabort>
