@@ -1,7 +1,6 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
 <cfparam name="url.q" default="">
 <cfparam name="url.max" default="8">
-<cfparam name="url.raw" default="1">
 
 <cfset q = trim(url.q)>
 <cfset max = val(url.max)>
@@ -14,7 +13,7 @@
 <cfheader name="Expires" value="0">
 
 <cfset out = {
-  "version" = "r76_search_suggest_JSONONLY_2026-01-01",
+  "version" = "r76_search_suggest_JSONONLY_FINAL",
   "query"   = q,
   "results" = []
 }>
@@ -25,9 +24,8 @@
 </cfif>
 
 <cfset siteID = variables.$.event("siteid")>
-<cfset cm     = variables.$.getBean("contentManager")>
-<cfset it     = cm.getPublicSearchIterator(siteID, q)>
-
+<cfset cm = variables.$.getBean("contentManager")>
+<cfset it = cm.getPublicSearchIterator(siteID, q)>
 <cfset count = 0>
 
 <cfloop condition="it.hasNext() AND count LT max">
@@ -53,7 +51,7 @@
     <cfcontinue>
   </cfif>
 
-  <cfif left(destUrl,4) NEQ "http" AND left(destUrl,1) NEQ "/">
+  <cfif left(destUrl,1) NEQ "/" AND left(destUrl,4) NEQ "http">
     <cfset destUrl = "/" & destUrl>
   </cfif>
 
