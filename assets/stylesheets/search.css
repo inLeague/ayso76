@@ -167,3 +167,37 @@ header,
 .r76-liveSearch__suggestBtn:hover{
   background: rgba(0,0,0,.05);
 }
+/* =========================================
+   Desktop: wider dropdown than input
+========================================= */
+@media (min-width: 992px){
+
+  /* Ensure the search wrapper is the positioning anchor */
+  .r76-liveSearch{
+    position: relative;
+  }
+
+  /* Allow dropdown to extend wider than input */
+  .r76-liveSearch__results{
+    position: absolute;
+    left: 0;
+    top: 100%;
+    margin-top: 4px;
+
+    /* KEY PART */
+    min-width: 420px;          /* base readable width */
+    max-width: 680px;          /* prevents it from getting ridiculous */
+    width: max-content;        /* size to longest link */
+    white-space: nowrap;       /* prevent wrapping titles */
+
+    /* safety fallback for browsers that ignore max-content */
+    width: auto;
+
+    z-index: 1000;
+  }
+
+  /* Make sure links don’t force wrap */
+  .r76-liveSearch__results a{
+    white-space: nowrap;
+  }
+}
