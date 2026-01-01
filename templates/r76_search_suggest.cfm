@@ -9,16 +9,11 @@
 
 <cfset q   = trim(url.q)>
 <cfset max = val(url.max)>
-
-<cfif max LTE 0>
-  <cfset max = 8>
-</cfif>
-<cfif max GT 20>
-  <cfset max = 20>
-</cfif>
+<cfif max LTE 0><cfset max = 8></cfif>
+<cfif max GT 20><cfset max = 20></cfif>
 
 <!-- ======================================================
-     FORCE CLEAN JSON RESPONSE (NO THEME / FOOTER)
+     FORCE CLEAN JSON RESPONSE (NO THEME/FOOTER)
 ====================================================== -->
 <cfcontent type="application/json; charset=utf-8" reset="true">
 <cfheader name="Cache-Control" value="no-store, no-cache, must-revalidate, max-age=0">
@@ -26,88 +21,60 @@
 <cfheader name="Expires" value="0">
 
 <!-- ======================================================
-     BASE RESPONSE STRUCTURE
+     RESPONSE
 ====================================================== -->
 <cfset out = {
+  "version" = "r76_search_suggest_2026-01-01_v2",
   "query"   = q,
   "results" = []
 }>
 
-<!-- ======================================================
-     EARLY EXIT FOR SHORT QUERIES
-====================================================== -->
+<!-- Bail early -->
 <cfif len(q) LT 2>
   <cfoutput>#serializeJSON(out)#</cfoutput>
   <cfabort>
 </cfif>
 
 <!-- ======================================================
-     RUN MASA / MURA PUBLIC SEARCH
-     (same engine as /search page)
+     SEARCH (Public search iterator)
 ====================================================== -->
-<cfset cm = variables.$.getBean("contentManager")>
-<cfset it = cm.getPublicSearchIterator( variables.$.event("siteid"), q )>
+<cfset siteID = variables.$.event("siteid")>
+<cfset cm     = variables.$.getBean("contentManager")>
+<cfset it     = cm.getPublicSearchIterator(siteID, q)>
 
 <cfset count = 0>
 
 <cfloop condition="it.hasNext() AND count LT max">
-
   <cfset bean = it.next()>
 
-  <!-- ---------- TITLE ---------- -->
   <cfset title = trim(bean.getTitle())>
+  <cfif NOT len(title)>
+    <cfcontinue>
+  </cfif>
 
-  <!-- ---------- DESTINATION URL ---------- -->
+  <!-- Build a REAL destination URL from the contentID -->
   <cfset destUrl = "">
-
-  <!-- Preferred canonical URL -->
   <cftry>
-    <cfset destUrl = bean.getURL()>
+    <cfset destUrl = variables.$.createHREF(
+      contentid = bean.getContentID(),
+      siteid    = siteID
+    )>
     <cfcatch>
       <cfset destUrl = "">
     </cfcatch>
   </cftry>
 
-  <!-- Fallbacks for older / custom beans -->
-  <cfif NOT len(destUrl)>
-    <cftry>
-      <cfset destUrl = bean.get("url")>
-      <cfcatch><cfset destUrl = ""></cfcatch>
-    </cftry>
+  <!-- Normalize site-relative -->
+  <cfif len(destUrl) AND left(destUrl,4) NEQ "http" AND left(destUrl,1) NEQ "/">
+    <cfset destUrl = "/" & destUrl>
   </cfif>
 
-  <cfif NOT len(destUrl)>
-    <cftry>
-      <cfset destUrl = bean.get("filename")>
-      <cfcatch><cfset destUrl = ""></cfcatch>
-    </cftry>
-  </cfif>
-
-  <!-- ---------- VALIDATE + NORMALIZE ---------- -->
-  <cfif len(title) AND len(destUrl)>
-
-    <!-- Ensure site-relative URLs start with / -->
-    <cfif left(destUrl, 4) NEQ "http" AND left(destUrl, 1) NEQ "/">
-      <cfset destUrl = "/" & destUrl>
-    </cfif>
-
-    <!-- Push clean result -->
-    <cfset arrayAppend(
-      out.results,
-      {
-        "title" = title,
-        "url"   = destUrl
-      }
-    )>
-
+  <!-- Only return entries that actually have a usable URL -->
+  <cfif len(destUrl)>
+    <cfset arrayAppend(out.results, { "title" = title, "url" = destUrl })>
     <cfset count++>
-
   </cfif>
-
 </cfloop>
 
-<!-- ======================================================
-     OUTPUT + HARD STOP
-====================================================== -->
 <cfoutput>#serializeJSON(out)#</cfoutput>
 <cfabort>
