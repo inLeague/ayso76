@@ -180,3 +180,67 @@
 
 /* Presence before first image loads */
 #homepageImageGallery { min-height: 120px; }
+
+//Begin section for the search in the header.
+/* =========================
+   Region 76 Live Search
+   ========================= */
+
+.r76-liveSearch{
+  position: relative;
+  width: 260px;     /* header-right friendly */
+  max-width: 40vw;
+}
+
+.r76-liveSearch__input{
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.r76-liveSearch__results{
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+  overflow: hidden;
+  z-index: 99999;
+}
+
+.r76-liveSearch__results a{
+  display: block;
+  padding: 10px 12px;
+  text-decoration: none;
+  color: inherit;
+  border-top: 1px solid rgba(0,0,0,.06);
+  line-height: 1.2;
+}
+
+.r76-liveSearch__results a:first-child{ border-top: none; }
+.r76-liveSearch__results a:hover,
+.r76-liveSearch__results a.is-active{ background: rgba(0,0,0,.05); }
+
+.r76-liveSearch__muted{
+  padding: 10px 12px;
+  font-size: 12px;
+  opacity: .7;
+}
+
+/* Make the “View full results…” row stand out */
+.r76-liveSearch__results a[data-full-results]{
+  font-weight: 600;
+  border-top: 1px solid rgba(0,0,0,.12);
+}
+
+/* Mobile header: allow full width if your menu stacks */
+@media (max-width: 720px){
+  .r76-liveSearch{ width: 100%; max-width: none; }
+}
