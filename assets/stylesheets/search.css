@@ -1,5 +1,5 @@
 /* =========================================================
-   R76 Live Search — FULL CSS (AUTHORITATIVE) + mobile anchor fix
+   R76 Live Search — FULL CSS (AUTHORITATIVE) + restored preview/icon styles
 ========================================================= */
 
 .r76-liveSearch{
@@ -48,6 +48,9 @@
   }
 }
 
+/* ---------------------------------------------------------
+   Results container (absolute; JS sizes width)
+--------------------------------------------------------- */
 .r76-liveSearch__results{
   display: none;
   position: absolute !important;
@@ -73,6 +76,7 @@
   padding: 4px 0;
 }
 
+/* Force readable text */
 .r76-liveSearch__results,
 .r76-liveSearch__results *{
   color: #111111 !important;
@@ -84,6 +88,9 @@
   color: #111111 !important;
 }
 
+/* ---------------------------------------------------------
+   Desktop default (still ok even if JS sets width)
+--------------------------------------------------------- */
 @media (min-width: 992px){
   .r76-liveSearch__results{
     min-width: 420px;
@@ -91,57 +98,45 @@
     width: max-content;
     white-space: nowrap;
   }
-
-  .r76-liveSearch__results a{
-    white-space: nowrap;
-    font-size: 14px;
-    line-height: 1.35;
-  }
 }
 
-/* =========================================================
-   MOBILE FIX:
-   - Keep dropdown ABSOLUTE (not relative)
-   - Left-anchored to input
-   - Width driven by content (JS sets width), bounded by viewport
-========================================================= */
+/* ---------------------------------------------------------
+   Mobile: allow dropdown to expand beyond input width
+   (JS will clamp to viewport)
+--------------------------------------------------------- */
 @media (max-width: 991px){
-
   .r76-liveSearch{
     width: 100%;
     overflow: visible !important;
   }
 
   .r76-liveSearch__results{
-    position: absolute !important;     /* was relative */
-    top: calc(100% + 6px) !important;
-    left: 0 !important;
-    right: auto !important;
-
-    width: max-content !important;     /* allow content width */
-    min-width: 260px !important;       /* sane floor */
-    max-width: calc(100vw - 18px) !important; /* viewport bound */
-
-    margin-top: 0 !important;
-
-    max-height: 320px !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-
+    max-width: calc(100vw - 18px) !important;
+    width: max-content !important;
+    min-width: 260px !important;
+    white-space: normal;
     border: 2px solid #bbbbbb;
     border-radius: 6px;
     box-shadow:
       0 10px 24px rgba(0,0,0,.22),
       0 2px 6px rgba(0,0,0,.18);
   }
+}
 
-  .r76-liveSearch__results a{
-    padding: 10px 16px;
-    font-size: 15px;
-    white-space: normal;
-    word-break: break-word;
-    overflow-wrap: anywhere;
-  }
+/* ---------------------------------------------------------
+   Row layout + info icon (RESTORED)
+--------------------------------------------------------- */
+.r76-liveSearch__row{
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 8px;
+  padding-right: 8px;
+}
+
+.r76-liveSearch__link{
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .r76-liveSearch__results a{
@@ -157,6 +152,59 @@
   background: rgba(0,0,0,.06) !important;
 }
 
+@media (max-width: 991px){
+  .r76-liveSearch__results a{
+    padding: 10px 16px;
+    font-size: 15px;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Info button */
+.r76-liveSearch__infoBtn{
+  flex: 0 0 auto;
+  width: 34px;
+  min-width: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  appearance: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  margin: 0;
+  padding: 0;
+  border-radius: 8px;
+}
+
+.r76-liveSearch__infoBtn:hover{
+  background: rgba(0,0,0,.06);
+}
+
+.r76-liveSearch__infoSvg{
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+/* Make the svg visible (RESTORED) */
+.r76-liveSearch__infoSvg circle{
+  fill: transparent;
+  stroke: #111;
+  stroke-width: 1.6;
+}
+
+.r76-liveSearch__infoSvg path{
+  fill: #111;
+}
+
+/* ---------------------------------------------------------
+   Sticky header
+--------------------------------------------------------- */
 .r76-liveSearch__header{
   position: sticky;
   top: 0;
@@ -191,17 +239,22 @@
   border-radius: 6px;
 }
 
+/* ---------------------------------------------------------
+   Muted / status text
+--------------------------------------------------------- */
 .r76-liveSearch__muted{
   padding: 8px 14px;
   font-size: 13px;
   color: rgba(0,0,0,.7) !important;
 }
 
+/* Highlight */
 .r76-liveSearch__hl{
   padding: 0 2px;
   border-radius: 3px;
 }
 
+/* Mobile clamp titles */
 @media (max-width: 991px){
   .r76-liveSearch__title{
     display: -webkit-box;
@@ -211,6 +264,65 @@
   }
 }
 
+/* ---------------------------------------------------------
+   Inline mobile preview card (RESTORED)
+--------------------------------------------------------- */
+.r76-liveSearch__inlineCard{
+  padding: 10px 14px 12px;
+  border-top: 1px solid #e5e5e5;
+  background: #fafafa;
+}
+
+.r76-liveSearch__inlineTitle{
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  color: #111 !important;
+}
+
+.r76-liveSearch__inlineP{
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.35;
+  color: rgba(0,0,0,.8) !important;
+}
+
+/* ---------------------------------------------------------
+   Floating desktop preview tooltip card (RESTORED)
+--------------------------------------------------------- */
+.r76-liveSearch__previewCard{
+  position: fixed;
+  z-index: 2000000;
+
+  width: 380px;
+  max-width: min(420px, calc(100vw - 20px));
+
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.18);
+  border-radius: 12px;
+
+  box-shadow:
+    0 18px 38px rgba(0,0,0,.22),
+    0 6px 14px rgba(0,0,0,.18);
+
+  padding: 12px 14px;
+}
+
+.r76-liveSearch__previewTitle{
+  font-size: 13px;
+  font-weight: 800;
+  margin: 0 0 6px 0;
+  color: #111 !important;
+}
+
+.r76-liveSearch__previewP{
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.35;
+  color: rgba(0,0,0,.78) !important;
+}
+
+/* Suggestions chips */
 .r76-liveSearch__suggestWrap{
   padding: 10px 12px 12px !important;
   border-top: 1px solid #e5e5e5 !important;
@@ -255,31 +367,23 @@
   border-color: #c8c8c8 !important;
 }
 
+/* Visibility toggle */
 .r76-liveSearch__results.show{
   display: block;
 }
 
+/* Scrollbar */
 .r76-liveSearch__results{
   scrollbar-width: thin;
   scrollbar-color: #666666 #e6e6e6;
 }
 
-.r76-liveSearch__results::-webkit-scrollbar{
-  width: 12px;
-}
+.r76-liveSearch__results::-webkit-scrollbar{ width: 12px; }
+.r76-liveSearch__results::-webkit-scrollbar-track{ background: #e6e6e6; }
+.r76-liveSearch__results::-webkit-scrollbar-thumb{ background: #666666; }
+.r76-liveSearch__results::-webkit-scrollbar-thumb:hover{ background: #4a4a4a; }
 
-.r76-liveSearch__results::-webkit-scrollbar-track{
-  background: #e6e6e6;
-}
-
-.r76-liveSearch__results::-webkit-scrollbar-thumb{
-  background: #666666;
-}
-
-.r76-liveSearch__results::-webkit-scrollbar-thumb:hover{
-  background: #4a4a4a;
-}
-
+/* Mobile mount visibility */
 @media (max-width: 991px){
   #r76MobileSearchMount,
   #r76MobileSearchMount .r76-liveSearch{
@@ -291,7 +395,9 @@
   }
 }
 
-/* Your prominence overrides (kept) */
+/* =========================================================
+   PROMINENCE OVERRIDES (kept)
+========================================================= */
 .r76-liveSearch{
   margin-right: 25px !important;
   padding: 2px 0 !important;
