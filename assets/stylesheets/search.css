@@ -327,3 +327,21 @@
     padding: 10px 12px;
   }
 }
+/* =========================================================
+   Live Search — force mobile/system font everywhere
+========================================================= */
+
+.r76-liveSearch,
+.r76-liveSearch *,
+.r76-liveSearch__results,
+.r76-liveSearch__results *{
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif !important;
+}
