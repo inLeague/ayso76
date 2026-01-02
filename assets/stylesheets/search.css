@@ -164,8 +164,20 @@
 }
 
 /* ---------------------------------------------------------
-   Result links
+   Result rows (NEW: layout for title + info icon)
 --------------------------------------------------------- */
+.r76-liveSearch__row{
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  padding: 0 6px;
+}
+
+.r76-liveSearch__link{
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 .r76-liveSearch__results a{
   display: block;
   padding: 8px 14px;
@@ -188,6 +200,55 @@
     word-break: break-word;
     overflow-wrap: anywhere;
   }
+}
+
+/* ---------------------------------------------------------
+   Info icon button (NEW)
+--------------------------------------------------------- */
+.r76-liveSearch__infoBtn{
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+
+  width: 38px;
+  min-width: 38px;
+  height: auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.r76-liveSearch__infoBtn:hover{
+  background: rgba(0,0,0,.06);
+}
+
+.r76-liveSearch__infoBtn:focus{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,0,0,.12);
+}
+
+.r76-liveSearch__infoSvg{
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.r76-liveSearch__infoSvg circle{
+  fill: none;
+  stroke: #111111;
+  stroke-width: 2;
+  opacity: .85;
+}
+
+.r76-liveSearch__infoSvg path{
+  fill: #111111;
+  opacity: .85;
 }
 
 /* ---------------------------------------------------------
@@ -348,6 +409,7 @@
     padding: 10px 12px;
   }
 }
+
 /* =========================================================
    R76 Live Search — PROMINENCE OVERRIDES (paste at bottom)
    - Wider input (desktop + mobile)
@@ -421,12 +483,12 @@
     border-radius: 10px !important;
   }
 }
+
 /* =========================================================
    R76 Live Search — TABLET WIDTH LOCK (767px–990px)
    Goal: keep fixed desktop-style width until true mobile (<990px)
 ========================================================= */
 
-/* Tablet band: force a fixed width (no full-width expansion) */
 @media (min-width: 767px) and (max-width: 990px){
   .r76-liveSearch{
     width: auto !important;
@@ -434,17 +496,86 @@
   }
 
   .r76-liveSearch input{
-    width: 280px !important;    /* match your desktop width */
+    width: 280px !important;
     max-width: 280px !important;
   }
 }
 
-/* True mobile: only below 990px should it go full width */
 @media (max-width: 989px){
-  /* If you want mobile full-width ONLY when it's in the mobile nav mount,
-     keep desktop/header search fixed even under 990px by targeting the mount. */
   #r76MobileSearchMount .r76-liveSearch input{
     width: 100% !important;
     max-width: 100% !important;
   }
+}
+
+/* =========================================================
+   Preview card styles (NEW)
+========================================================= */
+
+/* Desktop floating card */
+.r76-liveSearch__previewCard{
+  position: fixed;
+  z-index: 2147483647;
+  max-width: 380px;
+  min-width: 280px;
+  padding: 10px 12px;
+
+  background: #ffffff;
+  color: #111111;
+
+  border: 1px solid rgba(0,0,0,.18);
+  border-radius: 12px;
+
+  box-shadow:
+    0 18px 42px rgba(0,0,0,.24),
+    0 2px 8px rgba(0,0,0,.18);
+
+  pointer-events: auto;
+}
+
+.r76-liveSearch__previewTitle{
+  font-size: 12px;
+  font-weight: 800;
+  margin: 0 0 6px 0;
+  opacity: .92;
+}
+
+.r76-liveSearch__previewBody{
+  font-size: 13px;
+  line-height: 1.35;
+  opacity: .92;
+}
+
+/* Hide floating card behavior under desktop breakpoint (JS won’t show it, but belt+suspenders) */
+@media (max-width: 991px){
+  .r76-liveSearch__previewCard{
+    display: none !important;
+  }
+}
+
+/* Mobile inline card (inserted into results list) */
+.r76-liveSearch__inlineCard{
+  margin: 6px 10px 10px 10px;
+  padding: 10px 12px;
+
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,.14);
+  border-radius: 12px;
+
+  box-shadow:
+    0 12px 28px rgba(0,0,0,.14),
+    0 2px 6px rgba(0,0,0,.12);
+}
+
+.r76-liveSearch__inlineTitle{
+  font-size: 12px;
+  font-weight: 800;
+  margin: 0 0 6px 0;
+  opacity: .92;
+}
+
+.r76-liveSearch__inlineBody{
+  font-size: 14px;
+  line-height: 1.4;
+  opacity: .92;
 }
