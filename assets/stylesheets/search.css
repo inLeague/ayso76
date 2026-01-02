@@ -421,3 +421,30 @@
     border-radius: 10px !important;
   }
 }
+/* =========================================================
+   R76 Live Search — TABLET WIDTH LOCK (767px–990px)
+   Goal: keep fixed desktop-style width until true mobile (<990px)
+========================================================= */
+
+/* Tablet band: force a fixed width (no full-width expansion) */
+@media (min-width: 767px) and (max-width: 990px){
+  .r76-liveSearch{
+    width: auto !important;
+    display: inline-block !important;
+  }
+
+  .r76-liveSearch input{
+    width: 280px !important;    /* match your desktop width */
+    max-width: 280px !important;
+  }
+}
+
+/* True mobile: only below 990px should it go full width */
+@media (max-width: 989px){
+  /* If you want mobile full-width ONLY when it's in the mobile nav mount,
+     keep desktop/header search fixed even under 990px by targeting the mount. */
+  #r76MobileSearchMount .r76-liveSearch input{
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
