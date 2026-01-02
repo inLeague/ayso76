@@ -13,35 +13,19 @@ hr {
   margin-left: 0;
   margin-right: 0;
 }
+
 .info-banner {
   background: $lorange;
   padding: 10px;
-  white-space: nowrap; // keep banner to one line
-
-  span,
-  a.users {
+  span, a.users {
     color: $white;
     font-family: 'Fjalla One';
     font-size: 1.063em;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    display: inline-block;
-    vertical-align: middle;
+    display:inline-block;
   }
-
-  // keep the link fully visible
-  a.users {
-    white-space: nowrap;
-  }
-
-  // let the text shrink and ellipsis instead of wrapping
-  span {
-    max-width: calc(100% - 220px); // adjust if your link area is bigger/smaller
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-
+  
 span.gsc-input {
     max-width: 201px;
     width: 100%;
