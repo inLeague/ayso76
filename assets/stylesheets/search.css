@@ -1,5 +1,5 @@
 /* =========================================================
-   R76 Live Search — FULL CSS (AUTHORITATIVE) + previews
+   R76 Live Search — FULL CSS (AUTHORITATIVE)
 ========================================================= */
 
 .r76-liveSearch{
@@ -67,10 +67,6 @@
   overflow-y: auto;
   overflow-x: hidden;
   overscroll-behavior: contain;
-
-  width: auto;
-  max-width: none;
-  min-width: 0;
 }
 
 .r76-liveSearch__results.dropdown-menu{
@@ -92,8 +88,19 @@
   .r76-liveSearch__results{
     white-space: nowrap;
   }
+
+  .r76-liveSearch__results a{
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 1.35;
+  }
 }
 
+/* ---------------------------------------------------------
+   Mobile: dropdown can be wider than input, anchored left
+   IMPORTANT: DO NOT use width:max-content!important here
+   (it will expand when preview text appears)
+--------------------------------------------------------- */
 @media (max-width: 991px){
   .r76-liveSearch{
     width: 100%;
@@ -101,9 +108,11 @@
   }
 
   .r76-liveSearch__results{
-    max-width: calc(100vw - 18px) !important;
-    width: max-content !important;
+    /* allow JS to set a locked width */
+    width: auto;
     min-width: 260px !important;
+    max-width: calc(100vw - 18px) !important;
+
     white-space: normal;
 
     border: 2px solid #bbbbbb;
@@ -242,7 +251,7 @@
   }
 }
 
-/* ✅ Inline mobile preview card: force wrap inside dropdown width */
+/* Inline preview card (must wrap inside locked width) */
 .r76-liveSearch__inlineCard{
   padding: 10px 14px 12px;
   border-top: 1px solid #e5e5e5;
@@ -276,7 +285,6 @@
   overflow-wrap: anywhere;
 }
 
-/* Floating desktop preview tooltip card */
 .r76-liveSearch__previewCard{
   position: fixed;
   z-index: 2000000;
@@ -309,7 +317,6 @@
   color: rgba(0,0,0,.78) !important;
 }
 
-/* Suggestions chips */
 .r76-liveSearch__suggestWrap{
   padding: 10px 12px 12px !important;
   border-top: 1px solid #e5e5e5 !important;
@@ -379,7 +386,7 @@
   }
 }
 
-/* PROMINENCE OVERRIDES (kept) */
+/* PROMINENCE OVERRIDES */
 .r76-liveSearch{
   margin-right: 25px !important;
   padding: 2px 0 !important;
