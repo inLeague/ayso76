@@ -1,5 +1,5 @@
 /* =========================================================
-   R76 Live Search — FULL CSS (AUTHORITATIVE) + preview/icon styles
+   R76 Live Search — FULL CSS (AUTHORITATIVE) + previews
 ========================================================= */
 
 .r76-liveSearch{
@@ -48,7 +48,6 @@
   }
 }
 
-/* Results container */
 .r76-liveSearch__results{
   display: none;
   position: absolute !important;
@@ -69,7 +68,6 @@
   overflow-x: hidden;
   overscroll-behavior: contain;
 
-  /* Allow JS to control width */
   width: auto;
   max-width: none;
   min-width: 0;
@@ -79,7 +77,6 @@
   padding: 4px 0;
 }
 
-/* Force readable text */
 .r76-liveSearch__results,
 .r76-liveSearch__results *{
   color: #111111 !important;
@@ -91,14 +88,12 @@
   color: #111111 !important;
 }
 
-/* Desktop: keep nowrap so scrollWidth reflects longest line */
 @media (min-width: 992px){
   .r76-liveSearch__results{
     white-space: nowrap;
   }
 }
 
-/* Mobile: allow wrap */
 @media (max-width: 991px){
   .r76-liveSearch{
     width: 100%;
@@ -119,7 +114,6 @@
   }
 }
 
-/* Row layout + info icon */
 .r76-liveSearch__row{
   display: flex;
   align-items: stretch;
@@ -156,7 +150,6 @@
   }
 }
 
-/* Info button */
 .r76-liveSearch__infoBtn{
   flex: 0 0 auto;
   width: 34px;
@@ -195,7 +188,6 @@
   fill: #111;
 }
 
-/* Sticky header */
 .r76-liveSearch__header{
   position: sticky;
   top: 0;
@@ -230,14 +222,12 @@
   border-radius: 6px;
 }
 
-/* Muted / status text */
 .r76-liveSearch__muted{
   padding: 8px 14px;
   font-size: 13px;
   color: rgba(0,0,0,.7) !important;
 }
 
-/* Highlight */
 .r76-liveSearch__hl{
   padding: 0 2px;
   border-radius: 3px;
@@ -252,11 +242,14 @@
   }
 }
 
-/* Inline mobile preview card */
+/* ✅ Inline mobile preview card: force wrap inside dropdown width */
 .r76-liveSearch__inlineCard{
   padding: 10px 14px 12px;
   border-top: 1px solid #e5e5e5;
   background: #fafafa;
+
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .r76-liveSearch__inlineTitle{
@@ -264,6 +257,11 @@
   font-weight: 700;
   margin: 0 0 6px 0;
   color: #111 !important;
+
+  max-width: 100%;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .r76-liveSearch__inlineP{
@@ -271,6 +269,11 @@
   font-size: 13px;
   line-height: 1.35;
   color: rgba(0,0,0,.8) !important;
+
+  max-width: 100%;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 /* Floating desktop preview tooltip card */
@@ -355,7 +358,6 @@
   display: block;
 }
 
-/* Scrollbar */
 .r76-liveSearch__results{
   scrollbar-width: thin;
   scrollbar-color: #666666 #e6e6e6;
@@ -366,7 +368,6 @@
 .r76-liveSearch__results::-webkit-scrollbar-thumb{ background: #666666; }
 .r76-liveSearch__results::-webkit-scrollbar-thumb:hover{ background: #4a4a4a; }
 
-/* Mobile mount visibility */
 @media (max-width: 991px){
   #r76MobileSearchMount,
   #r76MobileSearchMount .r76-liveSearch{
@@ -378,9 +379,7 @@
   }
 }
 
-/* =========================================================
-   PROMINENCE OVERRIDES (kept)
-========================================================= */
+/* PROMINENCE OVERRIDES (kept) */
 .r76-liveSearch{
   margin-right: 25px !important;
   padding: 2px 0 !important;
@@ -410,7 +409,6 @@
   transform: translateY(-1px);
 }
 
-/* ✅ IMPORTANT: remove hard locks that prevented desktop auto-resize */
 @media (min-width: 992px){
   .r76-liveSearch__results{
     min-width: 0 !important;
@@ -433,7 +431,6 @@
   }
 }
 
-/* Tablet width lock (kept) */
 @media (min-width: 767px) and (max-width: 990px){
   .r76-liveSearch{
     width: auto !important;
