@@ -1,5 +1,5 @@
 /* =========================================================
-   R76 Live Search — FULL CSS (CURRENT, AUTHORITATIVE)
+   R76 Live Search — FULL CSS (AUTHORITATIVE)
 ========================================================= */
 
 /* ---------------------------------------------------------
@@ -12,6 +12,27 @@
   max-width: 100%;
   z-index: 999999;
   isolation: isolate;
+}
+
+/* ---------------------------------------------------------
+   Force mobile/system font everywhere + normal casing
+--------------------------------------------------------- */
+.r76-liveSearch,
+.r76-liveSearch *,
+.r76-liveSearch__results,
+.r76-liveSearch__results *{
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif !important;
+
+  text-transform: none !important;
+  letter-spacing: normal !important;
 }
 
 /* ---------------------------------------------------------
@@ -93,6 +114,8 @@
 
   .r76-liveSearch__results a{
     white-space: nowrap;
+    font-size: 14px;
+    line-height: 1.35;
   }
 }
 
@@ -249,14 +272,12 @@
   margin: 0 0 8px 0 !important;
 }
 
-/* Chips container (optional wrapper support) */
 .r76-liveSearch__chips{
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-/* Chips (buttons) */
 .r76-liveSearch__suggestBtn{
   appearance: none !important;
   display: inline-flex !important;
@@ -326,22 +347,4 @@
   #r76MobileSearchMount{
     padding: 10px 12px;
   }
-}
-/* =========================================================
-   Live Search — force mobile/system font everywhere
-========================================================= */
-
-.r76-liveSearch,
-.r76-liveSearch *,
-.r76-liveSearch__results,
-.r76-liveSearch__results *{
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif !important;
 }
