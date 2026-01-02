@@ -1,5 +1,5 @@
 /* =========================================================
-   R76 Live Search — FULL CSS (AUTHORITATIVE) + restored preview/icon styles
+   R76 Live Search — FULL CSS (AUTHORITATIVE) + preview/icon styles
 ========================================================= */
 
 .r76-liveSearch{
@@ -48,9 +48,7 @@
   }
 }
 
-/* ---------------------------------------------------------
-   Results container (absolute; JS sizes width)
---------------------------------------------------------- */
+/* Results container */
 .r76-liveSearch__results{
   display: none;
   position: absolute !important;
@@ -70,6 +68,11 @@
   overflow-y: auto;
   overflow-x: hidden;
   overscroll-behavior: contain;
+
+  /* Allow JS to control width */
+  width: auto;
+  max-width: none;
+  min-width: 0;
 }
 
 .r76-liveSearch__results.dropdown-menu{
@@ -88,22 +91,14 @@
   color: #111111 !important;
 }
 
-/* ---------------------------------------------------------
-   Desktop default (still ok even if JS sets width)
---------------------------------------------------------- */
+/* Desktop: keep nowrap so scrollWidth reflects longest line */
 @media (min-width: 992px){
   .r76-liveSearch__results{
-    min-width: 420px;
-    max-width: 680px;
-    width: max-content;
     white-space: nowrap;
   }
 }
 
-/* ---------------------------------------------------------
-   Mobile: allow dropdown to expand beyond input width
-   (JS will clamp to viewport)
---------------------------------------------------------- */
+/* Mobile: allow wrap */
 @media (max-width: 991px){
   .r76-liveSearch{
     width: 100%;
@@ -115,6 +110,7 @@
     width: max-content !important;
     min-width: 260px !important;
     white-space: normal;
+
     border: 2px solid #bbbbbb;
     border-radius: 6px;
     box-shadow:
@@ -123,9 +119,7 @@
   }
 }
 
-/* ---------------------------------------------------------
-   Row layout + info icon (RESTORED)
---------------------------------------------------------- */
+/* Row layout + info icon */
 .r76-liveSearch__row{
   display: flex;
   align-items: stretch;
@@ -191,7 +185,6 @@
   display: block;
 }
 
-/* Make the svg visible (RESTORED) */
 .r76-liveSearch__infoSvg circle{
   fill: transparent;
   stroke: #111;
@@ -202,9 +195,7 @@
   fill: #111;
 }
 
-/* ---------------------------------------------------------
-   Sticky header
---------------------------------------------------------- */
+/* Sticky header */
 .r76-liveSearch__header{
   position: sticky;
   top: 0;
@@ -239,9 +230,7 @@
   border-radius: 6px;
 }
 
-/* ---------------------------------------------------------
-   Muted / status text
---------------------------------------------------------- */
+/* Muted / status text */
 .r76-liveSearch__muted{
   padding: 8px 14px;
   font-size: 13px;
@@ -254,7 +243,6 @@
   border-radius: 3px;
 }
 
-/* Mobile clamp titles */
 @media (max-width: 991px){
   .r76-liveSearch__title{
     display: -webkit-box;
@@ -264,9 +252,7 @@
   }
 }
 
-/* ---------------------------------------------------------
-   Inline mobile preview card (RESTORED)
---------------------------------------------------------- */
+/* Inline mobile preview card */
 .r76-liveSearch__inlineCard{
   padding: 10px 14px 12px;
   border-top: 1px solid #e5e5e5;
@@ -287,9 +273,7 @@
   color: rgba(0,0,0,.8) !important;
 }
 
-/* ---------------------------------------------------------
-   Floating desktop preview tooltip card (RESTORED)
---------------------------------------------------------- */
+/* Floating desktop preview tooltip card */
 .r76-liveSearch__previewCard{
   position: fixed;
   z-index: 2000000;
@@ -367,7 +351,6 @@
   border-color: #c8c8c8 !important;
 }
 
-/* Visibility toggle */
 .r76-liveSearch__results.show{
   display: block;
 }
@@ -427,10 +410,11 @@
   transform: translateY(-1px);
 }
 
+/* ✅ IMPORTANT: remove hard locks that prevented desktop auto-resize */
 @media (min-width: 992px){
   .r76-liveSearch__results{
-    min-width: 520px !important;
-    max-width: 780px !important;
+    min-width: 0 !important;
+    max-width: none !important;
   }
 }
 
