@@ -849,3 +849,23 @@
   outline: 2px solid rgba(0,0,0,.35);
   outline-offset: 2px;
 }
+/* Optical centering for the × glyph inside the clear button */
+.r76-liveSearch__clearBtn{
+  font-size: 20px !important;
+  line-height: 1 !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Nudge the glyph up a hair (tweak if desired) */
+.r76-liveSearch__clearBtn{
+  padding-bottom: 1px !important;
+}
+
+/* If you prefer transform instead of padding, use this instead (pick one):
+.r76-liveSearch__clearBtn{
+  transform: translateY(calc(-50% - 1px));
+}
+*/
