@@ -746,3 +746,31 @@
   outline: 2px solid rgba(0,0,0,.35) !important;
   outline-offset: 2px !important;
 }
+/* 1) Vertically center the ⓘ button in each result row */
+.r76-liveSearch__row{
+  align-items: center !important;
+}
+
+/* 2) Desktop: hover affordance only — NO click/active reaction, NO outline on click */
+@media (hover:hover) and (pointer:fine){
+
+  /* Keep cursor + hover styling (from your earlier patch), but kill click feedback */
+  .r76-liveSearch__infoBtn:active{
+    background: transparent !important;
+    transform: none !important;
+  }
+
+  /* Remove focus outline from mouse clicks (keep :focus-visible for keyboard users) */
+  .r76-liveSearch__infoBtn:focus{
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* 3) Safety: if .is-open ever exists on desktop, neutralize it */
+@media (min-width: 992px){
+  .r76-liveSearch__infoBtn.is-open{
+    background: transparent !important;
+    transform: none !important;
+  }
+}
