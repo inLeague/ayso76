@@ -774,3 +774,18 @@
     transform: none !important;
   }
 }
+/* Desktop: prevent “flash” on click by making :active match :hover */
+@media (hover:hover) and (pointer:fine){
+  /* kill any framework focus visuals */
+  .r76-liveSearch__infoBtn:focus,
+  .r76-liveSearch__infoBtn:active{
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  /* keep the hovered look during mousedown so nothing changes/“flashes” */
+  .r76-liveSearch__infoBtn:active{
+    background: rgba(0,0,0,.08) !important; /* match your hover bg */
+    transform: scale(1.05) !important;      /* match your hover scale */
+  }
+}
