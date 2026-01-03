@@ -789,3 +789,63 @@
     transform: scale(1.05) !important;      /* match your hover scale */
   }
 }
+/* Give the input room on the right for the clear button */
+.r76-liveSearch input{
+  padding-right: 44px !important; /* space for × */
+}
+
+/* Clear (×) button inside the search bar */
+.r76-liveSearch__clearBtn{
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 28px;
+  height: 28px;
+
+  display: none;                 /* shown only when there’s text */
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+
+  font-size: 20px;
+  line-height: 1;
+  color: rgba(0,0,0,.55);
+
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  transition: background-color .12s ease, transform .12s ease, color .12s ease;
+}
+
+.r76-liveSearch__clearBtn.is-visible{
+  display: inline-flex;
+}
+
+/* Desktop hover affordance */
+@media (hover:hover) and (pointer:fine){
+  .r76-liveSearch__clearBtn:hover{
+    background: rgba(0,0,0,.08);
+    color: rgba(0,0,0,.75);
+    transform: translateY(-50%) scale(1.05);
+  }
+}
+
+/* Mobile tap feedback */
+@media (hover:none) and (pointer:coarse){
+  .r76-liveSearch__clearBtn:active{
+    background: rgba(0,0,0,.10);
+    transform: translateY(-50%) scale(1.05);
+    color: rgba(0,0,0,.85);
+  }
+}
+
+/* Optional: keyboard focus (keeps it accessible) */
+.r76-liveSearch__clearBtn:focus-visible{
+  outline: 2px solid rgba(0,0,0,.35);
+  outline-offset: 2px;
+}
