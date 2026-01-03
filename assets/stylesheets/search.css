@@ -672,3 +672,21 @@
   line-height: 1.45;
   color: rgba(0,0,0,.78) !important;
 }
+/* Force results dropdown to be scrollable (wins over Bootstrap/theme) */
+.r76-liveSearch__results,
+.r76-liveSearch__results.dropdown-menu,
+.r76-liveSearch__results.dropdown-menu.show{
+  max-height: 360px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Optional: better max height on mobile */
+@media (max-width: 991px){
+  .r76-liveSearch__results,
+  .r76-liveSearch__results.dropdown-menu,
+  .r76-liveSearch__results.dropdown-menu.show{
+    max-height: min(60vh, 520px) !important;
+  }
+}
