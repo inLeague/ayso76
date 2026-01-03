@@ -900,3 +900,25 @@
     transform: translateY(calc(-50% - 2px)) scale(1.05) !important;
   }
 }
+/* Desktop: NO movement/scale on ⓘ (prevents preview card shifting) */
+@media (hover:hover) and (pointer:fine){
+  .r76-liveSearch__infoBtn{
+    transition: background-color .12s ease, color .12s ease !important; /* no transform */
+    transform: none !important;
+  }
+
+  .r76-liveSearch__infoBtn:hover{
+    background: rgba(0,0,0,.08) !important; /* keep the circle */
+    transform: none !important;              /* remove shift */
+  }
+
+  .r76-liveSearch__infoBtn:active{
+    background: rgba(0,0,0,.08) !important; /* keep same as hover so no flash/shift */
+    transform: none !important;
+  }
+
+  /* Optional: make the icon feel more "active" without moving */
+  .r76-liveSearch__infoBtn:hover .r76-liveSearch__infoSvg circle{
+    stroke-width: 2.0;
+  }
+}
