@@ -605,3 +605,85 @@
     padding: 12px 16px !important;
   }
 }
+/* =========================================================
+   Mobile Floating Preview Card (SAFE ADDITION)
+   Paste at END of existing Live Search CSS
+========================================================= */
+
+.r76-liveSearch__mPreviewBackdrop{
+  position: fixed;
+  inset: 0;
+  z-index: 1999998;
+  background: rgba(0,0,0,.12);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  display: none;
+}
+
+.r76-liveSearch__mPreviewCard{
+  position: fixed;
+  z-index: 1999999;
+  display: none;
+
+  width: min(420px, calc(100vw - 20px));
+  max-height: min(420px, calc(70vh));
+  overflow: auto;
+
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,.14);
+  border-radius: 16px;
+
+  box-shadow:
+    0 26px 70px rgba(0,0,0,.22),
+    0 8px 22px rgba(0,0,0,.14);
+
+  padding: 12px 14px;
+}
+
+.r76-liveSearch__mPreviewTop{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.r76-liveSearch__mPreviewTitle{
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.25;
+  margin: 0;
+  color: #111 !important;
+}
+
+.r76-liveSearch__mPreviewClose{
+  appearance: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  width: 34px;
+  height: 32px;
+  border-radius: 10px;
+
+  font-size: 22px;
+  line-height: 1;
+  color: #111 !important;
+}
+
+.r76-liveSearch__mPreviewClose:hover{
+  background: rgba(0,0,0,.06);
+}
+
+.r76-liveSearch__mPreviewP{
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: rgba(0,0,0,.78) !important;
+}
+
+/* Keep desktop behavior unchanged */
+@media (min-width: 992px){
+  .r76-liveSearch__mPreviewBackdrop,
+  .r76-liveSearch__mPreviewCard{ display:none !important; }
+}
