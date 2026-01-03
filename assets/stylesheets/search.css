@@ -2,6 +2,9 @@
    R76 Live Search — FULL CSS (AUTHORITATIVE)
 ========================================================= */
 
+/* ---------------------------------------------------------
+   Base wrapper
+--------------------------------------------------------- */
 .r76-liveSearch{
   position: relative !important;
   display: inline-block;
@@ -11,6 +14,9 @@
   isolation: isolate;
 }
 
+/* ---------------------------------------------------------
+   Force mobile/system font everywhere + normal casing
+--------------------------------------------------------- */
 .r76-liveSearch,
 .r76-liveSearch *,
 .r76-liveSearch__results,
@@ -29,10 +35,13 @@
   letter-spacing: normal !important;
 }
 
+/* ---------------------------------------------------------
+   Input (normalized height)
+--------------------------------------------------------- */
 .r76-liveSearch input{
   height: 32px;
   line-height: 32px;
-  padding: 0 10px;
+  padding: 0 34px 0 10px; /* NEW: room for clear “×” */
   width: 180px;
   max-width: 100%;
   font-size: 14px;
@@ -40,14 +49,77 @@
   box-sizing: border-box;
 }
 
+/* Mobile: touch-friendly but compact */
 @media (max-width: 991px){
   .r76-liveSearch input{
     height: 36px;
     line-height: 36px;
     width: 100%;
+    padding-right: 38px; /* NEW: room for clear “×” */
   }
 }
 
+/* ---------------------------------------------------------
+   Clear “×” button (NEW)
+--------------------------------------------------------- */
+.r76-liveSearch__clearBtn{
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  padding: 0;
+  margin: 0;
+  border-radius: 8px;
+
+  background: transparent;
+  color: rgba(0,0,0,.55);
+
+  cursor: pointer;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: background .15s ease, opacity .15s ease, color .15s ease, transform .15s ease;
+}
+
+/* Only show when there is text */
+.r76-liveSearch.r76-hasValue .r76-liveSearch__clearBtn{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.r76-liveSearch__clearBtn:hover{
+  background: rgba(0,0,0,.06);
+  color: rgba(0,0,0,.85);
+}
+
+.r76-liveSearch__clearBtn:active{
+  transform: translateY(-50%) scale(.96);
+}
+
+@media (max-width: 991px){
+  .r76-liveSearch__clearBtn{
+    right: 12px;
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    border-radius: 10px;
+  }
+}
+
+/* ---------------------------------------------------------
+   Results container (desktop default)
+--------------------------------------------------------- */
 .r76-liveSearch__results{
   display: none;
   position: absolute !important;
@@ -69,10 +141,14 @@
   overscroll-behavior: contain;
 }
 
+/* Bootstrap dropdown compatibility */
 .r76-liveSearch__results.dropdown-menu{
   padding: 4px 0;
 }
 
+/* ---------------------------------------------------------
+   FORCE readable text (theme-proof)
+--------------------------------------------------------- */
 .r76-liveSearch__results,
 .r76-liveSearch__results *{
   color: #111111 !important;
@@ -84,9 +160,14 @@
   color: #111111 !important;
 }
 
-/* Desktop: shrink-wrap behavior handled by JS width locking */
+/* ---------------------------------------------------------
+   Desktop: dropdown wider than input
+--------------------------------------------------------- */
 @media (min-width: 992px){
   .r76-liveSearch__results{
+    min-width: 420px;
+    max-width: 680px;
+    width: max-content;
     white-space: nowrap;
   }
 
@@ -97,19 +178,33 @@
   }
 }
 
-/* Mobile: DO NOT force 100% width; allow growth */
+/* ---------------------------------------------------------
+   Mobile: dropdown flows under input (NOT constrained)
+--------------------------------------------------------- */
 @media (max-width: 991px){
+
+  /* Ensure no clipping */
   .r76-liveSearch{
     width: 100%;
     overflow: visible !important;
   }
 
+  /* Dropdown becomes a flowing panel */
   .r76-liveSearch__results{
-    /* let JS set exact width */
-    width: auto;
-    min-width: 260px !important;
-    max-width: calc(100vw - 18px) !important;
-    white-space: normal;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+
+    margin-top: 8px;
+
+    max-height: 320px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
 
     border: 2px solid #bbbbbb;
     border-radius: 6px;
@@ -118,32 +213,18 @@
       0 2px 6px rgba(0,0,0,.18);
   }
 
-  /* Measurement mode: shrink-wrap to content so scrollWidth is meaningful */
-  .r76-liveSearch__results.r76-measuring{
-    display: inline-block !important;
-    width: auto !important;
-    max-width: none !important;
-    white-space: nowrap !important;
-  }
-
-  .r76-liveSearch__results.r76-measuring a{
-    white-space: nowrap !important;
+  /* Prevent horizontal scroll anywhere */
+  .r76-liveSearch,
+  .r76-liveSearch__results,
+  .r76-liveSearch__results *{
+    max-width: 100%;
+    box-sizing: border-box;
   }
 }
 
-.r76-liveSearch__row{
-  display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-  gap: 8px;
-  padding-right: 8px;
-}
-
-.r76-liveSearch__link{
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
+/* ---------------------------------------------------------
+   Result links
+--------------------------------------------------------- */
 .r76-liveSearch__results a{
   display: block;
   padding: 8px 14px;
@@ -157,6 +238,7 @@
   background: rgba(0,0,0,.06) !important;
 }
 
+/* Mobile: larger tap targets */
 @media (max-width: 991px){
   .r76-liveSearch__results a{
     padding: 10px 16px;
@@ -167,44 +249,9 @@
   }
 }
 
-.r76-liveSearch__infoBtn{
-  flex: 0 0 auto;
-  width: 34px;
-  min-width: 34px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  appearance: none;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-
-  margin: 0;
-  padding: 0;
-  border-radius: 8px;
-}
-
-.r76-liveSearch__infoBtn:hover{
-  background: rgba(0,0,0,.06);
-}
-
-.r76-liveSearch__infoSvg{
-  width: 18px;
-  height: 18px;
-  display: block;
-}
-
-.r76-liveSearch__infoSvg circle{
-  fill: transparent;
-  stroke: #111;
-  stroke-width: 1.6;
-}
-
-.r76-liveSearch__infoSvg path{
-  fill: #111;
-}
-
+/* ---------------------------------------------------------
+   Sticky header
+--------------------------------------------------------- */
 .r76-liveSearch__header{
   position: sticky;
   top: 0;
@@ -224,6 +271,7 @@
   border-bottom: 1px solid #dddddd;
 }
 
+/* Close (X) */
 .r76-liveSearch__close{
   appearance: none;
   border: 0;
@@ -239,17 +287,26 @@
   border-radius: 6px;
 }
 
+/* ---------------------------------------------------------
+   Muted / status text
+--------------------------------------------------------- */
 .r76-liveSearch__muted{
   padding: 8px 14px;
   font-size: 13px;
   color: rgba(0,0,0,.7) !important;
 }
 
+/* ---------------------------------------------------------
+   Highlighted query
+--------------------------------------------------------- */
 .r76-liveSearch__hl{
   padding: 0 2px;
   border-radius: 3px;
 }
 
+/* ---------------------------------------------------------
+   Mobile: clamp results to 2 lines
+--------------------------------------------------------- */
 @media (max-width: 991px){
   .r76-liveSearch__title{
     display: -webkit-box;
@@ -259,71 +316,9 @@
   }
 }
 
-.r76-liveSearch__inlineCard{
-  padding: 10px 14px 12px;
-  border-top: 1px solid #e5e5e5;
-  background: #fafafa;
-
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.r76-liveSearch__inlineTitle{
-  font-size: 13px;
-  font-weight: 700;
-  margin: 0 0 6px 0;
-  color: #111 !important;
-
-  max-width: 100%;
-  white-space: normal;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-}
-
-.r76-liveSearch__inlineP{
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.35;
-  color: rgba(0,0,0,.8) !important;
-
-  max-width: 100%;
-  white-space: normal;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-}
-
-.r76-liveSearch__previewCard{
-  position: fixed;
-  z-index: 2000000;
-
-  width: 380px;
-  max-width: min(420px, calc(100vw - 20px));
-
-  background: #fff;
-  border: 1px solid rgba(0,0,0,.18);
-  border-radius: 12px;
-
-  box-shadow:
-    0 18px 38px rgba(0,0,0,.22),
-    0 6px 14px rgba(0,0,0,.18);
-
-  padding: 12px 14px;
-}
-
-.r76-liveSearch__previewTitle{
-  font-size: 13px;
-  font-weight: 800;
-  margin: 0 0 6px 0;
-  color: #111 !important;
-}
-
-.r76-liveSearch__previewP{
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.35;
-  color: rgba(0,0,0,.78) !important;
-}
-
+/* ---------------------------------------------------------
+   Suggestions ("Try:") — modern chips
+--------------------------------------------------------- */
 .r76-liveSearch__suggestWrap{
   padding: 10px 12px 12px !important;
   border-top: 1px solid #e5e5e5 !important;
@@ -368,20 +363,40 @@
   border-color: #c8c8c8 !important;
 }
 
+/* ---------------------------------------------------------
+   Visibility toggle
+--------------------------------------------------------- */
 .r76-liveSearch__results.show{
   display: block;
 }
 
+/* ---------------------------------------------------------
+   Scrollbar — fully opaque
+--------------------------------------------------------- */
 .r76-liveSearch__results{
   scrollbar-width: thin;
   scrollbar-color: #666666 #e6e6e6;
 }
 
-.r76-liveSearch__results::-webkit-scrollbar{ width: 12px; }
-.r76-liveSearch__results::-webkit-scrollbar-track{ background: #e6e6e6; }
-.r76-liveSearch__results::-webkit-scrollbar-thumb{ background: #666666; }
-.r76-liveSearch__results::-webkit-scrollbar-thumb:hover{ background: #4a4a4a; }
+.r76-liveSearch__results::-webkit-scrollbar{
+  width: 12px;
+}
 
+.r76-liveSearch__results::-webkit-scrollbar-track{
+  background: #e6e6e6;
+}
+
+.r76-liveSearch__results::-webkit-scrollbar-thumb{
+  background: #666666;
+}
+
+.r76-liveSearch__results::-webkit-scrollbar-thumb:hover{
+  background: #4a4a4a;
+}
+
+/* ---------------------------------------------------------
+   Mobile mount visibility safety
+--------------------------------------------------------- */
 @media (max-width: 991px){
   #r76MobileSearchMount,
   #r76MobileSearchMount .r76-liveSearch{
@@ -393,19 +408,27 @@
   }
 }
 
-/* PROMINENCE OVERRIDES */
+/* =========================================================
+   R76 Live Search — PROMINENCE OVERRIDES (paste at bottom)
+   - Wider input (desktop + mobile)
+   - Stronger visual treatment
+   - +25px right margin
+========================================================= */
+
+/* Wrapper: give it breathing room + make it stand out */
 .r76-liveSearch{
-  margin-right: 25px !important;
+  margin-right: 25px !important;          /* requested */
   padding: 2px 0 !important;
 }
 
+/* Input: wider + stronger styling (desktop default) */
 .r76-liveSearch input{
-  width: 280px !important;
-  height: 38px !important;
+  width: 280px !important;               /* was 180px */
+  height: 38px !important;               /* slightly taller */
   line-height: 38px !important;
   font-size: 15px !important;
 
-  padding: 0 12px !important;
+  padding: 0 38px 0 12px !important;     /* NEW: room for clear “×” */
   border-radius: 8px !important;
 
   border: 1px solid rgba(0,0,0,.25) !important;
@@ -416,6 +439,7 @@
   transition: box-shadow .18s ease, border-color .18s ease, transform .18s ease;
 }
 
+/* Focus: make it obvious */
 .r76-liveSearch input:focus{
   outline: none !important;
   border-color: rgba(0,0,0,.45) !important;
@@ -423,6 +447,56 @@
   transform: translateY(-1px);
 }
 
+/* Optional “find me” hint: subtle pulsing border until first focus */
+.r76-liveSearch.r76-searchHint input{
+  animation: r76SearchHintPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes r76SearchHintPulse{
+  0%   { box-shadow: 0 2px 10px rgba(0,0,0,.10); }
+  50%  { box-shadow: 0 6px 18px rgba(0,0,0,.22); }
+  100% { box-shadow: 0 2px 10px rgba(0,0,0,.10); }
+}
+
+/* Desktop: keep dropdown sized relative to wider input */
+@media (min-width: 992px){
+  .r76-liveSearch__results{
+    min-width: 520px !important;
+    max-width: 780px !important;
+  }
+}
+
+/* Mobile: full width + stronger presence */
+@media (max-width: 991px){
+  .r76-liveSearch{
+    margin-right: 0 !important;          /* mobile nav usually full width */
+    padding: 6px 0 !important;
+  }
+
+  .r76-liveSearch input{
+    width: 100% !important;
+    height: 42px !important;
+    line-height: 42px !important;
+    font-size: 16px !important;
+    border-radius: 10px !important;
+    padding-right: 44px !important;      /* NEW: room for clear “×” */
+  }
+
+  .r76-liveSearch__clearBtn{
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    right: 14px;
+    border-radius: 10px;
+  }
+}
+
+/* =========================================================
+   R76 Live Search — TABLET WIDTH LOCK (767px–990px)
+   Goal: keep fixed desktop-style width until true mobile (<990px)
+========================================================= */
+
+/* Tablet band: force a fixed width (no full-width expansion) */
 @media (min-width: 767px) and (max-width: 990px){
   .r76-liveSearch{
     width: auto !important;
@@ -430,11 +504,12 @@
   }
 
   .r76-liveSearch input{
-    width: 280px !important;
+    width: 280px !important;    /* match your desktop width */
     max-width: 280px !important;
   }
 }
 
+/* True mobile: only below 990px should it go full width */
 @media (max-width: 989px){
   #r76MobileSearchMount .r76-liveSearch input{
     width: 100% !important;
