@@ -1,17 +1,8 @@
+
 /* =========================================================
-   R76 Live Search — FULL CSS (AUTHORITATIVE, UNABRIDGED)
-   Includes:
-   - Base + dropdown
-   - Mobile/desktop behaviors
-   - Suggestions chips
-   - PROMINENCE overrides
-   - Clear “×” button styling (centered + mobile-safe)
-   - Tooltip / preview styles (desktop popover + mobile inline)
+   R76 Live Search — FULL CSS (AUTHORITATIVE)
 ========================================================= */
 
-/* ---------------------------------------------------------
-   Base wrapper
---------------------------------------------------------- */
 .r76-liveSearch{
   position: relative !important;
   display: inline-block;
@@ -22,7 +13,7 @@
 }
 
 .r76-liveSearch,
-.r76-liveSearch * ,
+.r76-liveSearch *,
 .r76-liveSearch__results,
 .r76-liveSearch__results *{
   font-family:
@@ -39,15 +30,6 @@
   letter-spacing: normal !important;
 }
 
-/* ---------------------------------------------------------
-   Input + wrap (clear button uses this positioning context)
---------------------------------------------------------- */
-.r76-liveSearch__inputWrap{
-  position: relative;
-  display: inline-block;
-  max-width: 100%;
-}
-
 .r76-liveSearch input{
   height: 32px;
   line-height: 32px;
@@ -59,7 +41,6 @@
   box-sizing: border-box;
 }
 
-/* Mobile input defaults */
 @media (max-width: 991px){
   .r76-liveSearch input{
     height: 36px;
@@ -68,61 +49,6 @@
   }
 }
 
-/* ---------------------------------------------------------
-   Clear "×" button (FIXED: centered + reliable tapping)
---------------------------------------------------------- */
-.r76-liveSearch__clearBtn{
-  position: absolute !important;
-  top: 50% !important;
-  right: 10px !important;
-  transform: translateY(-50%) !important;
-
-  width: 28px !important;
-  height: 28px !important;
-
-  display: none; /* only show when input has value */
-  align-items: center !important;
-  justify-content: center !important;
-
-  border: 0 !important;
-  background: transparent !important;
-
-  border-radius: 8px !important;
-  cursor: pointer !important;
-
-  font-size: 20px !important;
-  line-height: 1 !important;
-
-  color: rgba(0,0,0,.65) !important;
-
-  /* mobile tap reliability */
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  pointer-events: auto;
-  z-index: 5;
-}
-
-.r76-liveSearch.r76-hasValue .r76-liveSearch__clearBtn{
-  display: inline-flex !important;
-}
-
-.r76-liveSearch__clearBtn:hover{
-  background: rgba(0,0,0,.06) !important;
-  color: rgba(0,0,0,.85) !important;
-}
-
-.r76-liveSearch__clearBtn:active{
-  transform: translateY(-50%) scale(.98) !important;
-}
-
-/* Ensure input padding doesn't collide with clear button */
-.r76-liveSearch input{
-  padding-right: 40px !important;
-}
-
-/* ---------------------------------------------------------
-   Results dropdown base
---------------------------------------------------------- */
 .r76-liveSearch__results{
   display: none;
   position: absolute !important;
@@ -206,18 +132,12 @@
   }
 }
 
-/* ---------------------------------------------------------
-   Result row layout
---------------------------------------------------------- */
 .r76-liveSearch__row{
   display: flex;
   align-items: stretch;
   justify-content: space-between;
   gap: 8px;
   padding-right: 8px;
-
-  /* Tooltip positioning context (desktop popover) */
-  position: relative;
 }
 
 .r76-liveSearch__link{
@@ -248,9 +168,6 @@
   }
 }
 
-/* ---------------------------------------------------------
-   Info button
---------------------------------------------------------- */
 .r76-liveSearch__infoBtn{
   flex: 0 0 auto;
   width: 34px;
@@ -267,23 +184,12 @@
   margin: 0;
   padding: 0;
   border-radius: 8px;
-
-  font-weight: 700;
-  font-size: 14px;
-  color: rgba(0,0,0,.75) !important;
-
-  -webkit-tap-highlight-color: transparent;
 }
 
 .r76-liveSearch__infoBtn:hover{
   background: rgba(0,0,0,.06);
 }
 
-.r76-liveSearch__infoBtn:active{
-  transform: translateY(1px);
-}
-
-/* Optional legacy SVG (kept for compatibility if used elsewhere) */
 .r76-liveSearch__infoSvg{
   width: 18px;
   height: 18px;
@@ -300,9 +206,6 @@
   fill: #111;
 }
 
-/* ---------------------------------------------------------
-   Sticky header inside dropdown
---------------------------------------------------------- */
 .r76-liveSearch__header{
   position: sticky;
   top: 0;
@@ -330,32 +233,24 @@
   line-height: 1;
   cursor: pointer;
   color: #111111 !important;
-  border-radius: 6px;
-  padding: 2px 6px;
 }
 
 .r76-liveSearch__close:hover{
   background: rgba(0,0,0,.06);
+  border-radius: 6px;
 }
 
-/* ---------------------------------------------------------
-   Status/muted line
---------------------------------------------------------- */
 .r76-liveSearch__muted{
   padding: 8px 14px;
   font-size: 13px;
   color: rgba(0,0,0,.7) !important;
 }
 
-/* ---------------------------------------------------------
-   Highlighting
---------------------------------------------------------- */
 .r76-liveSearch__hl{
   padding: 0 2px;
   border-radius: 3px;
 }
 
-/* Mobile: clamp titles to 2 lines */
 @media (max-width: 991px){
   .r76-liveSearch__title{
     display: -webkit-box;
@@ -365,9 +260,6 @@
   }
 }
 
-/* ---------------------------------------------------------
-   Inline card styles (kept; not currently used by JS)
---------------------------------------------------------- */
 .r76-liveSearch__inlineCard{
   padding: 10px 14px 12px;
   border-top: 1px solid #e5e5e5;
@@ -401,9 +293,6 @@
   overflow-wrap: anywhere;
 }
 
-/* ---------------------------------------------------------
-   (Legacy) fixed preview card styles (kept for compatibility)
---------------------------------------------------------- */
 .r76-liveSearch__previewCard{
   position: fixed;
   z-index: 2000000;
@@ -436,9 +325,6 @@
   color: rgba(0,0,0,.78) !important;
 }
 
-/* ---------------------------------------------------------
-   Suggestions (Try: chips)
---------------------------------------------------------- */
 .r76-liveSearch__suggestWrap{
   padding: 10px 12px 12px !important;
   border-top: 1px solid #e5e5e5 !important;
@@ -483,16 +369,10 @@
   border-color: #c8c8c8 !important;
 }
 
-/* ---------------------------------------------------------
-   Show/hide
---------------------------------------------------------- */
 .r76-liveSearch__results.show{
   display: block;
 }
 
-/* ---------------------------------------------------------
-   Scrollbars
---------------------------------------------------------- */
 .r76-liveSearch__results{
   scrollbar-width: thin;
   scrollbar-color: #666666 #e6e6e6;
@@ -503,9 +383,6 @@
 .r76-liveSearch__results::-webkit-scrollbar-thumb{ background: #666666; }
 .r76-liveSearch__results::-webkit-scrollbar-thumb:hover{ background: #4a4a4a; }
 
-/* ---------------------------------------------------------
-   Mobile mount area
---------------------------------------------------------- */
 @media (max-width: 991px){
   #r76MobileSearchMount,
   #r76MobileSearchMount .r76-liveSearch{
@@ -517,9 +394,7 @@
   }
 }
 
-/* =========================================================
-   PROMINENCE OVERRIDES
-========================================================= */
+/* PROMINENCE OVERRIDES */
 .r76-liveSearch{
   margin-right: 25px !important;
   padding: 2px 0 !important;
@@ -549,7 +424,6 @@
   transform: translateY(-1px);
 }
 
-/* Tablet midrange: keep search inline, fixed width */
 @media (min-width: 767px) and (max-width: 990px){
   .r76-liveSearch{
     width: auto !important;
@@ -562,141 +436,9 @@
   }
 }
 
-/* Mobile: full width in mount */
 @media (max-width: 989px){
   #r76MobileSearchMount .r76-liveSearch input{
     width: 100% !important;
     max-width: 100% !important;
-  }
-}
-
-/* =========================================================
-   TOOLTIP / PREVIEW STYLES (DESKTOP POPOVER + MOBILE INLINE)
-========================================================= */
-
-/* Tooltip container (default hidden) */
-.r76-liveSearch__tip{
-  display: none;
-
-  /* Desktop default: popover */
-  position: absolute;
-  top: 50%;
-  right: -8px;
-  transform: translate(100%, -50%);
-
-  width: 360px;
-  max-width: min(420px, calc(100vw - 24px));
-
-  background: #fff !important;
-  color: #111 !important;
-
-  border: 1px solid rgba(0,0,0,.18);
-  border-radius: 12px;
-
-  box-shadow:
-    0 18px 38px rgba(0,0,0,.22),
-    0 6px 14px rgba(0,0,0,.18);
-
-  padding: 12px 14px;
-
-  z-index: 2000000;
-
-  /* Prevent tooltip text from forcing any layout changes */
-  pointer-events: none;
-  contain: layout paint style;
-}
-
-/* Show tooltip when row is open (JS toggles .r76-tipOpen) */
-.r76-liveSearch__row.r76-tipOpen .r76-liveSearch__tip{
-  display: block;
-}
-
-/* Tooltip arrow */
-.r76-liveSearch__tip:before{
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 100%;
-  transform: translateY(-50%);
-
-  border-width: 9px;
-  border-style: solid;
-  border-color: transparent rgba(0,0,0,.18) transparent transparent;
-}
-
-.r76-liveSearch__tip:after{
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 100%;
-  transform: translateY(-50%);
-
-  margin-right: -1px;
-  border-width: 8px;
-  border-style: solid;
-  border-color: transparent #fff transparent transparent;
-}
-
-/* Tooltip text */
-.r76-liveSearch__tipTitle{
-  font-size: 13px !important;
-  font-weight: 800 !important;
-  margin: 0 0 6px 0 !important;
-  color: #111 !important;
-  line-height: 1.25;
-}
-
-.r76-liveSearch__tipBody{
-  font-size: 13px !important;
-  line-height: 1.35 !important;
-  margin: 0 !important;
-  color: rgba(0,0,0,.78) !important;
-
-  word-break: break-word;
-  overflow-wrap: anywhere;
-}
-
-/* Prevent off-screen on narrower desktop */
-@media (max-width: 1200px) and (min-width: 992px){
-  .r76-liveSearch__tip{
-    right: 0;
-    transform: translate(100%, -50%);
-    max-width: min(380px, calc(100vw - 24px));
-  }
-}
-
-/* Mobile behavior: inline tooltip under the row */
-@media (max-width: 991px){
-  .r76-liveSearch__tip{
-    position: static;
-    transform: none;
-    width: auto;
-    max-width: none;
-
-    margin: 8px 10px 10px 14px;
-
-    border-radius: 10px;
-    box-shadow:
-      0 10px 24px rgba(0,0,0,.18),
-      0 2px 6px rgba(0,0,0,.14);
-
-    pointer-events: auto;
-  }
-
-  .r76-liveSearch__tip:before,
-  .r76-liveSearch__tip:after{
-    display: none;
-  }
-
-  /* Give the row some breathing room when tip opens */
-  .r76-liveSearch__row.r76-tipOpen{
-    padding-bottom: 2px;
-  }
-}
-
-/* Slightly stronger hover on desktop */
-@media (min-width: 992px){
-  .r76-liveSearch__infoBtn:hover{
-    background: rgba(0,0,0,.08);
   }
 }
