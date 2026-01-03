@@ -690,3 +690,59 @@
     max-height: min(60vh, 520px) !important;
   }
 }
+/* ⓘ button affordance: make the icon feel like the button */
+.r76-liveSearch__infoBtn{
+  position: relative;
+  width: 32px !important;
+  min-width: 32px !important;
+  height: 32px !important;
+
+  border-radius: 999px !important;     /* circle */
+  background: transparent !important;
+
+  cursor: pointer !important;          /* discoverability */
+  transition: transform .12s ease, background-color .12s ease;
+}
+
+/* Hover affordance (desktop): subtle circular background + micro-scale */
+@media (hover:hover) and (pointer:fine){
+  .r76-liveSearch__infoBtn:hover{
+    background: rgba(0,0,0,.08) !important;
+    transform: scale(1.05);
+  }
+
+  /* Desktop click should not "stick"—keep it neutral */
+  .r76-liveSearch__infoBtn:active{
+    transform: scale(1.02);
+  }
+}
+
+/* Mobile tap feedback (momentary) */
+@media (hover:none) and (pointer:coarse){
+  .r76-liveSearch__infoBtn:active{
+    background: rgba(0,0,0,.10) !important;
+    transform: scale(1.05);
+  }
+}
+
+/* “Pressed/open” state for mobile when preview is open */
+.r76-liveSearch__infoBtn.is-open{
+  background: rgba(0,0,0,.10) !important;
+  transform: scale(1.05);
+}
+
+/* Optional: make the icon slightly bolder on hover/open */
+@media (hover:hover) and (pointer:fine){
+  .r76-liveSearch__infoBtn:hover .r76-liveSearch__infoSvg circle{
+    stroke-width: 1.9;
+  }
+}
+.r76-liveSearch__infoBtn.is-open .r76-liveSearch__infoSvg circle{
+  stroke-width: 1.9;
+}
+
+/* Accessibility: keyboard focus ring without labels */
+.r76-liveSearch__infoBtn:focus-visible{
+  outline: 2px solid rgba(0,0,0,.35) !important;
+  outline-offset: 2px !important;
+}
