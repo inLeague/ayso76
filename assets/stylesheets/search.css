@@ -869,3 +869,34 @@
   transform: translateY(calc(-50% - 1px));
 }
 */
+/* Clear (×) button: ONLY show when there is text + perfect optical centering */
+.r76-liveSearch__clearBtn{
+  /* visibility control (override any earlier display forcing) */
+  display: none !important;
+
+  /* glyph centering */
+  line-height: 1 !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  /* nudge the whole button up a touch (fixes glyph baseline) */
+  top: 50% !important;
+  transform: translateY(calc(-50% - 2px)) !important;
+}
+
+/* show only when JS adds .is-visible */
+.r76-liveSearch__clearBtn.is-visible{
+  display: inline-flex !important;
+}
+
+/* keep hover/tap transforms aligned with the new baseline */
+@media (hover:hover) and (pointer:fine){
+  .r76-liveSearch__clearBtn:hover{
+    transform: translateY(calc(-50% - 2px)) scale(1.05) !important;
+  }
+}
+@media (hover:none) and (pointer:coarse){
+  .r76-liveSearch__clearBtn:active{
+    transform: translateY(calc(-50% - 2px)) scale(1.05) !important;
+  }
+}
