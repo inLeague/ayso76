@@ -610,19 +610,10 @@
    Paste at END of existing Live Search CSS
 ========================================================= */
 
-.r76-liveSearch__mPreviewBackdrop{
-  position: fixed;
-  inset: 0;
-  z-index: 1999998;
-  background: rgba(0,0,0,.12);
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
-  display: none;
-}
-
+/* Mobile floating preview card (NO backdrop) */
 .r76-liveSearch__mPreviewCard{
   position: fixed;
-  z-index: 1999999;
+  z-index: 2000001; /* above results (1000000) */
   display: none;
 
   width: min(420px, calc(100vw - 20px));
@@ -680,10 +671,4 @@
   font-size: 13.5px;
   line-height: 1.45;
   color: rgba(0,0,0,.78) !important;
-}
-
-/* Keep desktop behavior unchanged */
-@media (min-width: 992px){
-  .r76-liveSearch__mPreviewBackdrop,
-  .r76-liveSearch__mPreviewCard{ display:none !important; }
 }
