@@ -1,16 +1,3 @@
-/* Screen-reader only helper */
-.r76-srOnly{
-  position:absolute !important;
-  width:1px !important;
-  height:1px !important;
-  padding:0 !important;
-  margin:-1px !important;
-  overflow:hidden !important;
-  clip:rect(0,0,0,0) !important;
-  white-space:nowrap !important;
-  border:0 !important;
-}
-
 /* =========================================================
    R76 Live Search — FULL CSS (AUTHORITATIVE)
 ========================================================= */
@@ -455,224 +442,11 @@
   }
 }
 /* =========================================================
-   R76 Live Search — Modern UI Enhancements (SAFE OVERRIDES)
-   Paste at END of your existing Live Search CSS
+   R76 Live Search — ENHANCEMENTS (SAFE OVERLAY)
+   (Keep base CSS unchanged above this line)
 ========================================================= */
 
-/* --- Dropdown container: cleaner, more “app-like” --- */
-.r76-liveSearch__results{
-  border: 1px solid rgba(0,0,0,.14) !important;
-  border-radius: 14px !important;
-  box-shadow:
-    0 18px 44px rgba(0,0,0,.18),
-    0 6px 16px rgba(0,0,0,.10) !important;
-
-  overflow: hidden; /* makes rows + header feel cohesive */
-  background: #fff !important;
-}
-
-/* Subtle “open” animation (doesn’t change logic) */
-@keyframes r76DropIn{
-  from{ opacity: 0; transform: translateY(-6px); }
-  to{ opacity: 1; transform: translateY(0); }
-}
-.r76-liveSearch__results.show{
-  animation: r76DropIn 140ms ease-out;
-}
-
-/* Header: slightly more modern */
-.r76-liveSearch__header{
-  padding: 10px 12px !important;
-  border-bottom: 1px solid rgba(0,0,0,.10) !important;
-  box-shadow: 0 1px 0 rgba(0,0,0,.04);
-}
-.r76-liveSearch__headerText{
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: .02em;
-  opacity: .9;
-}
-.r76-liveSearch__close{
-  width: 32px;
-  height: 28px;
-  border-radius: 10px;
-}
-.r76-liveSearch__close:hover{
-  background: rgba(0,0,0,.06) !important;
-}
-
-/* Rows: dividers + nicer spacing */
-.r76-liveSearch__row{
-  padding-right: 10px !important;
-  border-bottom: 1px solid rgba(0,0,0,.06);
-}
-.r76-liveSearch__row:last-child{
-  border-bottom: 0;
-}
-
-/* Links: improved density + emphasis */
-.r76-liveSearch__results a{
-  padding: 10px 14px !important;
-  font-weight: 600;
-}
-.r76-liveSearch__results a:hover,
-.r76-liveSearch__results a.is-active{
-  background: rgba(0,0,0,.045) !important;
-}
-
-/* Active/hover “accent bar” (pure CSS) */
-.r76-liveSearch__results a{
-  position: relative;
-}
-.r76-liveSearch__results a:hover:before,
-.r76-liveSearch__results a.is-active:before{
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 6px;
-  bottom: 6px;
-  width: 3px;
-  border-radius: 99px;
-  background: rgba(0,0,0,.30);
-}
-
-/* Highlight mark: softer, more modern */
-.r76-liveSearch__hl{
-  background: rgba(255, 217, 102, .55);
-  border-radius: 6px;
-  padding: 0 3px;
-}
-
-/* Info button: more “buttony” without being heavy */
-.r76-liveSearch__infoBtn{
-  width: 36px !important;
-  min-width: 36px !important;
-  border-radius: 10px !important;
-}
-.r76-liveSearch__infoBtn:hover{
-  background: rgba(0,0,0,.06) !important;
-}
-
-/* --- Inline mobile preview card: more polished --- */
-.r76-liveSearch__inlineCard{
-  border-top: 1px solid rgba(0,0,0,.08) !important;
-  background: linear-gradient(#fafafa, #ffffff) !important;
-}
-.r76-liveSearch__inlineTitle{
-  font-size: 13.5px !important;
-  font-weight: 800 !important;
-}
-.r76-liveSearch__inlineP{
-  font-size: 13.5px !important;
-  line-height: 1.45 !important;
-}
-
-/* --- Desktop floating preview card: cleaner + more premium --- */
-.r76-liveSearch__previewCard{
-  border-radius: 16px !important;
-  border: 1px solid rgba(0,0,0,.14) !important;
-
-  box-shadow:
-    0 26px 70px rgba(0,0,0,.22),
-    0 8px 22px rgba(0,0,0,.14) !important;
-
-  padding: 14px 16px !important;
-}
-
-.r76-liveSearch__previewTitle{
-  font-size: 14px !important;
-  font-weight: 900 !important;
-  letter-spacing: .01em;
-}
-
-.r76-liveSearch__previewP{
-  font-size: 13.5px !important;
-  line-height: 1.45 !important;
-}
-
-/* Optional: slightly softer “loading” text */
-.r76-liveSearch__previewP,
-.r76-liveSearch__muted{
-  color: rgba(0,0,0,.72) !important;
-}
-
-/* Mobile: a touch more breathing room */
-@media (max-width: 991px){
-  .r76-liveSearch__results{
-    border-radius: 16px !important;
-  }
-  .r76-liveSearch__results a{
-    padding: 12px 16px !important;
-  }
-}
-/* =========================================================
-   Mobile Floating Preview Card (SAFE ADDITION)
-   Paste at END of existing Live Search CSS
-========================================================= */
-
-/* Mobile floating preview card (NO backdrop) */
-.r76-liveSearch__mPreviewCard{
-  position: fixed;
-  z-index: 2000001; /* above results (1000000) */
-  display: none;
-
-  width: min(420px, calc(100vw - 20px));
-  max-height: min(420px, calc(70vh));
-  overflow: auto;
-
-  background: #ffffff;
-  border: 1px solid rgba(0,0,0,.14);
-  border-radius: 16px;
-
-  box-shadow:
-    0 26px 70px rgba(0,0,0,.22),
-    0 8px 22px rgba(0,0,0,.14);
-
-  padding: 12px 14px;
-}
-
-.r76-liveSearch__mPreviewTop{
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 6px;
-}
-
-.r76-liveSearch__mPreviewTitle{
-  font-size: 14px;
-  font-weight: 900;
-  line-height: 1.25;
-  margin: 0;
-  color: #111 !important;
-}
-
-.r76-liveSearch__mPreviewClose{
-  appearance: none;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-
-  width: 34px;
-  height: 32px;
-  border-radius: 10px;
-
-  font-size: 22px;
-  line-height: 1;
-  color: #111 !important;
-}
-
-.r76-liveSearch__mPreviewClose:hover{
-  background: rgba(0,0,0,.06);
-}
-
-.r76-liveSearch__mPreviewP{
-  margin: 0;
-  font-size: 13.5px;
-  line-height: 1.45;
-  color: rgba(0,0,0,.78) !important;
-}
-/* Force results dropdown to be scrollable (wins over Bootstrap/theme) */
+/* Ensure dropdown is scrollable (wins over theme/Bootstrap) */
 .r76-liveSearch__results,
 .r76-liveSearch__results.dropdown-menu,
 .r76-liveSearch__results.dropdown-menu.show{
@@ -682,129 +456,60 @@
   -webkit-overflow-scrolling: touch;
 }
 
-/* Optional: better max height on mobile */
-@media (max-width: 991px){
-  .r76-liveSearch__results,
-  .r76-liveSearch__results.dropdown-menu,
-  .r76-liveSearch__results.dropdown-menu.show{
-    max-height: min(60vh, 520px) !important;
-  }
-}
-/* ⓘ button affordance: make the icon feel like the button */
-.r76-liveSearch__infoBtn{
-  position: relative;
-  width: 32px !important;
-  min-width: 32px !important;
-  height: 32px !important;
-
-  border-radius: 999px !important;     /* circle */
-  background: transparent !important;
-
-  cursor: pointer !important;          /* discoverability */
-  transition: transform .12s ease, background-color .12s ease;
-}
-
-/* Hover affordance (desktop): subtle circular background + micro-scale */
-@media (hover:hover) and (pointer:fine){
-  .r76-liveSearch__infoBtn:hover{
-    background: rgba(0,0,0,.08) !important;
-    transform: scale(1.05);
-  }
-
-  /* Desktop click should not "stick"—keep it neutral */
-  .r76-liveSearch__infoBtn:active{
-    transform: scale(1.02);
-  }
-}
-
-/* Mobile tap feedback (momentary) */
-@media (hover:none) and (pointer:coarse){
-  .r76-liveSearch__infoBtn:active{
-    background: rgba(0,0,0,.10) !important;
-    transform: scale(1.05);
-  }
-}
-
-/* “Pressed/open” state for mobile when preview is open */
-.r76-liveSearch__infoBtn.is-open{
-  background: rgba(0,0,0,.10) !important;
-  transform: scale(1.05);
-}
-
-/* Optional: make the icon slightly bolder on hover/open */
-@media (hover:hover) and (pointer:fine){
-  .r76-liveSearch__infoBtn:hover .r76-liveSearch__infoSvg circle{
-    stroke-width: 1.9;
-  }
-}
-.r76-liveSearch__infoBtn.is-open .r76-liveSearch__infoSvg circle{
-  stroke-width: 1.9;
-}
-
-/* Accessibility: keyboard focus ring without labels */
-.r76-liveSearch__infoBtn:focus-visible{
-  outline: 2px solid rgba(0,0,0,.35) !important;
-  outline-offset: 2px !important;
-}
-/* 1) Vertically center the ⓘ button in each result row */
+/* Vertically center the ⓘ button in each row */
 .r76-liveSearch__row{
   align-items: center !important;
 }
 
-/* 2) Desktop: hover affordance only — NO click/active reaction, NO outline on click */
+/* ⓘ button: clear “interactive” affordance WITHOUT desktop jitter */
+.r76-liveSearch__infoBtn{
+  border-radius: 999px !important;
+  cursor: pointer !important;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color .12s ease, color .12s ease !important;
+}
+
+/* Desktop: hover-only; no active/click reaction, no outline */
 @media (hover:hover) and (pointer:fine){
-
-  /* Keep cursor + hover styling (from your earlier patch), but kill click feedback */
-  .r76-liveSearch__infoBtn:active{
-    background: transparent !important;
-    transform: none !important;
+  .r76-liveSearch__infoBtn:hover{
+    background: rgba(0,0,0,.08) !important;
   }
-
-  /* Remove focus outline from mouse clicks (keep :focus-visible for keyboard users) */
+  .r76-liveSearch__infoBtn:active{
+    background: rgba(0,0,0,.08) !important; /* prevents flash */
+  }
   .r76-liveSearch__infoBtn:focus{
     outline: none !important;
     box-shadow: none !important;
   }
 }
 
-/* 3) Safety: if .is-open ever exists on desktop, neutralize it */
-@media (min-width: 992px){
+/* Mobile: tap feedback + optional pressed state when preview open */
+@media (hover:none) and (pointer:coarse){
+  .r76-liveSearch__infoBtn:active{
+    background: rgba(0,0,0,.10) !important;
+    transform: scale(1.05);
+  }
   .r76-liveSearch__infoBtn.is-open{
-    background: transparent !important;
-    transform: none !important;
+    background: rgba(0,0,0,.10) !important;
+    transform: scale(1.05);
   }
 }
-/* Desktop: prevent “flash” on click by making :active match :hover */
-@media (hover:hover) and (pointer:fine){
-  /* kill any framework focus visuals */
-  .r76-liveSearch__infoBtn:focus,
-  .r76-liveSearch__infoBtn:active{
-    outline: none !important;
-    box-shadow: none !important;
-  }
 
-  /* keep the hovered look during mousedown so nothing changes/“flashes” */
-  .r76-liveSearch__infoBtn:active{
-    background: rgba(0,0,0,.08) !important; /* match your hover bg */
-    transform: scale(1.05) !important;      /* match your hover scale */
-  }
-}
-/* Give the input room on the right for the clear button */
+/* Clear (×) button space inside input (only adds room; doesn’t restyle input) */
 .r76-liveSearch input{
-  padding-right: 44px !important; /* space for × */
+  padding-right: 44px !important;
 }
 
-/* Clear (×) button inside the search bar */
+/* Clear (×) button (injected by JS) */
 .r76-liveSearch__clearBtn{
   position: absolute;
   right: 10px;
   top: 50%;
-  transform: translateY(-50%);
-
   width: 28px;
   height: 28px;
 
-  display: none;                 /* shown only when there’s text */
+  display: none; /* only when .is-visible */
+
   align-items: center;
   justify-content: center;
 
@@ -819,6 +524,9 @@
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 
+  /* optical centering for × glyph */
+  transform: translateY(calc(-50% - 2px));
+
   transition: background-color .12s ease, transform .12s ease, color .12s ease;
 }
 
@@ -826,99 +534,18 @@
   display: inline-flex;
 }
 
-/* Desktop hover affordance */
 @media (hover:hover) and (pointer:fine){
   .r76-liveSearch__clearBtn:hover{
     background: rgba(0,0,0,.08);
     color: rgba(0,0,0,.75);
-    transform: translateY(-50%) scale(1.05);
+    transform: translateY(calc(-50% - 2px)) scale(1.05);
   }
 }
 
-/* Mobile tap feedback */
 @media (hover:none) and (pointer:coarse){
   .r76-liveSearch__clearBtn:active{
     background: rgba(0,0,0,.10);
-    transform: translateY(-50%) scale(1.05);
     color: rgba(0,0,0,.85);
-  }
-}
-
-/* Optional: keyboard focus (keeps it accessible) */
-.r76-liveSearch__clearBtn:focus-visible{
-  outline: 2px solid rgba(0,0,0,.35);
-  outline-offset: 2px;
-}
-/* Optical centering for the × glyph inside the clear button */
-.r76-liveSearch__clearBtn{
-  font-size: 20px !important;
-  line-height: 1 !important;
-
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* Nudge the glyph up a hair (tweak if desired) */
-.r76-liveSearch__clearBtn{
-  padding-bottom: 1px !important;
-}
-
-/* If you prefer transform instead of padding, use this instead (pick one):
-.r76-liveSearch__clearBtn{
-  transform: translateY(calc(-50% - 1px));
-}
-*/
-/* Clear (×) button: ONLY show when there is text + perfect optical centering */
-.r76-liveSearch__clearBtn{
-  /* visibility control (override any earlier display forcing) */
-  display: none !important;
-
-  /* glyph centering */
-  line-height: 1 !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  /* nudge the whole button up a touch (fixes glyph baseline) */
-  top: 50% !important;
-  transform: translateY(calc(-50% - 2px)) !important;
-}
-
-/* show only when JS adds .is-visible */
-.r76-liveSearch__clearBtn.is-visible{
-  display: inline-flex !important;
-}
-
-/* keep hover/tap transforms aligned with the new baseline */
-@media (hover:hover) and (pointer:fine){
-  .r76-liveSearch__clearBtn:hover{
-    transform: translateY(calc(-50% - 2px)) scale(1.05) !important;
-  }
-}
-@media (hover:none) and (pointer:coarse){
-  .r76-liveSearch__clearBtn:active{
-    transform: translateY(calc(-50% - 2px)) scale(1.05) !important;
-  }
-}
-/* Desktop: NO movement/scale on ⓘ (prevents preview card shifting) */
-@media (hover:hover) and (pointer:fine){
-  .r76-liveSearch__infoBtn{
-    transition: background-color .12s ease, color .12s ease !important; /* no transform */
-    transform: none !important;
-  }
-
-  .r76-liveSearch__infoBtn:hover{
-    background: rgba(0,0,0,.08) !important; /* keep the circle */
-    transform: none !important;              /* remove shift */
-  }
-
-  .r76-liveSearch__infoBtn:active{
-    background: rgba(0,0,0,.08) !important; /* keep same as hover so no flash/shift */
-    transform: none !important;
-  }
-
-  /* Optional: make the icon feel more "active" without moving */
-  .r76-liveSearch__infoBtn:hover .r76-liveSearch__infoSvg circle{
-    stroke-width: 2.0;
+    transform: translateY(calc(-50% - 2px)) scale(1.05);
   }
 }
