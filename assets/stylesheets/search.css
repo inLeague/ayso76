@@ -886,3 +886,22 @@
 
 /* show only when JS adds .is-visible */
 .r76-
+
+/* =========================================================
+   Tighter result rows (desktop + mobile)
+   Paste at VERY END of your current Live Search CSS
+========================================================= */
+
+/* Reduce vertical padding for each result row */
+.r76-liveSearch__results a{
+  padding-top: 7px !important;
+  padding-bottom: 7px !important;
+}
+
+/* Mobile: also tighten the larger mobile padding from the enhancements */
+@media (max-width: 991px){
+  .r76-liveSearch__results a{
+    padding-top: 9px !important;
+    padding-bottom: 9px !important;
+  }
+}
