@@ -97,7 +97,26 @@
   <cfset arrayAppend(cleanVariants, v)>
 </cfloop>
 
-<cfset siteID = variables.$.event("siteid")>
+<!--- Get siteID reliably (endpoints often don't have event('siteid')) --->
+<cfset siteID = "">
+
+<cftry>
+  <cfset siteID = trim(variables.$.event("siteid"))>
+  <cfcatch>
+    <cfset siteID = "">
+  </cfcatch>
+</cftry>
+
+<!--- Optional: allow ?siteid=default override --->
+<cfparam name="url.siteid" default="">
+<cfif NOT len(siteID) AND len(trim(url.siteid))>
+  <cfset siteID = trim(url.siteid)>
+</cfif>
+
+<!--- Final fallback --->
+<cfif NOT len(siteID)>
+  <cfset siteID = "default">
+</cfif>
 <cfset cm = variables.$.getBean("contentManager")>
 
 <!--- Dedupe final results by URL --->
