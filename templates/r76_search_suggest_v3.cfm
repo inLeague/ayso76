@@ -18,6 +18,12 @@
   "results" = []
 }>
 
+<cfset out.debug = {
+  "siteID" = siteID,
+  "qLen"   = len(q),
+  "max"    = max
+}>
+
 <cfif len(q) LT 2>
   <cfoutput>#serializeJSON(out)#</cfoutput>
   <cfabort>
