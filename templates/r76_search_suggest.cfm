@@ -13,7 +13,7 @@
 <cfheader name="Expires" value="0">
 
 <cfset out = {
-  "version" = "r76_search_suggest_JSONONLY_FINAL__hyphenSpaceCompact",
+  "version" = "r76_search_suggest_JSONONLY_FINAL__hyphenSpaceCompact__wildFallback",
   "query"   = q,
   "results" = []
 }>
@@ -23,23 +23,10 @@
   <cfabort>
 </cfif>
 
-<!--- =========================================================
-      Get public search iterator
-      NOTE: This endpoint MUST output JSON ONLY (no HTML comments)
-      so the JS can parse it (it expects response to start with "{")
-========================================================= --->
-<cfset siteID = variables.$.event("siteid")>
-<cfset cm     = variables.$.getBean("contentManager")>
-<cfset it     = cm.getPublicSearchIterator(siteID, q)>
-
-<!--- =========================================================
-      Helpers: normalize + separator-insensitive matching
-      (treat hyphen/space/punctuation as equivalent)
-========================================================= --->
+<!--- Helpers: normalize + separator-insensitive matching --->
 <cffunction name="r76_norm" access="private" returntype="string" output="false">
   <cfargument name="s" type="string" required="true">
   <cfset var t = lcase(trim(arguments.s))>
-  <!--- convert any non [a-z0-9] to spaces, then collapse spaces --->
   <cfset t = reReplace(t, "[^a-z0-9]+", " ", "all")>
   <cfset t = reReplace(t, "\s+", " ", "all")>
   <cfreturn t>
@@ -62,69 +49,107 @@
   <cfset var nC = r76_compact(arguments.needle)>
 
   <cfif len(nN) EQ 0><cfreturn false></cfif>
-
-  <!--- normal contains (space-insensitive-ish) --->
   <cfif findNoCase(nN, hN) GT 0><cfreturn true></cfif>
-
-  <!--- compact contains (hyphen/space/punct ignored) --->
   <cfif len(nC) GT 0 AND findNoCase(nC, hC) GT 0><cfreturn true></cfif>
 
   <cfreturn false>
 </cffunction>
 
-<!--- =========================================================
-      Build results (dedupe by URL)
-      Include title + computed href
-      Apply separator-insensitive filter to reduce wildcard noise
-========================================================= --->
-<cfset seen = structNew()>
+<!--- Build a wildcard that tolerates separators between characters:
+      "movedown" -> "*m*o*v*e*d*o*w*n*"
+      Only used as a fallback.
+--->
+<cffunction name="r76_sepWildcard" access="private" returntype="string" output="false">
+  <cfargument name="s" type="string" required="true">
+
+  <cfset var base = lcase(trim(arguments.s))>
+  <cfset var alnum = reReplace(base, "[^a-z0-9]+", "", "all")>
+  <cfset var i = 0>
+  <cfset var outPat = "*">
+
+  <cfif NOT len(alnum)>
+    <cfreturn "">
+  </cfif>
+
+  <cfloop from="1" to="#len(alnum)#" index="i">
+    <cfset outPat &= mid(alnum, i, 1) & "*">
+  </cfloop>
+
+  <cfreturn outPat>
+</cffunction>
+
+<cfset siteID = variables.$.event("siteid")>
+<cfset cm     = variables.$.getBean("contentManager")>
+
+<!--- Dedup + collect function (so we can do 2 passes cleanly) --->
+<cffunction name="r76_collect" access="private" returntype="numeric" output="false">
+  <cfargument name="iterQuery" type="string" required="true">
+  <cfargument name="siteID" type="string" required="true">
+  <cfargument name="cm" type="any" required="true">
+  <cfargument name="qUser" type="string" required="true">
+  <cfargument name="max" type="numeric" required="true">
+  <cfargument name="seen" type="struct" required="true">
+  <cfargument name="out" type="struct" required="true">
+  <cfargument name="countIn" type="numeric" required="true">
+
+  <cfset var it = arguments.cm.getPublicSearchIterator(arguments.siteID, arguments.iterQuery)>
+  <cfset var count = arguments.countIn>
+  <cfset var bean = "">
+  <cfset var title = "">
+  <cfset var destUrl = "">
+  <cfset var urlKey = "">
+
+  <cfloop condition="it.hasNext() AND count LT arguments.max">
+    <cfset bean  = it.next()>
+    <cfset title = trim(bean.getTitle())>
+
+    <cfif NOT len(title)><cfcontinue></cfif>
+
+    <cfset destUrl = "">
+    <cftry>
+      <cfset destUrl = variables.$.createHREF(
+        contentid = bean.getContentID(),
+        siteid    = arguments.siteID
+      )>
+      <cfcatch>
+        <cfset destUrl = "">
+      </cfcatch>
+    </cftry>
+
+    <cfif NOT len(destUrl)><cfcontinue></cfif>
+
+    <cfif left(destUrl,1) NEQ "/" AND left(destUrl,4) NEQ "http">
+      <cfset destUrl = "/" & destUrl>
+    </cfif>
+
+    <cfset urlKey = lcase(destUrl)>
+    <cfif structKeyExists(arguments.seen, urlKey)><cfcontinue></cfif>
+    <cfset arguments.seen[urlKey] = true>
+
+    <!--- Keep only if title matches the USER query separator-insensitively --->
+    <cfif NOT r76_contains_sepInsensitive(title, arguments.qUser)><cfcontinue></cfif>
+
+    <cfset arrayAppend(arguments.out.results, { "title" = title, "url" = destUrl })>
+    <cfset count = count + 1>
+  </cfloop>
+
+  <cfreturn count>
+</cffunction>
+
+<cfset seen  = structNew()>
 <cfset count = 0>
 
-<cfloop condition="it.hasNext() AND count LT max">
-  <cfset bean  = it.next()>
-  <cfset title = trim(bean.getTitle())>
+<!--- Pass 1: exact query --->
+<cfset count = r76_collect(q, siteID, cm, q, max, seen, out, count)>
 
-  <cfif NOT len(title)>
-    <cfcontinue>
+<!--- Pass 2 (fallback): only if we still have room AND query is a single token with no spaces/hyphens --->
+<cfset qIsSingle = (find(" ", q) EQ 0 AND find("-", q) EQ 0)>
+<cfif count LT max AND qIsSingle AND len(q) GTE 4>
+  <cfset wild = r76_sepWildcard(q)>
+  <cfif len(wild)>
+    <cfset count = r76_collect(wild, siteID, cm, q, max, seen, out, count)>
   </cfif>
+</cfif>
 
-  <!--- build URL --->
-  <cfset destUrl = "">
-  <cftry>
-    <cfset destUrl = variables.$.createHREF(
-      contentid = bean.getContentID(),
-      siteid    = siteID
-    )>
-    <cfcatch>
-      <cfset destUrl = "">
-    </cfcatch>
-  </cftry>
-
-  <cfif NOT len(destUrl)>
-    <cfcontinue>
-  </cfif>
-
-  <cfif left(destUrl,1) NEQ "/" AND left(destUrl,4) NEQ "http">
-    <cfset destUrl = "/" & destUrl>
-  </cfif>
-
-  <!--- dedupe by url --->
-  <cfset urlKey = lcase(destUrl)>
-  <cfif structKeyExists(seen, urlKey)>
-    <cfcontinue>
-  </cfif>
-  <cfset seen[urlKey] = true>
-
-  <!--- separator-insensitive filter (prevents broad wildcard noise) --->
-  <!--- Only keep if the TITLE matches query in a separator-insensitive way --->
-  <cfif NOT r76_contains_sepInsensitive(title, q)>
-    <cfcontinue>
-  </cfif>
-
-  <cfset arrayAppend(out.results, { "title" = title, "url" = destUrl })>
-  <cfset count = count + 1>
-</cfloop>
-
-<!--- JSON ONLY output (no HTML comments above this point) --->
 <cfoutput>#serializeJSON(out)#</cfoutput>
 <cfabort>
