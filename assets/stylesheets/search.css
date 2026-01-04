@@ -571,16 +571,16 @@
     stroke-width: 1.9;
   }
 
+  /* Don’t let focus kill hover styling on click */
   .r76-liveSearch__infoBtn:focus {
     outline: none !important;
     box-shadow: none !important;
-    background: transparent !important;
-    transform: none !important;
+    /* IMPORTANT: no background/transform here */
   }
 
+  /* Make click state identical to hover (no visual change) */
   .r76-liveSearch__infoBtn:active {
-    background: transparent !important;
-    transform: none !important;
+    background: rgba(0,0,0,.08) !important;
   }
 }
 
