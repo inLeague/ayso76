@@ -8,20 +8,16 @@ max  = val(url.max);
 if (max LTE 0) max = 8;
 if (max GT 20) max = 20;
 
-// --- Tuning knobs ---
-SCAN_LIMIT  = 500; // max beans scanned across all query variants
-SPLIT_LIMIT = 10;  // max split positions attempted for collapsed queries (no spaces/hyphens)
+SCAN_LIMIT  = 500;
+SPLIT_LIMIT = 10;
 
 function r76_stripHtml(s){
   s = toString(s);
-  // remove tags
   s = reReplace(s, "<[^>]*>", " ", "all");
-  // collapse whitespace
   s = reReplace(s, "\s+", " ", "all");
   return trim(s);
 }
 
-// separator-insensitive normalization: keep only a-z/0-9
 function r76_normSep(s){
   s = lCase(toString(s));
   s = reReplace(s, "[^a-z0-9]+", "", "all");
@@ -37,8 +33,6 @@ function r76_addUnique(arr, seen, v){
   arrayAppend(arr, v);
 }
 
-// Build query variants so collapsed tokens can still find spaced/hyphenated content.
-// Example: movedown -> move down / move-down (via generic splits)
 function r76_buildVariants(q){
   var base = trim(toString(q));
   var out  = [];
@@ -47,20 +41,16 @@ function r76_buildVariants(q){
 
   r76_addUnique(out, seen, base);
 
-  // If query contains hyphens, also try spaced + compact
   if (find("-", base)){
     r76_addUnique(out, seen, reReplace(base, "-+", " ", "all"));
     r76_addUnique(out, seen, reReplace(base, "-+", "",  "all"));
   }
 
-  // If query contains spaces, also try hyphen + compact
   if (reFind("\s", base)){
     r76_addUnique(out, seen, reReplace(base, "\s+", "-", "all"));
     r76_addUnique(out, seen, reReplace(base, "\s+", "",  "all"));
   }
 
-  // If query has NO separators, try generic splits: abcdef -> abc def / abc-def (etc)
-  // This is what fixes movedown -> move down, allstar -> all star, etc (without a map).
   if (!find("-", base) && !reFind("\s", base) && len(base) GTE 6){
     var L = len(base);
     var startPos = 3;
@@ -73,7 +63,6 @@ function r76_buildVariants(q){
       var leftPart  = left(base, p);
       var rightPart = mid(base, p+1, L-p);
 
-      // Avoid silly splits where one side is tiny after trimming
       if (len(leftPart) GTE 3 && len(rightPart) GTE 3){
         r76_addUnique(out, seen, leftPart & " " & rightPart);
         r76_addUnique(out, seen, leftPart & "-" & rightPart);
@@ -128,7 +117,6 @@ function r76_buildVariants(q){
       <cfcontinue>
     </cfif>
 
-    <!--- build URL --->
     <cfset destUrl = "">
     <cftry>
       <cfset destUrl = variables.$.createHREF(
@@ -148,15 +136,11 @@ function r76_buildVariants(q){
       <cfset destUrl = "/" & destUrl>
     </cfif>
 
-    <!--- dedupe by url --->
     <cfset urlKey = lCase(destUrl)>
     <cfif structKeyExists(seenUrl, urlKey)>
       <cfcontinue>
     </cfif>
 
-    <!--- separator-insensitive filter (prevents broad wildcard noise)
-         IMPORTANT: apply filter to TITLE + SUMMARY + BODY so content-only hits survive
-    --->
     <cfset summaryTxt = "">
     <cfset bodyTxt    = "">
     <cftry><cfset summaryTxt = toString(bean.getValue("summary",""))><cfcatch></cfcatch></cftry>
