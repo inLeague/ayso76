@@ -79,11 +79,13 @@
   border-radius: 999px;
   background: transparent;
   font-size: 20px !important;
-  line-height: .9 !important;
+  line-height: 1 !important;
   color: rgba(0,0,0,.55);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: background-color .12s ease, transform .12s ease, color .12s ease;
+  padding-bottom: 2px !important;
+
 }
 
 .r76-liveSearch__clearBtn.is-visible {
