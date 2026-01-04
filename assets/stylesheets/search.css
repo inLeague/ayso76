@@ -262,7 +262,7 @@
   margin: 0;
   padding: 0;
   border-radius: 999px !important;
-  transition: transform .12s ease, background-color .12s ease;
+  transition: background-color .12s ease;
 }
 
 .r76-liveSearch__infoBtn:focus-visible {
@@ -554,7 +554,6 @@
 
   .r76-liveSearch__infoBtn:hover {
     background: rgba(0,0,0,.08) !important;
-    transform: scale(1.05);
   }
 
   .r76-liveSearch__infoBtn:hover .r76-liveSearch__infoSvg circle {
@@ -566,7 +565,6 @@
     outline: none !important;
     box-shadow: none !important;
     background: rgba(0,0,0,.08) !important;
-    transform: scale(1.05) !important;
   }
 }
 
@@ -580,12 +578,10 @@
 
   .r76-liveSearch__infoBtn:active {
     background: rgba(0,0,0,.10) !important;
-    transform: scale(1.05);
   }
 
   .r76-liveSearch__infoBtn.is-open {
     background: rgba(0,0,0,.10) !important;
-    transform: scale(1.05);
   }
 
   .r76-liveSearch__infoBtn.is-open .r76-liveSearch__infoSvg circle {
