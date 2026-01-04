@@ -1,12 +1,90 @@
-<cfprocessingdirective suppresswhitespace="true">
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
 <cfparam name="url.q" default="">
 <cfparam name="url.max" default="8">
 
-<cfset q   = trim(url.q)>
-<cfset max = val(url.max)>
-<cfif max LTE 0><cfset max = 8></cfif>
-<cfif max GT 20><cfset max = 20></cfif>
+<cfscript>
+qRaw = trim(url.q);
+max  = val(url.max);
+if (max LTE 0) max = 8;
+if (max GT 20) max = 20;
+
+// --- Tuning knobs ---
+SCAN_LIMIT  = 500; // max beans scanned across all query variants
+SPLIT_LIMIT = 10;  // max split positions attempted for collapsed queries (no spaces/hyphens)
+
+function r76_stripHtml(s){
+  s = toString(s);
+  // remove tags
+  s = reReplace(s, "<[^>]*>", " ", "all");
+  // collapse whitespace
+  s = reReplace(s, "\s+", " ", "all");
+  return trim(s);
+}
+
+// separator-insensitive normalization: keep only a-z/0-9
+function r76_normSep(s){
+  s = lCase(toString(s));
+  s = reReplace(s, "[^a-z0-9]+", "", "all");
+  return trim(s);
+}
+
+function r76_addUnique(arr, seen, v){
+  v = trim(toString(v));
+  if (!len(v)) return;
+  var k = lCase(v);
+  if (structKeyExists(seen, k)) return;
+  seen[k] = true;
+  arrayAppend(arr, v);
+}
+
+// Build query variants so collapsed tokens can still find spaced/hyphenated content.
+// Example: movedown -> move down / move-down (via generic splits)
+function r76_buildVariants(q){
+  var base = trim(toString(q));
+  var out  = [];
+  var seen = structNew();
+  if (!len(base)) return out;
+
+  r76_addUnique(out, seen, base);
+
+  // If query contains hyphens, also try spaced + compact
+  if (find("-", base)){
+    r76_addUnique(out, seen, reReplace(base, "-+", " ", "all"));
+    r76_addUnique(out, seen, reReplace(base, "-+", "",  "all"));
+  }
+
+  // If query contains spaces, also try hyphen + compact
+  if (reFind("\s", base)){
+    r76_addUnique(out, seen, reReplace(base, "\s+", "-", "all"));
+    r76_addUnique(out, seen, reReplace(base, "\s+", "",  "all"));
+  }
+
+  // If query has NO separators, try generic splits: abcdef -> abc def / abc-def (etc)
+  // This is what fixes movedown -> move down, allstar -> all star, etc (without a map).
+  if (!find("-", base) && !reFind("\s", base) && len(base) GTE 6){
+    var L = len(base);
+    var startPos = 3;
+    var endPos   = L - 3;
+    var splitsTried = 0;
+
+    for (var p = startPos; p LTE endPos; p++){
+      if (splitsTried GTE SPLIT_LIMIT) break;
+
+      var leftPart  = left(base, p);
+      var rightPart = mid(base, p+1, L-p);
+
+      // Avoid silly splits where one side is tiny after trimming
+      if (len(leftPart) GTE 3 && len(rightPart) GTE 3){
+        r76_addUnique(out, seen, leftPart & " " & rightPart);
+        r76_addUnique(out, seen, leftPart & "-" & rightPart);
+        splitsTried++;
+      }
+    }
+  }
+
+  return out;
+}
+</cfscript>
 
 <cfcontent type="application/json; charset=utf-8" reset="true">
 <cfheader name="Cache-Control" value="no-store, no-cache, must-revalidate, max-age=0">
@@ -14,141 +92,89 @@
 <cfheader name="Expires" value="0">
 
 <cfset out = {
-  "version" = "r76_search_suggest_JSONONLY_FINAL__hyphenSpaceCompact__prefixFallback",
-  "query"   = q,
+  "version" = "r76_search_suggest_JSONONLY_FINAL__titleAndContent__sepInsensitive",
+  "query"   = qRaw,
   "results" = []
 }>
 
-<cfif len(q) LT 2>
+<cfif len(qRaw) LT 2>
   <cfoutput>#serializeJSON(out)#</cfoutput>
   <cfabort>
 </cfif>
 
-<!--- Helpers: normalize + separator-insensitive matching --->
+<cfset siteID = variables.$.event("siteid")>
+<cfset cm = variables.$.getBean("contentManager")>
 
-<cffunction name="r76_norm" access="private" returntype="string" output="false">
-  <cfargument name="s" type="string" required="true">
-  <cfset var t = lcase(trim(arguments.s))>
-  <cfset t = reReplace(t, "[^a-z0-9]+", " ", "all")>
-  <cfset t = reReplace(t, "\s+", " ", "all")>
-  <cfreturn t>
-</cffunction>
+<cfset targetKey = r76_normSep(qRaw)>
+<cfset variants  = r76_buildVariants(qRaw)>
 
-<cffunction name="r76_compact" access="private" returntype="string" output="false">
-  <cfargument name="s" type="string" required="true">
-  <cfset var t = r76_norm(arguments.s)>
-  <cfset t = replace(t, " ", "", "all")>
-  <cfreturn t>
-</cffunction>
+<cfset seenUrl = structNew()>
+<cfset count = 0>
+<cfset scanned = 0>
 
-<cffunction name="r76_contains_sepInsensitive" access="private" returntype="boolean" output="false">
-  <cfargument name="hay" type="string" required="true">
-  <cfargument name="needle" type="string" required="true">
+<cfloop array="#variants#" index="qTry">
+  <cfif count GTE max OR scanned GTE SCAN_LIMIT>
+    <cfbreak>
+  </cfif>
 
-  <cfset var hN = r76_norm(arguments.hay)>
-  <cfset var nN = r76_norm(arguments.needle)>
-  <cfset var hC = r76_compact(arguments.hay)>
-  <cfset var nC = r76_compact(arguments.needle)>
+  <cfset it = cm.getPublicSearchIterator(siteID, qTry)>
 
-  <cfif len(nN) EQ 0><cfreturn false></cfif>
-
-  <cfif findNoCase(nN, hN) GT 0><cfreturn true></cfif>
-  <cfif len(nC) GT 0 AND findNoCase(nC, hC) GT 0><cfreturn true></cfif>
-
-  <cfreturn false>
-</cffunction>
-
-<cffunction name="r76_alnum" access="private" returntype="string" output="false">
-  <cfargument name="s" type="string" required="true">
-  <cfset var t = lcase(trim(arguments.s))>
-  <cfset t = reReplace(t, "[^a-z0-9]+", "", "all")>
-  <cfreturn t>
-</cffunction>
-
-<!--- build URL / dedupe by url / separator-insensitive filter (prevents broad noise) --->
-<cffunction name="r76_collect" access="private" returntype="numeric" output="false">
-  <cfargument name="iterQuery" type="string" required="true">
-  <cfargument name="siteID" type="string" required="true">
-  <cfargument name="cm" type="any" required="true">
-  <cfargument name="qUser" type="string" required="true">
-  <cfargument name="max" type="numeric" required="true">
-  <cfargument name="seen" type="struct" required="true">
-  <cfargument name="out" type="struct" required="true">
-  <cfargument name="countIn" type="numeric" required="true">
-  <cfargument name="scanLimit" type="numeric" required="true">
-
-  <cfset var it = arguments.cm.getPublicSearchIterator(arguments.siteID, arguments.iterQuery)>
-  <cfset var count = arguments.countIn>
-  <cfset var scanned = 0>
-
-  <cfset var bean = "">
-  <cfset var title = "">
-  <cfset var destUrl = "">
-  <cfset var urlKey = "">
-
-  <cfloop condition="it.hasNext() AND count LT arguments.max AND scanned LT arguments.scanLimit">
+  <cfloop condition="it.hasNext() AND count LT max AND scanned LT SCAN_LIMIT">
+    <cfset bean = it.next()>
     <cfset scanned = scanned + 1>
-    <cfset bean  = it.next()>
-    <cfset title = trim(bean.getTitle())>
-    <cfif NOT len(title)><cfcontinue></cfif>
 
+    <cfset title = trim(bean.getTitle())>
+    <cfif NOT len(title)>
+      <cfcontinue>
+    </cfif>
+
+    <!-- build URL -->
     <cfset destUrl = "">
     <cftry>
       <cfset destUrl = variables.$.createHREF(
         contentid = bean.getContentID(),
-        siteid    = arguments.siteID
+        siteid    = siteID
       )>
-      <cfcatch><cfset destUrl = ""></cfcatch>
+      <cfcatch>
+        <cfset destUrl = "">
+      </cfcatch>
     </cftry>
-    <cfif NOT len(destUrl)><cfcontinue></cfif>
+
+    <cfif NOT len(destUrl)>
+      <cfcontinue>
+    </cfif>
 
     <cfif left(destUrl,1) NEQ "/" AND left(destUrl,4) NEQ "http">
       <cfset destUrl = "/" & destUrl>
     </cfif>
 
-    <cfset urlKey = lcase(destUrl)>
-    <cfif structKeyExists(arguments.seen, urlKey)><cfcontinue></cfif>
+    <!-- dedupe by url -->
+    <cfset urlKey = lCase(destUrl)>
+    <cfif structKeyExists(seenUrl, urlKey)>
+      <cfcontinue>
+    </cfif>
 
-    <!--- separator-insensitive filter --->
-    <cfif NOT r76_contains_sepInsensitive(title, arguments.qUser)><cfcontinue></cfif>
+    <!-- separator-insensitive filter (prevents broad wildcard noise)
+         IMPORTANT: apply filter to TITLE + SUMMARY + BODY so content-only hits survive
+    -->
+    <cfset summaryTxt = "">
+    <cfset bodyTxt    = "">
+    <cftry><cfset summaryTxt = toString(bean.getValue("summary",""))><cfcatch></cfcatch></cftry>
+    <cftry><cfset bodyTxt    = toString(bean.getValue("body",""))><cfcatch></cfcatch></cftry>
+    <cftry><cfset bodyTxt    = bodyTxt & " " & toString(bean.getValue("body2",""))><cfcatch></cfcatch></cftry>
 
-    <cfset arguments.seen[urlKey] = true>
-    <cfset arrayAppend(arguments.out.results, { "title" = title, "url" = destUrl })>
+    <cfset hay = r76_stripHtml(title & " " & summaryTxt & " " & bodyTxt)>
+    <cfset hayKey = r76_normSep(hay)>
+
+    <cfif NOT len(hayKey) OR hayKey DOES NOT CONTAIN targetKey>
+      <cfcontinue>
+    </cfif>
+
+    <cfset seenUrl[urlKey] = true>
+    <cfset arrayAppend(out.results, { "title" = title, "url" = destUrl })>
     <cfset count = count + 1>
   </cfloop>
-
-  <cfreturn count>
-</cffunction>
-
-<cfset siteID = variables.$.event("siteid")>
-<cfset cm     = variables.$.getBean("contentManager")>
-
-<cfset seen  = structNew()>
-<cfset count = 0>
-
-<!--- Pass 1: exact query --->
-<cfset count = r76_collect(q, siteID, cm, q, max, seen, out, count, 200)>
-
-<!--- Pass 2: prefix/suffix fallback (no wildcards) --->
-<cfif count LT max>
-  <cfset qA = r76_alnum(q)>
-  <cfset qIsSingle = (find(" ", q) EQ 0 AND find("-", q) EQ 0)>
-
-  <cfif qIsSingle AND len(qA) GTE 4>
-    <cfset prefLen = 4>
-    <cfif len(qA) GTE 10><cfset prefLen = 5></cfif>
-
-    <cfset pref = left(qA, prefLen)>
-    <cfset suf  = right(qA, prefLen)>
-
-    <cfset count = r76_collect(pref, siteID, cm, q, max, seen, out, count, 300)>
-
-    <cfif count LT max AND suf NEQ pref>
-      <cfset count = r76_collect(suf, siteID, cm, q, max, seen, out, count, 300)>
-    </cfif>
-  </cfif>
-</cfif>
+</cfloop>
 
 <cfoutput>#serializeJSON(out)#</cfoutput>
 <cfabort>
-</cfprocessingdirective>
