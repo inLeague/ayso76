@@ -56,15 +56,6 @@
   transition: box-shadow .18s ease, border-color .18s ease, transform .18s ease;
 }
 
-/* Hide native browser clear (type="search") so our custom clear button is used */
-.r76-liveSearch input[type="search"]::-webkit-search-cancel-button{
-  -webkit-appearance: none;
-  display: none;
-}
-.r76-liveSearch input[type="search"]::-ms-clear{
-  display: none;
-}
-
 .r76-liveSearch input:focus {
   outline: none !important;
   border-color: rgba(0,0,0,.45) !important;
@@ -88,7 +79,7 @@
   border-radius: 999px;
   background: transparent;
   font-size: 20px !important;
-  line-height: 1 !important;
+  line-height: .9 !important;
   color: rgba(0,0,0,.55);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
