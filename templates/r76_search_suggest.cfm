@@ -171,10 +171,10 @@
       <cfset destUrl = "/" & destUrl>
     </cfif>
 
-    <!--- dedupe by url --->
+    <!-- dedupe by url -->
     <cfif structKeyExists(seenUrl, destUrl)><cfcontinue></cfif>
 
-    <!--- separator-insensitive filter (prevents broad wildcard noise) --->
+    <!-- separator-insensitive filter (prevents broad wildcard noise) -->
     <cfset tNorm    = normalizeForCompare(title)>
     <cfset tCompact = collapseForCompare(tNorm)>
 
