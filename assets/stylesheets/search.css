@@ -896,8 +896,8 @@
 .r76-liveSearch__results .dropdown-item,
 .r76-liveSearch__results a.dropdown-item,
 .r76-liveSearch__results a.r76-liveSearch__link{
-  padding-top: 6px !important;
-  padding-bottom: 4px !important;
+  padding-top: 8px !important;
+  padding-bottom: 5px !important;
   line-height: 1.25 !important;
 }
 
@@ -919,8 +919,8 @@
   .r76-liveSearch__results .dropdown-item,
   .r76-liveSearch__results a.dropdown-item,
   .r76-liveSearch__results a.r76-liveSearch__link{
-    padding-top: 6px !important;
-    padding-bottom: 6px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
   }
 
   .r76-liveSearch__infoBtn{
