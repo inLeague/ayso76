@@ -13,7 +13,7 @@
 <cfheader name="Expires" value="0">
 
 <cfset out = {
-  "version" = "r76_search_suggest_JSONONLY_FINAL__hyphenSpaceCompact",
+  "version" = "r76_search_suggest_JSONONLY_FINAL__hyphenSpaceCompact_v3",
   "query"   = q,
   "results" = []
 }>
