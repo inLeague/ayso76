@@ -571,11 +571,16 @@
     stroke-width: 1.9;
   }
 
-  .r76-liveSearch__infoBtn:focus,
-  .r76-liveSearch__infoBtn:active {
+  .r76-liveSearch__infoBtn:focus {
     outline: none !important;
     box-shadow: none !important;
-    background: rgba(0,0,0,.08) !important;
+    background: transparent !important;
+    transform: none !important;
+  }
+
+  .r76-liveSearch__infoBtn:active {
+    background: transparent !important;
+    transform: none !important;
   }
 }
 
