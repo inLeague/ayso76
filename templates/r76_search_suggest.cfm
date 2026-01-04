@@ -128,7 +128,7 @@ function r76_buildVariants(q){
       <cfcontinue>
     </cfif>
 
-    <!-- build URL -->
+    <!--- build URL --->
     <cfset destUrl = "">
     <cftry>
       <cfset destUrl = variables.$.createHREF(
@@ -148,15 +148,15 @@ function r76_buildVariants(q){
       <cfset destUrl = "/" & destUrl>
     </cfif>
 
-    <!-- dedupe by url -->
+    <!--- dedupe by url --->
     <cfset urlKey = lCase(destUrl)>
     <cfif structKeyExists(seenUrl, urlKey)>
       <cfcontinue>
     </cfif>
 
-    <!-- separator-insensitive filter (prevents broad wildcard noise)
+    <!--- separator-insensitive filter (prevents broad wildcard noise)
          IMPORTANT: apply filter to TITLE + SUMMARY + BODY so content-only hits survive
-    -->
+    --->
     <cfset summaryTxt = "">
     <cfset bodyTxt    = "">
     <cftry><cfset summaryTxt = toString(bean.getValue("summary",""))><cfcatch></cfcatch></cftry>
