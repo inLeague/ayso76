@@ -886,3 +886,14 @@
 
 /* show only when JS adds .is-visible */
 .r76-
+/* Ensure clear button sits above the input */
+.r76-liveSearch{ position: relative !important; }
+
+.r76-liveSearch input{
+  position: relative;
+  z-index: 1;
+}
+
+.r76-liveSearch__clearBtn{
+  z-index: 3;
+}
