@@ -1,3 +1,4 @@
+<cfprocessingdirective suppresswhitespace="true">
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
 <cfparam name="url.q" default="">
 <cfparam name="url.max" default="8">
@@ -51,10 +52,7 @@
 
   <cfif len(nN) EQ 0><cfreturn false></cfif>
 
-  <!-- exact-ish token match -->
   <cfif findNoCase(nN, hN) GT 0><cfreturn true></cfif>
-
-  <!-- collapsed match: "move-down" vs "movedown" -->
   <cfif len(nC) GT 0 AND findNoCase(nC, hC) GT 0><cfreturn true></cfif>
 
   <cfreturn false>
@@ -92,7 +90,6 @@
     <cfset scanned = scanned + 1>
     <cfset bean  = it.next()>
     <cfset title = trim(bean.getTitle())>
-
     <cfif NOT len(title)><cfcontinue></cfif>
 
     <cfset destUrl = "">
@@ -101,11 +98,8 @@
         contentid = bean.getContentID(),
         siteid    = arguments.siteID
       )>
-      <cfcatch>
-        <cfset destUrl = "">
-      </cfcatch>
+      <cfcatch><cfset destUrl = ""></cfcatch>
     </cftry>
-
     <cfif NOT len(destUrl)><cfcontinue></cfif>
 
     <cfif left(destUrl,1) NEQ "/" AND left(destUrl,4) NEQ "http">
@@ -115,7 +109,7 @@
     <cfset urlKey = lcase(destUrl)>
     <cfif structKeyExists(arguments.seen, urlKey)><cfcontinue></cfif>
 
-    <!-- separator-insensitive filter (prevents broad wildcard noise) -->
+    <!--- separator-insensitive filter --->
     <cfif NOT r76_contains_sepInsensitive(title, arguments.qUser)><cfcontinue></cfif>
 
     <cfset arguments.seen[urlKey] = true>
@@ -132,28 +126,23 @@
 <cfset seen  = structNew()>
 <cfset count = 0>
 
-<!-- Pass 1: exact query -->
+<!--- Pass 1: exact query --->
 <cfset count = r76_collect(q, siteID, cm, q, max, seen, out, count, 200)>
 
-<!-- Pass 2: if still empty/insufficient, do prefix/suffix candidate fetch -->
+<!--- Pass 2: prefix/suffix fallback (no wildcards) --->
 <cfif count LT max>
   <cfset qA = r76_alnum(q)>
-
-  <!-- Only meaningful when the user typed a single “collapsed” token -->
   <cfset qIsSingle = (find(" ", q) EQ 0 AND find("-", q) EQ 0)>
 
   <cfif qIsSingle AND len(qA) GTE 4>
-    <!-- choose a safe prefix length -->
     <cfset prefLen = 4>
     <cfif len(qA) GTE 10><cfset prefLen = 5></cfif>
 
     <cfset pref = left(qA, prefLen)>
     <cfset suf  = right(qA, prefLen)>
 
-    <!-- try prefix first (often enough: movedown -> "move") -->
     <cfset count = r76_collect(pref, siteID, cm, q, max, seen, out, count, 300)>
 
-    <!-- if still not enough, try suffix too (movedown -> "down") -->
     <cfif count LT max AND suf NEQ pref>
       <cfset count = r76_collect(suf, siteID, cm, q, max, seen, out, count, 300)>
     </cfif>
@@ -162,3 +151,4 @@
 
 <cfoutput>#serializeJSON(out)#</cfoutput>
 <cfabort>
+</cfprocessingdirective>
