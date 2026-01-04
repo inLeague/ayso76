@@ -68,7 +68,7 @@
   position: absolute;
   right: 10px;
   top: 50% !important;
-  transform: translateY(calc(-50% - 3px)) !important;
+  transform: translateY(calc(-50% - 4px)) !important;
   z-index: 3;
   width: 28px;
   height: 28px;
