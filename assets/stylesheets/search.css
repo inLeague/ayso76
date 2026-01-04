@@ -888,49 +888,20 @@
 .r76-
 
 /* =========================================================
-   Tighten result row density (DESKTOP + MOBILE)
-   Paste at VERY END of current CSS
+   Tighter result rows (desktop + mobile)
+   Paste at VERY END of your current Live Search CSS
 ========================================================= */
 
-/* 1) Force tighter padding on the actual Bootstrap dropdown items */
-.r76-liveSearch__results .dropdown-item,
-.r76-liveSearch__results a.dropdown-item,
-.r76-liveSearch__results a.r76-liveSearch__link{
-  padding-top: 8px !important;
-  padding-bottom: 5px !important;
-  line-height: 1.25 !important;
+/* Reduce vertical padding for each result row */
+.r76-liveSearch__results a{
+  padding-top: 7px !important;
+  padding-bottom: 4px !important;
 }
 
-/* 2) If the ⓘ button is holding the row height open, tighten it too */
-.r76-liveSearch__infoBtn{
-  width: 30px !important;
-  min-width: 30px !important;
-  height: 30px !important;
-}
-
-/* 3) Keep the icon proportionate */
-.r76-liveSearch__infoSvg{
-  width: 17px !important;
-  height: 17px !important;
-}
-
-/* Mobile: slightly roomier than desktop, but still tighter than now */
+/* Mobile: also tighten the larger mobile padding from the enhancements */
 @media (max-width: 991px){
-  .r76-liveSearch__results .dropdown-item,
-  .r76-liveSearch__results a.dropdown-item,
-  .r76-liveSearch__results a.r76-liveSearch__link{
-    padding-top: 8px !important;
-    padding-bottom: 8px !important;
-  }
-
-  .r76-liveSearch__infoBtn{
-    width: 32px !important;
-    min-width: 32px !important;
-    height: 32px !important;
-  }
-
-  .r76-liveSearch__infoSvg{
-    width: 18px !important;
-    height: 18px !important;
+  .r76-liveSearch__results a{
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
   }
 }
