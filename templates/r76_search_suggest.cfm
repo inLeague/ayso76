@@ -13,7 +13,7 @@
 <cfheader name="Expires" value="0">
 
 <cfset out = {
-  "version" = "r76_search_suggest_JSONONLY_FINAL__hyphenSpaceCompact__wildFallback",
+  "version" = "r76_search_suggest_JSONONLY_FINAL__hyphenSpaceCompact__prefixFallback",
   "query"   = q,
   "results" = []
 }>
@@ -24,6 +24,7 @@
 </cfif>
 
 <!--- Helpers: normalize + separator-insensitive matching --->
+
 <cffunction name="r76_norm" access="private" returntype="string" output="false">
   <cfargument name="s" type="string" required="true">
   <cfset var t = lcase(trim(arguments.s))>
@@ -49,39 +50,24 @@
   <cfset var nC = r76_compact(arguments.needle)>
 
   <cfif len(nN) EQ 0><cfreturn false></cfif>
+
+  <!-- exact-ish token match -->
   <cfif findNoCase(nN, hN) GT 0><cfreturn true></cfif>
+
+  <!-- collapsed match: "move-down" vs "movedown" -->
   <cfif len(nC) GT 0 AND findNoCase(nC, hC) GT 0><cfreturn true></cfif>
 
   <cfreturn false>
 </cffunction>
 
-<!--- Build a wildcard that tolerates separators between characters:
-      "movedown" -> "*m*o*v*e*d*o*w*n*"
-      Only used as a fallback.
---->
-<cffunction name="r76_sepWildcard" access="private" returntype="string" output="false">
+<cffunction name="r76_alnum" access="private" returntype="string" output="false">
   <cfargument name="s" type="string" required="true">
-
-  <cfset var base = lcase(trim(arguments.s))>
-  <cfset var alnum = reReplace(base, "[^a-z0-9]+", "", "all")>
-  <cfset var i = 0>
-  <cfset var outPat = "*">
-
-  <cfif NOT len(alnum)>
-    <cfreturn "">
-  </cfif>
-
-  <cfloop from="1" to="#len(alnum)#" index="i">
-    <cfset outPat &= mid(alnum, i, 1) & "*">
-  </cfloop>
-
-  <cfreturn outPat>
+  <cfset var t = lcase(trim(arguments.s))>
+  <cfset t = reReplace(t, "[^a-z0-9]+", "", "all")>
+  <cfreturn t>
 </cffunction>
 
-<cfset siteID = variables.$.event("siteid")>
-<cfset cm     = variables.$.getBean("contentManager")>
-
-<!--- Dedup + collect function (so we can do 2 passes cleanly) --->
+<!--- build URL / dedupe by url / separator-insensitive filter (prevents broad noise) --->
 <cffunction name="r76_collect" access="private" returntype="numeric" output="false">
   <cfargument name="iterQuery" type="string" required="true">
   <cfargument name="siteID" type="string" required="true">
@@ -91,15 +77,19 @@
   <cfargument name="seen" type="struct" required="true">
   <cfargument name="out" type="struct" required="true">
   <cfargument name="countIn" type="numeric" required="true">
+  <cfargument name="scanLimit" type="numeric" required="true">
 
   <cfset var it = arguments.cm.getPublicSearchIterator(arguments.siteID, arguments.iterQuery)>
   <cfset var count = arguments.countIn>
+  <cfset var scanned = 0>
+
   <cfset var bean = "">
   <cfset var title = "">
   <cfset var destUrl = "">
   <cfset var urlKey = "">
 
-  <cfloop condition="it.hasNext() AND count LT arguments.max">
+  <cfloop condition="it.hasNext() AND count LT arguments.max AND scanned LT arguments.scanLimit">
+    <cfset scanned = scanned + 1>
     <cfset bean  = it.next()>
     <cfset title = trim(bean.getTitle())>
 
@@ -124,11 +114,11 @@
 
     <cfset urlKey = lcase(destUrl)>
     <cfif structKeyExists(arguments.seen, urlKey)><cfcontinue></cfif>
-    <cfset arguments.seen[urlKey] = true>
 
-    <!--- Keep only if title matches the USER query separator-insensitively --->
+    <!-- separator-insensitive filter (prevents broad wildcard noise) -->
     <cfif NOT r76_contains_sepInsensitive(title, arguments.qUser)><cfcontinue></cfif>
 
+    <cfset arguments.seen[urlKey] = true>
     <cfset arrayAppend(arguments.out.results, { "title" = title, "url" = destUrl })>
     <cfset count = count + 1>
   </cfloop>
@@ -136,18 +126,37 @@
   <cfreturn count>
 </cffunction>
 
+<cfset siteID = variables.$.event("siteid")>
+<cfset cm     = variables.$.getBean("contentManager")>
+
 <cfset seen  = structNew()>
 <cfset count = 0>
 
-<!--- Pass 1: exact query --->
-<cfset count = r76_collect(q, siteID, cm, q, max, seen, out, count)>
+<!-- Pass 1: exact query -->
+<cfset count = r76_collect(q, siteID, cm, q, max, seen, out, count, 200)>
 
-<!--- Pass 2 (fallback): only if we still have room AND query is a single token with no spaces/hyphens --->
-<cfset qIsSingle = (find(" ", q) EQ 0 AND find("-", q) EQ 0)>
-<cfif count LT max AND qIsSingle AND len(q) GTE 4>
-  <cfset wild = r76_sepWildcard(q)>
-  <cfif len(wild)>
-    <cfset count = r76_collect(wild, siteID, cm, q, max, seen, out, count)>
+<!-- Pass 2: if still empty/insufficient, do prefix/suffix candidate fetch -->
+<cfif count LT max>
+  <cfset qA = r76_alnum(q)>
+
+  <!-- Only meaningful when the user typed a single “collapsed” token -->
+  <cfset qIsSingle = (find(" ", q) EQ 0 AND find("-", q) EQ 0)>
+
+  <cfif qIsSingle AND len(qA) GTE 4>
+    <!-- choose a safe prefix length -->
+    <cfset prefLen = 4>
+    <cfif len(qA) GTE 10><cfset prefLen = 5></cfif>
+
+    <cfset pref = left(qA, prefLen)>
+    <cfset suf  = right(qA, prefLen)>
+
+    <!-- try prefix first (often enough: movedown -> "move") -->
+    <cfset count = r76_collect(pref, siteID, cm, q, max, seen, out, count, 300)>
+
+    <!-- if still not enough, try suffix too (movedown -> "down") -->
+    <cfif count LT max AND suf NEQ pref>
+      <cfset count = r76_collect(suf, siteID, cm, q, max, seen, out, count, 300)>
+    </cfif>
   </cfif>
 </cfif>
 
