@@ -68,7 +68,7 @@
   position: absolute;
   right: 10px;
   top: 50% !important;
-  transform: translateY(calc(-50% - 4px)) !important;
+  transform: translateY(calc(-50% - 2px)) !important;
   z-index: 3;
   width: 28px;
   height: 28px;
@@ -84,7 +84,7 @@
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: background-color .12s ease, transform .12s ease, color .12s ease;
-  padding-bottom: 2px !important;
+  padding-bottom: 4px !important;
 
 }
 
@@ -549,7 +549,7 @@
   .r76-liveSearch__clearBtn:hover {
     background: rgba(0,0,0,.08);
     color: rgba(0,0,0,.75);
-    transform: translateY(calc(-50% - 4px)) scale(1.05);
+    transform: translateY(calc(-50%)) scale(1.05);
   }
 
   .r76-liveSearch__infoBtn:hover {
@@ -574,7 +574,7 @@
 @media (hover: none) and (pointer: coarse) {
   .r76-liveSearch__clearBtn:active {
     background: rgba(0,0,0,.10);
-    transform: translateY(calc(-50% - 4px)) scale(1.05);
+    transform: translateY(calc(-50%)) scale(1.05);
     color: rgba(0,0,0,.85);
   }
 
