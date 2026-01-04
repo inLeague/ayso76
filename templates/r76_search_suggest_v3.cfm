@@ -18,12 +18,6 @@
   "results" = []
 }>
 
-<cfset out.debug = {
-  "siteID" = siteID,
-  "qLen"   = len(q),
-  "max"    = max
-}>
-
 <cfif len(q) LT 2>
   <cfoutput>#serializeJSON(out)#</cfoutput>
   <cfabort>
@@ -160,7 +154,7 @@
     <cfset title = trim(bean.getTitle())>
     <cfif NOT len(title)><cfcontinue></cfif>
 
-    <!-- build URL -->
+    <!--- build URL --->
     <cfset destUrl = "">
     <cftry>
       <cfset destUrl = variables.$.createHREF(
