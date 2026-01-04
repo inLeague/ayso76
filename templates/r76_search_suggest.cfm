@@ -13,7 +13,7 @@
 <cfheader name="Expires" value="0">
 
 <cfset out = {
-  "version" = "r76_search_suggest_JSONONLY_FINAL__hyphenSpaceCompact_v3",
+  "version" = "r76_search_suggest_JSONONLY_FINAL__hyphenSpaceCompact",
   "query"   = q,
   "results" = []
 }>
@@ -23,170 +23,108 @@
   <cfabort>
 </cfif>
 
-<!---
-  =========================================================
-  Separator-insensitive matching helpers
-  - normalizeForCompare: lowercases + turns punctuation/hyphens into spaces
-  - collapseForCompare: removes spaces entirely ("move-down" -> "movedown")
-  =========================================================
---->
-<cffunction name="normalizeForCompare" access="private" returntype="string" output="false">
+<!--- =========================================================
+      Get public search iterator
+      NOTE: This endpoint MUST output JSON ONLY (no HTML comments)
+      so the JS can parse it (it expects response to start with "{")
+========================================================= --->
+<cfset siteID = variables.$.event("siteid")>
+<cfset cm     = variables.$.getBean("contentManager")>
+<cfset it     = cm.getPublicSearchIterator(siteID, q)>
+
+<!--- =========================================================
+      Helpers: normalize + separator-insensitive matching
+      (treat hyphen/space/punctuation as equivalent)
+========================================================= --->
+<cffunction name="r76_norm" access="private" returntype="string" output="false">
   <cfargument name="s" type="string" required="true">
   <cfset var t = lcase(trim(arguments.s))>
-  <!-- replace any non-alphanumeric with space -->
+  <!--- convert any non [a-z0-9] to spaces, then collapse spaces --->
   <cfset t = reReplace(t, "[^a-z0-9]+", " ", "all")>
-  <!-- collapse whitespace -->
   <cfset t = reReplace(t, "\s+", " ", "all")>
-  <cfreturn trim(t)>
+  <cfreturn t>
 </cffunction>
 
-<cffunction name="collapseForCompare" access="private" returntype="string" output="false">
-  <cfargument name="norm" type="string" required="true">
-  <cfreturn replace(arguments.norm, " ", "", "all")>
+<cffunction name="r76_compact" access="private" returntype="string" output="false">
+  <cfargument name="s" type="string" required="true">
+  <cfset var t = r76_norm(arguments.s)>
+  <cfset t = replace(t, " ", "", "all")>
+  <cfreturn t>
 </cffunction>
 
-<!--- Normalize the USER query once (this is what we match against) --->
-<cfset qNorm    = normalizeForCompare(q)>
-<cfset qCompact = collapseForCompare(qNorm)>
+<cffunction name="r76_contains_sepInsensitive" access="private" returntype="boolean" output="false">
+  <cfargument name="hay" type="string" required="true">
+  <cfargument name="needle" type="string" required="true">
 
-<!---
-  =========================================================
-  Build backend query variants (generic, no compound map)
-  We ask Mura for results using a few forms:
-  - original query
-  - hyphen -> space
-  - space -> hyphen
-  - compact (remove spaces & hyphens)
-  - OPTIONAL: wildcard fanout for single-token queries (best-effort)
-  =========================================================
---->
-<cfset variants = []>
+  <cfset var hN = r76_norm(arguments.hay)>
+  <cfset var nN = r76_norm(arguments.needle)>
+  <cfset var hC = r76_compact(arguments.hay)>
+  <cfset var nC = r76_compact(arguments.needle)>
 
-<cfset qNoHyphen = replace(q, "-", "", "all")>
-<cfset qNoSpace  = replace(q, " ", "", "all")>
-<cfset qCompactRaw = replace(qNoHyphen, " ", "", "all")>
+  <cfif len(nN) EQ 0><cfreturn false></cfif>
 
-<cfset arrayAppend(variants, q)>
-<cfset arrayAppend(variants, replace(q, "-", " ", "all"))>
-<cfset arrayAppend(variants, replace(q, " ", "-", "all"))>
-<cfset arrayAppend(variants, qCompactRaw)>
+  <!--- normal contains (space-insensitive-ish) --->
+  <cfif findNoCase(nN, hN) GT 0><cfreturn true></cfif>
 
-<!---
-  OPTIONAL wildcard variant:
-  - Helps cases like "movedown" matching "move-down" when the backend only tokenizes on separators
-  - This relies on the underlying search supporting wildcards.
-  - Keep it bounded: only for single-token-ish queries of reasonable length.
---->
-<cfif (find(" ", q) EQ 0) AND (find("-", q) EQ 0) AND (len(q) GTE 4) AND (len(q) LTE 20)>
-  <cfset qStar = "">
-  <cfloop from="1" to="#len(q)#" index="i">
-    <cfset qStar &= mid(q, i, 1) & "*">
-  </cfloop>
-  <cfset arrayAppend(variants, qStar)>
-</cfif>
+  <!--- compact contains (hyphen/space/punct ignored) --->
+  <cfif len(nC) GT 0 AND findNoCase(nC, hC) GT 0><cfreturn true></cfif>
 
-<!--- De-dupe variants case-insensitively and remove blanks --->
-<cfset seenVar = {}> <!--- struct of lowercased variant -> true --->
-<cfset cleanVariants = []>
-<cfloop array="#variants#" index="v">
-  <cfset v = trim(v)>
-  <cfif NOT len(v)><cfcontinue></cfif>
-  <cfset vKey = lcase(v)>
-  <cfif structKeyExists(seenVar, vKey)><cfcontinue></cfif>
-  <cfset seenVar[vKey] = true>
-  <cfset arrayAppend(cleanVariants, v)>
-</cfloop>
+  <cfreturn false>
+</cffunction>
 
-<!--- Get siteID reliably (endpoints often don't have event('siteid')) --->
-<cfset siteID = "">
-
-<cftry>
-  <cfset siteID = trim(variables.$.event("siteid"))>
-  <cfcatch>
-    <cfset siteID = "">
-  </cfcatch>
-</cftry>
-
-<!--- Optional: allow ?siteid=default override --->
-<cfparam name="url.siteid" default="">
-<cfif NOT len(siteID) AND len(trim(url.siteid))>
-  <cfset siteID = trim(url.siteid)>
-</cfif>
-
-<!--- Final fallback --->
-<cfif NOT len(siteID)>
-  <cfset siteID = "default">
-</cfif>
-<cfset cm = variables.$.getBean("contentManager")>
-
-<!--- Dedupe final results by URL --->
-<cfset seenUrl = {}>
-
-<!--- Hard safety cap so we don't iterate forever across variants --->
+<!--- =========================================================
+      Build results (dedupe by URL)
+      Include title + computed href
+      Apply separator-insensitive filter to reduce wildcard noise
+========================================================= --->
+<cfset seen = structNew()>
 <cfset count = 0>
-<cfset perVariantScanCap = 120>
 
-<!---
-  =========================================================
-  Fetch + merge + filter
-  Filtering logic (key part):
-    Keep result if:
-      normalize(title) contains normalize(query)
-      OR
-      collapse(normalize(title)) contains collapse(normalize(query))
-  This makes:
-    movedown  match  move-down
-    post season match post-season
-    etc.
-  =========================================================
---->
-<cfloop array="#cleanVariants#" index="vq">
-  <cfif count GTE max><cfbreak></cfif>
+<cfloop condition="it.hasNext() AND count LT max">
+  <cfset bean  = it.next()>
+  <cfset title = trim(bean.getTitle())>
 
-  <cfset it = cm.getPublicSearchIterator(siteID, vq)>
-  <cfset scanned = 0>
+  <cfif NOT len(title)>
+    <cfcontinue>
+  </cfif>
 
-  <cfloop condition="it.hasNext() AND count LT max">
-    <cfset scanned++>
-    <cfif scanned GT perVariantScanCap><cfbreak></cfif>
-
-    <cfset bean = it.next()>
-    <cfset title = trim(bean.getTitle())>
-    <cfif NOT len(title)><cfcontinue></cfif>
-
-  <cfcomment>build URL</cfcomment>
+  <!--- build URL --->
   <cfset destUrl = "">
-    <cftry>
-      <cfset destUrl = variables.$.createHREF(
-        contentid = bean.getContentID(),
-        siteid    = siteID
-      )>
-      <cfcatch>
-        <cfset destUrl = "">
-      </cfcatch>
-    </cftry>
-    <cfif NOT len(destUrl)><cfcontinue></cfif>
+  <cftry>
+    <cfset destUrl = variables.$.createHREF(
+      contentid = bean.getContentID(),
+      siteid    = siteID
+    )>
+    <cfcatch>
+      <cfset destUrl = "">
+    </cfcatch>
+  </cftry>
 
-    <cfif left(destUrl,1) NEQ "/" AND left(destUrl,4) NEQ "http">
-      <cfset destUrl = "/" & destUrl>
-    </cfif>
+  <cfif NOT len(destUrl)>
+    <cfcontinue>
+  </cfif>
 
-    <!-- dedupe by url -->
-    <cfif structKeyExists(seenUrl, destUrl)><cfcontinue></cfif>
+  <cfif left(destUrl,1) NEQ "/" AND left(destUrl,4) NEQ "http">
+    <cfset destUrl = "/" & destUrl>
+  </cfif>
 
-    <!-- separator-insensitive filter (prevents broad wildcard noise) -->
-    <cfset tNorm    = normalizeForCompare(title)>
-    <cfset tCompact = collapseForCompare(tNorm)>
+  <!--- dedupe by url --->
+  <cfset urlKey = lcase(destUrl)>
+  <cfif structKeyExists(seen, urlKey)>
+    <cfcontinue>
+  </cfif>
+  <cfset seen[urlKey] = true>
 
-    <cfif (findNoCase(qNorm, tNorm) EQ 0) AND (findNoCase(qCompact, tCompact) EQ 0)>
-      <cfcontinue>
-    </cfif>
+  <!--- separator-insensitive filter (prevents broad wildcard noise) --->
+  <!--- Only keep if the TITLE matches query in a separator-insensitive way --->
+  <cfif NOT r76_contains_sepInsensitive(title, q)>
+    <cfcontinue>
+  </cfif>
 
-    <cfset seenUrl[destUrl] = true>
-    <cfset arrayAppend(out.results, { "title" = title, "url" = destUrl })>
-    <cfset count++>
-  </cfloop>
+  <cfset arrayAppend(out.results, { "title" = title, "url" = destUrl })>
+  <cfset count = count + 1>
 </cfloop>
 
+<!--- JSON ONLY output (no HTML comments above this point) --->
 <cfoutput>#serializeJSON(out)#</cfoutput>
 <cfabort>
