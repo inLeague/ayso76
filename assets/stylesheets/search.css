@@ -253,8 +253,8 @@
 .r76-liveSearch__hl {
   background: rgba(255, 217, 102, .55);
   border-radius: 6px;
-  padding: 0 3px;
-  margin: 0 -3px; /* cancels the padding so letters don't shift */
+  padding: 0 2px;
+  margin: 0 -2px; /* cancels the padding so letters don't shift */
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
