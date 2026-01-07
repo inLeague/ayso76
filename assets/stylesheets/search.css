@@ -250,14 +250,22 @@
 }
 
 /* Highlight (override any theme/Bootstrap mark padding) */
-.r76-liveSearch__hl {
-  background: rgba(255, 217, 102, .55);
-  border-radius: 6px;
-  padding: 0 3px;
-  margin: 0 -3px; /* cancels the padding so letters don't shift */
+.r76-liveSearch .r76-liveSearch__hl{
+  display: inline !important;
+  padding: 0 1 !important;
+  margin: 0 -1 !important;
+  border: 0 !important;
+
+  background: rgba(255, 217, 102, .55) !important;
+  border-radius: 6px !important;
+
+  /* IMPORTANT: don't use box-shadow “spread” here—keep it tight */
+  box-shadow: none !important;
+
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
+
 
 
 
