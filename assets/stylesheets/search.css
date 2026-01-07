@@ -251,10 +251,16 @@
 
 /* Highlight */
 .r76-liveSearch__hl {
+  display: inline;                 /* prevents inline-block-ish spacing behavior */
+  padding: 0 !important;           /* no layout expansion */
+  margin: 0 !important;
+
   background: rgba(255, 217, 102, .55);
   border-radius: 6px;
-  padding: 0 2px;
-  margin: 0 -2px; /* cancels the padding so letters don't shift */
+
+  /* add “breathing room” WITHOUT pushing letters apart */
+  box-shadow: 0 0 0 3px rgba(255, 217, 102, .55);
+
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
