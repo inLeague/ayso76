@@ -252,8 +252,8 @@
 /* Highlight (override any theme/Bootstrap mark padding) */
 .r76-liveSearch .r76-liveSearch__hl{
   display: inline !important;
-  padding: 0 1 !important;
-  margin: 0 -1 !important;
+  padding: 0 !important;
+  margin: 0 !important;
   border: 0 !important;
 
   background: rgba(255, 217, 102, .55) !important;
