@@ -257,7 +257,7 @@
   border: 0 !important;
 
   background: rgba(255, 217, 102, .55) !important;
-  border-radius: 3px !important;
+  border-radius: 4px !important;
 
   /* IMPORTANT: don't use box-shadow “spread” here—keep it tight */
   box-shadow: none !important;
