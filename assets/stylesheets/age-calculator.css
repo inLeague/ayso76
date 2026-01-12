@@ -31,11 +31,48 @@
   font-weight: 600;
 }
 
+/* Wrap input so we can place the clear button inside on the right */
+.r76-age-inputWrap {
+  position: relative;
+  width: 100%;
+}
+
+/* Change your input selector to text (you already did this earlier) */
 .r76-age-row input[type="text"] {
-  padding: 0.5rem 0.75rem;
+  width: 100%;
+  padding: 0.5rem 2.25rem 0.5rem 0.75rem; /* extra right padding for × */
   border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 0.95rem;
+  box-sizing: border-box;
+}
+
+/* Clear button (×) */
+.r76-age-clearBtn {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: #777;
+  font-size: 20px;
+  line-height: 28px;
+  text-align: center;
+  cursor: pointer;
+  padding: 0;
+  display: none; /* shown via JS when there’s input */
+}
+
+.r76-age-clearBtn:hover,
+.r76-age-clearBtn:focus {
+  color: #2d2f30;
+}
+
+.r76-age-clearBtn:focus {
+  outline: none;
 }
 
 #r76-age-form button[type="submit"] {
