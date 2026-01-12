@@ -31,7 +31,7 @@
   font-weight: 600;
 }
 
-.r76-age-row input[type="date"] {
+.r76-age-row input[type="text"] {
   padding: 0.5rem 0.75rem;
   border-radius: 8px;
   border: 1px solid #ccc;
