@@ -665,3 +665,32 @@
   #r76Reg .r76-btn{ width: 100%; text-align: center; }
   #r76Reg .r76-accMeta{ flex: 0 0 auto; width: auto; }
 }
+/* =========================================================
+   Registration CTAs — Tryouts-style glimmer (sheen)
+========================================================= */
+
+#r76Reg a.r76-glimmer{
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Subtle sheen (same idea as Tryouts) */
+#r76Reg a.r76-glimmer::after{
+  content: "" !important;
+  position: absolute !important;
+  inset: -40% -60% !important;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 35%,
+    rgba(255,255,255,.22) 50%,
+    rgba(255,255,255,0) 65%
+  ) !important;
+  transform: translateX(-40%) rotate(8deg) !important;
+  transition: transform .35s ease !important;
+  pointer-events: none !important;
+}
+
+/* Hover sweep */
+#r76Reg a.r76-glimmer:hover::after{
+  transform: translateX(35%) rotate(8deg) !important;
+}
