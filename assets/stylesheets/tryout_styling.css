@@ -608,3 +608,60 @@
   color: rgba(0,0,0,.88) !important;
   box-shadow: 0 6px 14px rgba(0,0,0,.08) !important;
 }
+/* =========================================================
+   Registration — separate primary CTA from step navigation
+========================================================= */
+
+#r76Reg .r76-regPrimaryCta{
+  margin: .6rem 0 .35rem;
+}
+
+#r76Reg .r76-regStepNav{
+  display: flex;
+  gap: .55rem;
+  flex-wrap: wrap;
+  margin-top: .35rem;
+}
+
+/* Step buttons look a bit “nav-y” vs CTA */
+#r76Reg .r76-regStepBtn{
+  padding: .62rem .95rem !important;
+  font-weight: 900 !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,.06) !important;
+}
+
+/* Make the primary CTA feel like THE action */
+#r76Reg .r76-regCtaPrimary{
+  padding: .9rem 1.2rem !important;
+  font-size: 1.05rem !important;
+}
+
+/* Stronger accordion titles */
+#r76Reg .r76-accTitle{
+  font-size: 1.12rem;
+  letter-spacing: .15px;
+}
+
+/* Badge alignment column (consistent) */
+#r76Reg .r76-accSummary{
+  display: flex;
+  align-items: center;
+}
+#r76Reg .r76-accTitle{
+  flex: 1 1 auto;
+  min-width: 0;
+}
+#r76Reg .r76-accMeta{
+  flex: 0 0 170px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Mobile behavior */
+@media (max-width: 720px){
+  #r76Reg .r76-btn{ width: 100%; text-align: center; }
+  #r76Reg .r76-accMeta{ flex: 0 0 auto; width: auto; }
+}
