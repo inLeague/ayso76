@@ -375,10 +375,9 @@
   .r76-modalClose:hover{ background: rgba(0,0,0,.10); }
 
 /* =========================================================
-   Registration — layout enhancements (Tryouts aesthetic)
+   Registration — accordion sections (Tryouts aesthetic)
 ========================================================= */
 
-/* Optional: if you didn't already add the token block */
 .r76-reg{
   --r76-orange: #ef832f;
   --r76-orangeDark: #d86f1f;
@@ -389,72 +388,94 @@
   line-height: 1.45;
 }
 
-/* Hero tweaks */
-.r76-reg .r76-regHero{ padding-top: 4px; }
-.r76-reg .r76-regSmallNote{ margin-top: .65rem; }
-.r76-reg .r76-regCtas{ margin-top: .7rem; }
-
-/* Chips */
-.r76-reg .r76-regQuickLinks{
-  display: flex;
-  gap: .5rem;
-  flex-wrap: wrap;
-  margin-top: 12px;
-}
-.r76-reg .r76-regChip{
-  text-decoration: none;
-  color: rgba(0,0,0,.78);
-  background: rgba(0,0,0,.03);
-}
-
-/* Grid of policy cards */
-.r76-reg .r76-regGrid{
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 14px;
-  margin-top: 12px;
-}
-.r76-reg .r76-regCard{
-  grid-column: span 6;
+/* Main accordion blocks */
+.r76-reg .r76-acc{
   border: 1px solid var(--r76-border);
   border-radius: 14px;
   background: #fff;
-  padding: 14px 14px 12px;
+  margin: 12px 0;
+  overflow: hidden;
   box-shadow: 0 8px 18px rgba(0,0,0,.06);
 }
-.r76-reg .r76-regCardTitle{
-  margin: 0 0 .35rem;
-}
-.r76-reg .r76-regCardIntro{
-  margin: 0 0 .75rem;
-  color: var(--r76-muted);
-}
-.r76-reg .r76-regInlineCallout{ margin-top: 10px; }
-.r76-reg .r76-regSmall{
-  margin: .75rem 0 0;
-  color: var(--r76-muted);
-  font-size: .95rem;
+
+.r76-reg .r76-accSummary{
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  font-weight: 900;
 }
 
-/* Details inside cards: slightly tighter */
-.r76-reg .r76-regDetails{
+/* Remove default marker (modern look) */
+.r76-reg .r76-accSummary::-webkit-details-marker{ display: none; }
+
+.r76-reg .r76-accTitle{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Right-side meta label */
+.r76-reg .r76-accMeta{
+  display: inline-block;
+  padding: .18rem .55rem;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: .85rem;
+  border: 1px solid var(--r76-border);
+  background: rgba(0,0,0,.03);
+  color: rgba(0,0,0,.72);
+  white-space: nowrap;
+}
+.r76-reg .r76-accMeta--danger{
+  border-color: rgba(217,48,37,.35);
+  background: rgba(217,48,37,.08);
+  color: #a11f18;
+}
+
+/* Expand/collapse chevron */
+.r76-reg .r76-accSummary::after{
+  content: "▾";
+  font-weight: 900;
+  color: rgba(0,0,0,.55);
+  margin-left: 6px;
+}
+.r76-reg details[open] > .r76-accSummary::after{
+  content: "▴";
+}
+
+/* Body */
+.r76-reg .r76-accBody{
+  padding: 12px 14px 14px;
+  border-top: 1px solid var(--r76-border);
+}
+
+/* Hover / focus */
+.r76-reg .r76-accSummary:hover{
+  background: rgba(0,0,0,.02);
+}
+.r76-reg .r76-accSummary:focus{ outline: none; }
+.r76-reg .r76-accSummary:focus-visible{
+  box-shadow:
+    0 0 0 3px rgba(239,131,47,.22),
+    0 0 0 6px rgba(239,131,47,.12);
+}
+
+/* Sub-accordion inside Requests section */
+.r76-reg .r76-regSubAcc{
   margin: 10px 0;
 }
 
-/* Bottom section spacing */
-.r76-reg .r76-regBottom{
-  margin-top: 18px;
+/* Make nested <details> match nicely */
+.r76-reg .r76-regSubAcc{
+  border-radius: 12px;
 }
 
-/* Better reading width */
-.r76-reg p{ max-width: 980px; }
-
-/* Responsive */
-@media (max-width: 980px){
-  .r76-reg .r76-regCard{ grid-column: span 12; }
-}
-
+/* Mobile spacing */
 @media (max-width: 720px){
   .r76-reg .r76-btn{ width: 100%; text-align: center; }
-  .r76-reg .r76-regQuickLinks a{ flex: 1 1 auto; text-align: center; }
+  .r76-reg .r76-accSummary{ flex-wrap: wrap; }
 }
