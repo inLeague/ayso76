@@ -694,3 +694,35 @@
 #r76Reg a.r76-glimmer:hover::after{
   transform: translateX(35%) rotate(8deg) !important;
 }
+/* =========================================================
+   Registration CTAs — Tryouts-style lift + press
+   (applied only to buttons with .r76-glimmer)
+========================================================= */
+
+#r76Reg a.r76-glimmer{
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease, background .12s ease !important;
+  box-shadow: 0 8px 18px rgba(0,0,0,.12) !important;
+}
+
+/* Lift on hover */
+#r76Reg a.r76-glimmer:hover{
+  transform: translateY(-1px) !important;
+  box-shadow: 0 10px 22px rgba(0,0,0,.16) !important;
+  filter: brightness(1.02) !important;
+}
+
+/* Press on active */
+#r76Reg a.r76-glimmer:active{
+  transform: translateY(0) !important;
+  box-shadow: 0 6px 14px rgba(0,0,0,.12) !important;
+  filter: brightness(.98) !important;
+}
+
+/* Accessible focus ring (same vibe as Tryouts) */
+#r76Reg a.r76-glimmer:focus{ outline: none !important; }
+#r76Reg a.r76-glimmer:focus-visible{
+  box-shadow:
+    0 0 0 3px rgba(239,131,47,.24),
+    0 0 0 6px rgba(239,131,47,.14),
+    0 10px 22px rgba(0,0,0,.16) !important;
+}
