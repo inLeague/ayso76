@@ -1,0 +1,375 @@
+/* =========================================================
+   R76 Extra Tryouts — Clean, Consolidated CSS (scoped)
+   Button orange updated to #ef832f
+========================================================= */
+
+.r76-tryouts{
+  /* Brand / accents */
+  --r76-orange: #ef832f;      /* CTA orange (your requested color) */
+  --r76-orangeDark: #d86f1f;  /* darker hover/active companion */
+  --r76-red: #d93025;
+
+  /* Neutrals */
+  --r76-border: rgba(0,0,0,.14);
+  --r76-muted: rgba(0,0,0,.66);
+  --r76-soft: rgba(0,0,0,.03);
+
+  line-height: 1.45;
+}
+
+/* Optional banner (if used) */
+.r76-tryouts .r76-banner{
+  border: 1px solid var(--r76-border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: #fff;
+  margin: 0 0 14px;
+}
+.r76-tryouts .r76-banner--neutral{
+  background: var(--r76-soft);
+}
+
+/* Typography / layout */
+.r76-tryouts .r76-hero{ padding: 6px 0 10px; }
+.r76-tryouts .r76-title{ margin: 0 0 .25rem; }
+.r76-tryouts .r76-subtitle{ margin: 0 0 1rem; color: var(--r76-muted); }
+.r76-tryouts .r76-updated{ margin: .75rem 0 0; color: var(--r76-muted); font-size: .95rem; }
+
+.r76-tryouts .r76-ctaRow{
+  display: flex;
+  gap: .6rem;
+  flex-wrap: wrap;
+  margin: .75rem 0 .25rem;
+}
+
+.r76-tryouts .r76-hr{
+  margin: 22px 0;
+  border: 0;
+  border-top: 1px solid var(--r76-border);
+}
+.r76-tryouts .r76-hr--soft{ margin: 18px 0; }
+
+.r76-tryouts .r76-section h2{ margin-top: 0; }
+.r76-tryouts .r76-note{ margin: 0 0 10px; color: var(--r76-muted); }
+
+/* =========================================================
+   Buttons (themed)
+========================================================= */
+.r76-tryouts .r76-btn{
+  display: inline-block;
+  border-radius: 999px;
+  padding: .78rem 1.05rem;
+  font-weight: 900;
+  letter-spacing: .2px;
+
+  border: 1px solid rgba(0,0,0,.18);
+  text-decoration: none;
+
+  box-shadow: 0 8px 18px rgba(0,0,0,.12);
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease, background .12s ease;
+}
+
+/* Primary CTA */
+.r76-tryouts .r76-btn--primary{
+  color: #fff !important;
+  border-color: rgba(0,0,0,.18) !important;
+  background: linear-gradient(180deg, var(--r76-orange) 0%, var(--r76-orangeDark) 100%) !important;
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle sheen */
+.r76-tryouts .r76-btn--primary::after{
+  content: "";
+  position: absolute;
+  inset: -40% -60%;
+  background: linear-gradient(120deg,
+    rgba(255,255,255,0) 35%,
+    rgba(255,255,255,.22) 50%,
+    rgba(255,255,255,0) 65%
+  );
+  transform: translateX(-40%) rotate(8deg);
+  transition: transform .35s ease;
+  pointer-events: none;
+}
+
+.r76-tryouts .r76-btn--primary:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0,0,0,.16);
+  filter: brightness(1.02);
+}
+.r76-tryouts .r76-btn--primary:hover::after{
+  transform: translateX(35%) rotate(8deg);
+}
+.r76-tryouts .r76-btn--primary:active{
+  transform: translateY(0);
+  box-shadow: 0 6px 14px rgba(0,0,0,.12);
+  filter: brightness(.98);
+}
+
+/* Secondary/ghost */
+.r76-tryouts .r76-btn--ghost{
+  background: #fff !important;
+  color: rgba(0,0,0,.88) !important;
+  border-color: rgba(0,0,0,.18) !important;
+  box-shadow: 0 6px 14px rgba(0,0,0,.08);
+}
+.r76-tryouts .r76-btn--ghost:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0,0,0,.12);
+}
+
+/* Keyboard focus (accessible, on-brand) */
+.r76-tryouts .r76-btn:focus{ outline: none; }
+.r76-tryouts .r76-btn:focus-visible{
+  box-shadow:
+    0 0 0 3px rgba(239,131,47,.24),
+    0 0 0 6px rgba(239,131,47,.14),
+    0 10px 22px rgba(0,0,0,.16);
+}
+
+/* =========================================================
+   Callouts
+========================================================= */
+.r76-tryouts .r76-callout{
+  border-radius: 14px;
+  border: 1px solid var(--r76-border);
+  padding: 12px 14px;
+  margin: 14px 0 0;
+  background: #fff;
+}
+.r76-tryouts .r76-callout--danger{
+  border-color: rgba(217,48,37,.35);
+  background: rgba(217,48,37,.06);
+}
+.r76-tryouts .r76-callout--neutral{
+  border-color: rgba(0,0,0,.14);
+  background: var(--r76-soft);
+}
+.r76-tryouts .r76-calloutTitle{
+  margin: 0 0 .4rem;
+  font-size: 1.1rem;
+}
+.r76-tryouts .r76-calloutText{
+  margin: 0;
+  color: var(--r76-muted);
+}
+.r76-tryouts .r76-calloutList{
+  margin: .35rem 0 0 1.1rem;
+}
+.r76-tryouts .r76-calloutList li{
+  margin: .45rem 0;
+}
+
+/* Lists */
+.r76-tryouts .r76-checklist{
+  margin: .5rem 0 0 1.1rem;
+}
+.r76-tryouts .r76-checklist li{
+  margin: .45rem 0;
+}
+
+.r76-tryouts .r76-steps{
+  margin: .75rem 0 0 1.25rem;
+}
+.r76-tryouts .r76-steps li{
+  margin: .55rem 0;
+}
+
+/* Badges */
+.r76-tryouts .r76-badge{
+  display: inline-block;
+  padding: .15rem .55rem;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: .85rem;
+  border: 1px solid var(--r76-border);
+  background: rgba(0,0,0,.03);
+}
+.r76-tryouts .r76-badge--muted{
+  color: var(--r76-muted);
+}
+
+/* Location links */
+.r76-tryouts .r76-locationLink{
+  font-weight: 900;
+  text-decoration: none;
+}
+.r76-tryouts .r76-locationLink--red{ color: var(--r76-red); }
+.r76-tryouts .r76-locationLink--orange{ color: var(--r76-orange); }
+
+/* =========================================================
+   Schedule table (Desktop/Tablet)
+========================================================= */
+.r76-tryouts .r76-tableWrap{
+  border: 1px solid var(--r76-border);
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.r76-tryouts .r76-table{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.r76-tryouts .r76-table th,
+.r76-tryouts .r76-table td{
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--r76-border);
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Force readable header (overrides theme styles) */
+.r76-tryouts .r76-table thead th{
+  background: #f2f2f2 !important;
+  color: #111 !important;
+  font-weight: 900 !important;
+  text-shadow: none !important;
+}
+
+.r76-tryouts .r76-table tbody tr:nth-child(even){
+  background: rgba(0,0,0,.02);
+}
+
+.r76-tryouts .r76-mutedRow{
+  opacity: .78;
+}
+
+/* =========================================================
+   Schedule table (Mobile)
+   Stacked layout: each row becomes a “card” with labels
+========================================================= */
+@media (max-width: 720px){
+  .r76-tryouts .r76-btn{
+    width: 100%;
+    text-align: center;
+  }
+
+  .r76-tryouts .r76-table,
+  .r76-tryouts .r76-table thead,
+  .r76-tryouts .r76-table tbody,
+  .r76-tryouts .r76-table th,
+  .r76-tryouts .r76-table td,
+  .r76-tryouts .r76-table tr{
+    display: block;
+    width: 100%;
+  }
+
+  /* Hide header row on mobile */
+  .r76-tryouts .r76-table thead{
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+  }
+
+  /* Each row becomes a “card” */
+  .r76-tryouts .r76-table tbody tr{
+    border-bottom: 1px solid var(--r76-border);
+    padding: 10px 12px;
+    background: #fff;
+  }
+
+  /* Remove zebra in stacked mode */
+  .r76-tryouts .r76-table tbody tr:nth-child(even){
+    background: #fff;
+  }
+
+  /* Cells become label/value lines */
+  .r76-tryouts .r76-table td{
+    border: 0;
+    padding: 8px 0;
+    text-align: left;
+  }
+
+  .r76-tryouts .r76-table td::before{
+    content: attr(data-label);
+    display: block;
+    font-weight: 900;
+    color: rgba(0,0,0,.68);
+    margin-bottom: 2px;
+    font-size: .92rem;
+  }
+
+  /* Division line reads like a header */
+  .r76-tryouts .r76-table td[data-label="Division"]{
+    padding-top: 2px;
+    font-size: 1.05rem;
+    font-weight: 900;
+  }
+  .r76-tryouts .r76-table td[data-label="Division"]::before{
+    color: rgba(0,0,0,.55);
+  }
+
+  /* Keep muted rows subtly muted */
+  .r76-tryouts .r76-mutedRow{
+    background: rgba(0,0,0,.02) !important;
+  }
+}
+
+/* =========================================================
+   FAQ (details/summary)
+========================================================= */
+.r76-tryouts .r76-faq{
+  border: 1px solid var(--r76-border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: #fff;
+  margin: 10px 0;
+}
+.r76-tryouts .r76-faq summary{
+  cursor: pointer;
+  font-weight: 900;
+}
+.r76-tryouts .r76-faq p{
+  margin: .6rem 0 0;
+  color: var(--r76-muted);
+}
+  .r76-modalOverlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    display: none;            /* hidden by default */
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    padding: 18px;
+  }
+  .r76-modalOverlay.is-open{ display: flex; }
+
+  .r76-modalPanel{
+    position: relative;
+    width: min(640px, 100%);
+    max-height: min(80vh, 720px);
+    overflow: auto;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    padding: 18px 18px 16px;
+  }
+
+  .r76-modalTitle{
+    margin: 0 34px 12px 0;  /* leave room for X */
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  .r76-modalClose{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 10px;
+    background: rgba(0,0,0,.06);
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 34px;
+  }
+  .r76-modalClose:hover{ background: rgba(0,0,0,.10); }
