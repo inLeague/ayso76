@@ -495,11 +495,6 @@
   font-size: 1.02rem;
 }
 
-/* Ensure anchors inside this module never look like default link text */
-.r76-reg a.r76-btn{
-  text-decoration: none !important;
-}
-
 /* If your site theme is overriding button display, force it */
 .r76-reg .r76-btn{
   display: inline-flex;
@@ -583,4 +578,33 @@
   .r76-reg .r76-btn{
     width: 100%;
   }
+}
+/* HARD OVERRIDES: make buttons look like buttons no matter what the theme does */
+.r76-reg a.r76-btn{
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: .4rem !important;
+
+  padding: .78rem 1.05rem !important;
+  border-radius: 999px !important;
+  font-weight: 900 !important;
+  letter-spacing: .2px !important;
+
+  text-decoration: none !important;
+  border: 1px solid rgba(0,0,0,.18) !important;
+}
+
+/* Primary */
+.r76-reg a.r76-btn--primary{
+  color: #fff !important;
+  background: linear-gradient(180deg, var(--r76-orange) 0%, var(--r76-orangeDark) 100%) !important;
+  box-shadow: 0 8px 18px rgba(0,0,0,.12) !important;
+}
+
+/* Ghost */
+.r76-reg a.r76-btn--ghost{
+  background: #fff !important;
+  color: rgba(0,0,0,.88) !important;
+  box-shadow: 0 6px 14px rgba(0,0,0,.08) !important;
 }
