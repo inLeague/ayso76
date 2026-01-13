@@ -479,3 +479,108 @@
   .r76-reg .r76-btn{ width: 100%; text-align: center; }
   .r76-reg .r76-accSummary{ flex-wrap: wrap; }
 }
+/* =========================================================
+   Registration — CTA bar + accordion polish
+========================================================= */
+
+/* Make the hero CTA row look like intentional buttons, not inline links */
+.r76-reg .r76-regCtaBar{
+  gap: .6rem;
+  align-items: center;
+}
+
+/* Make the primary CTA slightly more prominent */
+.r76-reg .r76-regCtaPrimary{
+  padding: .85rem 1.15rem;
+  font-size: 1.02rem;
+}
+
+/* Ensure anchors inside this module never look like default link text */
+.r76-reg a.r76-btn{
+  text-decoration: none !important;
+}
+
+/* If your site theme is overriding button display, force it */
+.r76-reg .r76-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+}
+
+/* Accordion summary: stronger “section title” feel */
+.r76-reg .r76-accSummary{
+  padding: 14px 14px;
+  font-weight: 900;
+  background: #fff;
+}
+
+/* Bigger, bolder accordion titles */
+.r76-reg .r76-accTitle{
+  font-size: 1.08rem;
+  letter-spacing: .1px;
+}
+
+/* Badge alignment: fixed-width right column so they line up */
+.r76-reg .r76-accSummary{
+  display: flex;
+  align-items: center;
+}
+
+/* Left title grows; right column stays aligned */
+.r76-reg .r76-accTitle{
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Meta badge becomes a consistent width and right-aligned */
+.r76-reg .r76-accMeta{
+  flex: 0 0 160px;           /* consistent alignment column */
+  text-align: center;
+  justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* On small screens, let badge drop under title instead of squeezing */
+@media (max-width: 640px){
+  .r76-reg .r76-accMeta{
+    flex: 0 0 auto;
+    width: auto;
+  }
+}
+
+/* Chevron alignment + spacing */
+.r76-reg .r76-accSummary::after{
+  flex: 0 0 auto;
+  margin-left: 10px;
+}
+
+/* Open state: subtle header tint */
+.r76-reg details[open] > .r76-accSummary{
+  background: rgba(0,0,0,.015);
+}
+
+/* Bottom CTA spacing */
+.r76-reg .r76-regBottomCta{
+  margin-top: 16px;
+}
+
+/* Make the “badge” text look a bit more deliberate */
+.r76-reg .r76-accMeta{
+  font-size: .84rem;
+  padding: .22rem .6rem;
+}
+
+/* Optional: strengthen visual separation between sections */
+.r76-reg .r76-acc{
+  margin: 14px 0;
+}
+
+/* Mobile: CTA buttons wrap nicely and fill width */
+@media (max-width: 720px){
+  .r76-reg .r76-btn{
+    width: 100%;
+  }
+}
