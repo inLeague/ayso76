@@ -740,3 +740,10 @@
 .r76-table tr:not(.r76-mutedRow) td:nth-child(4):hover{
   text-decoration: underline;
 }
+/* Optional: make the TL;DR details feel like a section header */
+.r76-tldr > summary {
+  font-weight: 800;
+}
+.r76-tldr[open] > summary {
+  margin-bottom: 10px;
+}
