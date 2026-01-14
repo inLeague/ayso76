@@ -747,3 +747,21 @@
 .r76-tldr[open] > summary {
   margin-bottom: 10px;
 }
+/* Strong visual emphasis for the schedule note (without looking like an "error") */
+.r76-note--important{
+  padding: 14px 14px 14px 16px;
+  border-left: 6px solid #ef832f;
+  background: rgba(239,131,47,.10);
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.r76-note--important strong{
+  font-weight: 900;
+}
+
+.r76-note--important a{
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
