@@ -765,3 +765,11 @@
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+/* Keep the "To Be Scheduled" pill looking consistent inside the orange-tinted note box */
+.r76-note--important .r76-badge--muted{
+  background: #eef0f3 !important;   /* solid (no transparency) */
+  color: #5b616b !important;
+  border: 1px solid #d6d9df !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal;
+}
