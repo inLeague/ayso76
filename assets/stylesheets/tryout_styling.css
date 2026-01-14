@@ -726,3 +726,15 @@
     0 0 0 6px rgba(239,131,47,.14),
     0 10px 22px rgba(0,0,0,.16) !important;
 }
+.r76-table td:nth-child(1),
+.r76-table td:nth-child(2),
+.r76-table td:nth-child(3),
+.r76-table td:nth-child(4){
+  cursor: pointer;
+}
+.r76-table td:nth-child(1):hover,
+.r76-table td:nth-child(2):hover,
+.r76-table td:nth-child(3):hover,
+.r76-table td:nth-child(4):hover{
+  text-decoration: underline;
+}
