@@ -199,6 +199,7 @@
 }
 .r76-tryouts .r76-locationLink--red{ color: var(--r76-red); }
 .r76-tryouts .r76-locationLink--orange{ color: var(--r76-orange); }
+.r76-tryouts .r76-locationLink--green{ color: var(--r76-green); }
 
 /* =========================================================
    Schedule table (Desktop/Tablet)
