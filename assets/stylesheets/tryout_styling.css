@@ -244,7 +244,7 @@
    Schedule table (Mobile)
    Stacked layout: each row becomes a “card” with labels
 ========================================================= */
-@media (max-width: 720px){
+@media (max-width: 768px){
   .r76-tryouts .r76-btn{
     width: 100%;
     text-align: center;
@@ -480,7 +480,7 @@
 }
 
 /* Mobile spacing */
-@media (max-width: 720px){
+@media (max-width: 768px){
   .r76-reg .r76-btn{ width: 100%; text-align: center; }
   .r76-reg .r76-accSummary{ flex-wrap: wrap; }
 }
@@ -579,7 +579,7 @@
 }
 
 /* Mobile: CTA buttons wrap nicely and fill width */
-@media (max-width: 720px){
+@media (max-width: 768px){
   .r76-reg .r76-btn{
     width: 100%;
   }
@@ -666,7 +666,7 @@
 }
 
 /* Mobile behavior */
-@media (max-width: 720px){
+@media (max-width: 768px){
   #r76Reg .r76-btn{ width: 100%; text-align: center; }
   #r76Reg .r76-accMeta{ flex: 0 0 auto; width: auto; }
 }
