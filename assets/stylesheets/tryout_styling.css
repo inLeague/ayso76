@@ -301,7 +301,7 @@
   /* Division line reads like a header */
   .r76-tryouts .r76-table td[data-label="Division"]{
     padding-top: 2px;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 900;
   }
   .r76-tryouts .r76-table td[data-label="Division"]::before{
