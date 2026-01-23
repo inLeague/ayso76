@@ -313,7 +313,10 @@
     background: rgba(0,0,0,.02) !important;
   }
 }
-
+  .r76-tryouts .r76-table td[data-label="Division"]{
+    font-size: 1.4rem;
+    font-weight: 900;
+  }
 /* =========================================================
    FAQ (details/summary)
 ========================================================= */
