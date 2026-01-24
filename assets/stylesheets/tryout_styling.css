@@ -819,12 +819,13 @@
 .r76-dobTip .r76-dobTipTitle{
   margin: 0 0 6px;
   font-weight: 900;
-  color: #fff !important;
+  color: #ef832f !important; /* header orange */
 }
 .r76-dobTip .r76-dobTipDates{
   margin: 0;
-  color: rgba(255,255,255,.92) !important;
-  font-weight: 800;
+  color: #fff !important;    /* date white */
+  font-weight: 900;
+  white-space: nowrap;       /* force one line */
 }
 .r76-dobTip .r76-dobTipDates strong{
   color:#ef832f !important;
