@@ -264,7 +264,7 @@
 .r76-tryouts .r76-table td[data-label="Division"] .r76-dobInline{
   margin-top: 8px;
   font-size: 1rem !important;     /* stop inheriting the big Division styling */
-  font-weight: 400 !important;
+  font-weight: 900 !important;
 }
 
 .r76-tryouts .r76-table td[data-label="Division"] .r76-dobInlineLabel{
@@ -278,7 +278,7 @@
 .r76-tryouts .r76-table td[data-label="Division"] .r76-dobInlineDates{
   display: block;
   color: inherit;                 /* same as normal td text */
-  font-weight: 400;
+  font-weight: 900;
   font-size: 1rem;
   line-height: 1.35;
 }
