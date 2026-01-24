@@ -783,16 +783,10 @@
 ========================================================= */
 
 /* Mobile: shows as a "row" under Division/Team (stacked cards) */
+/* Mobile: inline "row" under Division/Team (stacked cards) — inherit existing styles */
 .r76-tryouts .r76-dobInline{
   display:none;
   margin-top: 6px;
-  font-size: .95rem;
-  font-weight: 800;
-  color: rgba(0,0,0,.72);
-}
-.r76-tryouts .r76-dobInline span{
-  color: var(--r76-orange);
-  font-weight: 900;
 }
 @media (max-width: 768px){
   .r76-tryouts .r76-dobInline{ display:block; }
