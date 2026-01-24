@@ -778,3 +778,55 @@
   opacity: 1 !important;
   mix-blend-mode: normal;
 }
+/* =========================================================
+   DOB Range: Desktop tooltip + Mobile inline row
+========================================================= */
+
+/* Mobile: shows as a "row" under Division/Team (stacked cards) */
+.r76-tryouts .r76-dobInline{
+  display:none;
+  margin-top: 6px;
+  font-size: .95rem;
+  font-weight: 800;
+  color: rgba(0,0,0,.72);
+}
+.r76-tryouts .r76-dobInline span{
+  color: var(--r76-orange);
+  font-weight: 900;
+}
+@media (max-width: 768px){
+  .r76-tryouts .r76-dobInline{ display:block; }
+}
+
+/* Desktop tooltip (fixed to viewport, so it can float nicely) */
+.r76-dobTip{
+  position: fixed;
+  z-index: 1000000;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .08s ease, transform .08s ease;
+
+  background: #111;
+  color: #fff;
+  border: 1px solid rgba(239,131,47,.55);
+  border-radius: 12px;
+  box-shadow: 0 18px 45px rgba(0,0,0,.28);
+  padding: 10px 12px;
+  max-width: 300px;
+
+  font-size: 14px;
+  line-height: 1.25;
+}
+.r76-dobTip.is-show{
+  opacity: 1;
+  transform: translateY(0);
+}
+.r76-dobTip .r76-dobTipTitle{
+  font-weight: 900;
+  margin: 0 0 6px;
+}
+.r76-dobTip .r76-dobTipRange{
+  margin: 0;
+}
+.r76-dobTip strong{ color:#ef832f; }
