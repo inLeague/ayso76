@@ -833,9 +833,11 @@
 }
 /* ===== Date-change animation ===== */
 .r76-dobTip.is-changing .r76-dobTipDates{
-  animation: r76DobSwap 180ms ease;
+  animation: r76DobSwap 520ms ease;
 }
+
 @keyframes r76DobSwap{
-  0%   { opacity: .35; transform: translateY(2px); }
+  0%   { opacity: .15; transform: translateY(4px); }
+  35%  { opacity: .55; transform: translateY(2px); }
   100% { opacity: 1;   transform: translateY(0); }
 }
