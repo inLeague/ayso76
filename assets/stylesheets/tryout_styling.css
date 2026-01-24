@@ -798,14 +798,16 @@
   z-index: 1000000;
   pointer-events: none;
   opacity: 0;
-  transform: translateY(4px);
-  transition: opacity .08s ease, transform .08s ease;
+  transform: translateY(6px);
+  transition: opacity 140ms ease, transform 140ms ease;
 
-  background: #111 !important;
-  border: 1px solid rgba(239,131,47,.55);
-  border-radius: 12px;
-  box-shadow: 0 18px 45px rgba(0,0,0,.28);
-  padding: 10px 12px;
+  background: rgba(255,255,255,.96) !important;   /* light */
+  border: 1px solid rgba(0,0,0,.14) !important;
+  border-top: 3px solid #ef832f !important;       /* orange accent */
+  border-radius: 12px !important;
+  box-shadow: 0 16px 40px rgba(0,0,0,.14) !important;
+  padding: 10px 12px !important;
+  backdrop-filter: blur(6px);
   max-width: none !important;        /* prevent wrapping due to max-width */
 
   color: #fff !important;              /* force readable text */
@@ -823,9 +825,17 @@
 }
 .r76-dobTip .r76-dobTipDates{
   margin: 0;
-  font-weight: 900;
-  white-space: nowrap;       /* force one line */
-  color: #fff !important;            /* date white */
+  font-weight: 900 !important;
+  white-space: nowrap !important;     /* keep single line */
+  color: rgba(0,0,0,.88) !important;
   white-space: nowrap !important;    /* keep on one line */
   display: inline-block !important;
+}
+/* ===== Date-change animation ===== */
+.r76-dobTip.is-changing .r76-dobTipDates{
+  animation: r76DobSwap 180ms ease;
+}
+@keyframes r76DobSwap{
+  0%   { opacity: .35; transform: translateY(2px); }
+  100% { opacity: 1;   transform: translateY(0); }
 }
