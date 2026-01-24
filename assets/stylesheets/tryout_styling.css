@@ -808,13 +808,13 @@
   transition: opacity .08s ease, transform .08s ease;
 
   background: #111;
-  color: #fff;
   border: 1px solid rgba(239,131,47,.55);
   border-radius: 12px;
   box-shadow: 0 18px 45px rgba(0,0,0,.28);
   padding: 10px 12px;
-  max-width: 300px;
+  max-width: 320px;
 
+  color: #fff !important;              /* force readable text */
   font-size: 14px;
   line-height: 1.25;
 }
@@ -823,10 +823,16 @@
   transform: translateY(0);
 }
 .r76-dobTip .r76-dobTipTitle{
-  font-weight: 900;
   margin: 0 0 6px;
+  font-weight: 900;
+  color: #fff !important;
 }
-.r76-dobTip .r76-dobTipRange{
+.r76-dobTip .r76-dobTipDates{
   margin: 0;
+  color: rgba(255,255,255,.92) !important;
+  font-weight: 800;
 }
-.r76-dobTip strong{ color:#ef832f; }
+.r76-dobTip .r76-dobTipDates strong{
+  color:#ef832f !important;
+  font-weight: 900;
+}
