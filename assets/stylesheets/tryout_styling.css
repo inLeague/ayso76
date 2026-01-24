@@ -868,13 +868,59 @@
   white-space: nowrap !important;    /* keep on one line */
   display: inline-block !important;
 }
-/* ===== Date-change animation ===== */
-.r76-dobTip.is-changing .r76-dobTipDates{
-  animation: r76DobSwap 520ms ease;
+/* ===== DOB Tooltip: elegant "date changed" glow ===== */
+.r76-dobTip .r76-dobTipDates{
+  position: relative; /* for the glow wash */
 }
 
-@keyframes r76DobSwap{
-  0%   { opacity: .15; transform: translateY(4px); }
-  35%  { opacity: .55; transform: translateY(2px); }
-  100% { opacity: 1;   transform: translateY(0); }
+/* Soft wash behind the date (hidden by default) */
+.r76-dobTip .r76-dobTipDates::after{
+  content: "";
+  position: absolute;
+  left: -10px;
+  right: -10px;
+  top: -6px;
+  bottom: -6px;
+  border-radius: 10px;
+  background: rgba(239,131,47,.18);
+  opacity: 0;
+  transform: scale(.98);
+  pointer-events: none;
+}
+
+/* Triggered when date changes */
+.r76-dobTip.is-glow .r76-dobTipDates{
+  animation: r76DobGlowText 650ms ease-out;
+}
+.r76-dobTip.is-glow .r76-dobTipDates::after{
+  animation: r76DobGlowWash 650ms ease-out;
+}
+
+@keyframes r76DobGlowText{
+  0%{
+    box-shadow: 0 0 0 rgba(239,131,47,0);
+  }
+  35%{
+    box-shadow:
+      0 0 0 3px rgba(239,131,47,.18),
+      0 10px 22px rgba(239,131,47,.22);
+  }
+  100%{
+    box-shadow: 0 0 0 rgba(239,131,47,0);
+  }
+}
+
+@keyframes r76DobGlowWash{
+  0%{
+    opacity: 0;
+    transform: scale(.98);
+  }
+  35%{
+    opacity: 1;
+    transform: scale(1);
+  }
+  100%{
+    opacity: 0;
+    transform: scale(1.01);
+  }
 }
