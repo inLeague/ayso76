@@ -299,25 +299,28 @@
   }
 
   /* Division line reads like a header */
-.r76-tryouts .r76-table td[data-label="Division"]{ padding-top: 2px; } /* keep spacing */
+/* Division cell: keep the cell normal, only the title text big */
+.r76-tryouts .r76-table td[data-label="Division"]{
+  padding-top: 2px;
+  font-size: 1rem;     /* IMPORTANT: keep rest of cell normal */
+  font-weight: 400;    /* IMPORTANT: keep rest of cell normal */
+}
 
+.r76-tryouts .r76-table td[data-label="Division"]::before{
+  color: rgba(0,0,0,.55);
+}
+
+/* Only the actual division/team name gets the big style */
 .r76-tryouts .r76-table td[data-label="Division"] .r76-divisionText{
   font-size: 1.4rem;
   font-weight: 900;
 }
-  .r76-tryouts .r76-table td[data-label="Division"]::before{
-    color: rgba(0,0,0,.55);
-  }
 
   /* Keep muted rows subtly muted */
   .r76-tryouts .r76-mutedRow{
     background: rgba(0,0,0,.02) !important;
   }
 }
-  .r76-tryouts .r76-table td[data-label="Division"]{
-    font-size: 1.4rem;
-    font-weight: 900;
-  }
 /* =========================================================
    FAQ (details/summary)
 ========================================================= */
