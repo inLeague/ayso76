@@ -801,12 +801,12 @@
   transform: translateY(4px);
   transition: opacity .08s ease, transform .08s ease;
 
-  background: #111;
+  background: #111 !important;
   border: 1px solid rgba(239,131,47,.55);
   border-radius: 12px;
   box-shadow: 0 18px 45px rgba(0,0,0,.28);
   padding: 10px 12px;
-  max-width: 320px;
+  max-width: none !important;        /* prevent wrapping due to max-width */
 
   color: #fff !important;              /* force readable text */
   font-size: 14px;
@@ -823,11 +823,9 @@
 }
 .r76-dobTip .r76-dobTipDates{
   margin: 0;
-  color: #fff !important;    /* date white */
   font-weight: 900;
   white-space: nowrap;       /* force one line */
-}
-.r76-dobTip .r76-dobTipDates strong{
-  color:#ef832f !important;
-  font-weight: 900;
+  color: #fff !important;            /* date white */
+  white-space: nowrap !important;    /* keep on one line */
+  display: inline-block !important;
 }
