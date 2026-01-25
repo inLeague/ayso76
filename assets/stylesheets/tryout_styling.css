@@ -928,3 +928,7 @@
   opacity: 1;
   transform: translate3d(0,0,0);
 }
+/* During commit, kill transitions so current doesn't "animate back in" */
+.r76-dobTip.is-commit .r76-dateLine{
+  transition: none !important;
+}
