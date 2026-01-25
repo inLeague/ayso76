@@ -928,3 +928,5 @@
   opacity: 1;
   transform: translate3d(0,0,0);
 }
+.r76-dobTip .r76-dateNext{ transform: translate3d(0,12px,0) !important; }
+.r76-dobTip.is-swap .r76-dateNext{ transform: translate3d(0,0,0) !important; }
