@@ -916,7 +916,7 @@
   left: 0;
   top: 0;
   opacity: 0;
-  transform: translate3d(0,12px,0); /* <-- IMPORTANT: positive = below */
+  transform: translate3d(0,-12px,0); /* <-- IMPORTANT: positive = below */
 }
 
 /* Swap: current goes UP/out, next comes UP/in from below */
