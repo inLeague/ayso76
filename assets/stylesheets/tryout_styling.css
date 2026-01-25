@@ -872,6 +872,12 @@
 .r76-tryouts .r76-table tr.r76-hiddenRow{
   display: none !important;
 }
+/* Hide any row you “disable” */
+@media (max-width: 768px){
+.r76-tryouts .r76-table tr.r76-hiddenRow{
+  display: none !important;
+}
+}
 /* Date swap container (keeps height stable) */
 .r76-dobTip .r76-dobTipDates{
   position: relative;
