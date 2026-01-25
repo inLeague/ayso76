@@ -923,3 +923,7 @@
   white-space: nowrap;
   height: 0;
 }
+.r76-dobTip.is-show{
+  opacity: 1;
+  transform: translateY(0);
+}
