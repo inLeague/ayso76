@@ -873,46 +873,46 @@
   display: none !important;
 }
 /* Date swap container (keeps height stable) */
+/* Date swap container */
 .r76-dobTip .r76-dobTipDates{
   position: relative;
   display: inline-block !important;
   overflow: hidden;
+  height: 1.35em;          /* stable height */
   line-height: 1.25;
-  /* lock a consistent height so it doesn't jump during animation */
-  height: 1.35em;
 }
 
-/* two layers: current + next */
+/* BOTH lines are absolute, stacked */
 .r76-dobTip .r76-dateLine{
-  display: block;
-  white-space: nowrap;
-  transition: transform 220ms ease, opacity 220ms ease;
-}
-
-.r76-dobTip .r76-dateCurrent{
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.r76-dobTip .r76-dateNext{
   position: absolute;
   left: 0;
   top: 0;
-  transform: translateY(10px);
-  opacity: 0;
+  white-space: nowrap;
+  will-change: transform, opacity;
+  transition: transform 220ms ease, opacity 220ms ease;
+  transform: translate3d(0,0,0);
 }
 
-/* when swapping, current goes up/out and next comes in */
-.r76-dobTip.is-swap .r76-dateCurrent{
-  transform: translateY(-10px);
+/* initial states */
+.r76-dobTip .r76-dateCurrent{
+  opacity: 1;
+  transform: translate3d(0,0,0);
+}
+.r76-dobTip .r76-dateNext{
   opacity: 0;
+  transform: translate3d(0,12px,0); /* start BELOW */
+}
+
+/* swap: old goes UP, new comes UP from below into place */
+.r76-dobTip.is-swap .r76-dateCurrent{
+  opacity: 0;
+  transform: translate3d(0,-12px,0);
 }
 .r76-dobTip.is-swap .r76-dateNext{
-  transform: translateY(0);
   opacity: 1;
+  transform: translate3d(0,0,0);
 }
 
-/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce){
   .r76-dobTip .r76-dateLine{ transition: none; }
 }
