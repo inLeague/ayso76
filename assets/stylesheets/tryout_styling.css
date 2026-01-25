@@ -882,36 +882,6 @@
   height: 1.35em;
 }
 
-/* two layers: current + next */
-.r76-dobTip .r76-dateLine{
-  display: block;
-  white-space: nowrap;
-  transition: transform 220ms ease, opacity 220ms ease;
-}
-
-.r76-dobTip .r76-dateCurrent{
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.r76-dobTip .r76-dateNext{
-  position: absolute;
-  left: 0;
-  top: 0;
-  transform: translateY(10px);
-  opacity: 0;
-}
-
-/* when swapping, current goes up/out and next comes in */
-.r76-dobTip.is-swap .r76-dateCurrent{
-  transform: translateY(-10px);
-  opacity: 0;
-}
-.r76-dobTip.is-swap .r76-dateNext{
-  transform: translateY(0);
-  opacity: 1;
-}
-
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce){
   .r76-dobTip .r76-dateLine{ transition: none; }
