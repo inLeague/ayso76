@@ -872,3 +872,47 @@
 .r76-tryouts .r76-table tr.r76-hiddenRow{
   display: none !important;
 }
+/* Date swap container (keeps height stable) */
+.r76-dobTip .r76-dobTipDates{
+  position: relative;
+  display: inline-block !important;
+  overflow: hidden;
+  line-height: 1.25;
+  /* lock a consistent height so it doesn't jump during animation */
+  height: 1.35em;
+}
+
+/* two layers: current + next */
+.r76-dobTip .r76-dateLine{
+  display: block;
+  white-space: nowrap;
+  transition: transform 220ms ease, opacity 220ms ease;
+}
+
+.r76-dobTip .r76-dateCurrent{
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.r76-dobTip .r76-dateNext{
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateY(10px);
+  opacity: 0;
+}
+
+/* when swapping, current goes up/out and next comes in */
+.r76-dobTip.is-swap .r76-dateCurrent{
+  transform: translateY(-10px);
+  opacity: 0;
+}
+.r76-dobTip.is-swap .r76-dateNext{
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .r76-dobTip .r76-dateLine{ transition: none; }
+}
