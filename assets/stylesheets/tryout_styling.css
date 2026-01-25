@@ -872,51 +872,47 @@
 .r76-tryouts .r76-table tr.r76-hiddenRow{
   display: none !important;
 }
-/* ===== DOB Tooltip: Version 1 swap (scroll replace) ===== */
-
+/* Date swap container (keeps height stable) */
 .r76-dobTip .r76-dobTipDates{
   position: relative;
   display: inline-block !important;
   overflow: hidden;
   line-height: 1.25;
-  height: 1.35em; /* stable height */
+  /* lock a consistent height so it doesn't jump during animation */
+  height: 1.35em;
 }
 
-/* both are inline blocks; current stays in normal flow */
+/* two layers: current + next */
 .r76-dobTip .r76-dateLine{
   display: block;
   white-space: nowrap;
-  will-change: transform, opacity;
   transition: transform 220ms ease, opacity 220ms ease;
-  transform: translate3d(0,0,0);
 }
 
-/* current visible */
 .r76-dobTip .r76-dateCurrent{
+  transform: translateY(0);
   opacity: 1;
-  transform: translate3d(0,0,0);
 }
 
-/* next is layered on top, starts slightly BELOW (so it scrolls up into place) */
 .r76-dobTip .r76-dateNext{
   position: absolute;
   left: 0;
   top: 0;
+  transform: translateY(10px);
   opacity: 0;
-  transform: translate3d(0,12px,0);
 }
 
-/* swap: old moves UP/out, new moves UP/in from below */
+/* when swapping, current goes up/out and next comes in */
 .r76-dobTip.is-swap .r76-dateCurrent{
+  transform: translateY(-10px);
   opacity: 0;
-  transform: translate3d(0,-12px,0);
 }
 .r76-dobTip.is-swap .r76-dateNext{
+  transform: translateY(0);
   opacity: 1;
-  transform: translate3d(0,0,0);
 }
 
-/* Reduced motion */
+/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce){
   .r76-dobTip .r76-dateLine{ transition: none; }
 }
