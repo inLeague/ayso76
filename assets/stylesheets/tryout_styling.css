@@ -916,3 +916,10 @@
 @media (prefers-reduced-motion: reduce){
   .r76-dobTip .r76-dateLine{ transition: none; }
 }
+/* Sizer participates in layout so the container has width */
+.r76-dobTip .r76-dateSizer{
+  display: block;
+  visibility: hidden;
+  white-space: nowrap;
+  height: 0;
+}
