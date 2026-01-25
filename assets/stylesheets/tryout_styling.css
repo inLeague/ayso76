@@ -916,3 +916,45 @@
 @media (prefers-reduced-motion: reduce){
   .r76-dobTip .r76-dateLine{ transition: none; }
 }
+/* --- DOB Tooltip swap (incoming from bottom) --- */
+
+.r76-dobTip .r76-dobTipDates{
+  position: relative;
+  display: inline-block !important;
+  overflow: hidden;
+  height: 1.35em;
+  line-height: 1.25;
+}
+
+.r76-dobTip .r76-dateLine{
+  display: block;
+  white-space: nowrap;
+  will-change: transform, opacity;
+  transition: transform 220ms ease, opacity 220ms ease;
+  transform: translate3d(0,0,0);
+}
+
+/* Current is the normal, visible line */
+.r76-dobTip .r76-dateCurrent{
+  opacity: 1;
+  transform: translate3d(0,0,0);
+}
+
+/* Next is layered and starts BELOW (so it scrolls UP into place) */
+.r76-dobTip .r76-dateNext{
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transform: translate3d(0,12px,0); /* <-- IMPORTANT: positive = below */
+}
+
+/* Swap: current goes UP/out, next comes UP/in from below */
+.r76-dobTip.is-swap .r76-dateCurrent{
+  opacity: 0;
+  transform: translate3d(0,-12px,0);
+}
+.r76-dobTip.is-swap .r76-dateNext{
+  opacity: 1;
+  transform: translate3d(0,0,0);
+}
