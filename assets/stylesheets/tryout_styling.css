@@ -1,13 +1,12 @@
 /* =========================================================
-   R76 Extra Tryouts — Cleaned & Optimized CSS
-   Removed: unused rules, duplicates, registration section
-   Fixed: variable consistency, simplified selectors
+   R76 Extra Tryouts — Clean, Consolidated CSS (scoped)
+   Button orange updated to #ef832f
 ========================================================= */
 
 .r76-tryouts{
   /* Brand / accents */
-  --r76-orange: #ef832f;
-  --r76-orangeDark: #d86f1f;
+  --r76-orange: #ef832f;      /* CTA orange (your requested color) */
+  --r76-orangeDark: #d86f1f;  /* darker hover/active companion */
   --r76-red: #d93025;
   --r76-green: #00572d;
 
@@ -19,9 +18,24 @@
   line-height: 1.45;
 }
 
-/* =========================================================
-   Layout & Typography
-========================================================= */
+/* Optional banner (if used) */
+.r76-tryouts .r76-banner{
+  border: 1px solid var(--r76-border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: #fff;
+  margin: 0 0 14px;
+}
+.r76-tryouts .r76-banner--neutral{
+  background: var(--r76-soft);
+}
+
+/* Typography / layout */
+.r76-tryouts .r76-hero{ padding: 6px 0 10px; }
+.r76-tryouts .r76-title{ margin: 0 0 .25rem; }
+.r76-tryouts .r76-subtitle{ margin: 0 0 1rem; color: var(--r76-muted); }
+.r76-tryouts .r76-updated{ margin: .75rem 0 0; color: var(--r76-muted); font-size: .95rem; }
+
 .r76-tryouts .r76-ctaRow{
   display: flex;
   gap: .6rem;
@@ -34,12 +48,13 @@
   border: 0;
   border-top: 1px solid var(--r76-border);
 }
-.r76-tryouts .r76-hr--soft{ 
-  margin: 18px 0; 
-}
+.r76-tryouts .r76-hr--soft{ margin: 18px 0; }
+
+.r76-tryouts .r76-section h2{ margin-top: 0; }
+.r76-tryouts .r76-note{ margin: 0 0 10px; color: var(--r76-muted); }
 
 /* =========================================================
-   Buttons
+   Buttons (themed)
 ========================================================= */
 .r76-tryouts .r76-btn{
   display: inline-block;
@@ -47,8 +62,10 @@
   padding: .78rem 1.05rem;
   font-weight: 900;
   letter-spacing: .2px;
+
   border: 1px solid rgba(0,0,0,.18);
   text-decoration: none;
+
   box-shadow: 0 8px 18px rgba(0,0,0,.12);
   transition: transform .12s ease, box-shadow .12s ease, filter .12s ease, background .12s ease;
 }
@@ -58,10 +75,12 @@
   color: #fff !important;
   border-color: rgba(0,0,0,.18) !important;
   background: linear-gradient(180deg, var(--r76-orange) 0%, var(--r76-orangeDark) 100%) !important;
+
   position: relative;
   overflow: hidden;
 }
 
+/* Subtle sheen */
 .r76-tryouts .r76-btn--primary::after{
   content: "";
   position: absolute;
@@ -90,7 +109,7 @@
   filter: brightness(.98);
 }
 
-/* Ghost button */
+/* Secondary/ghost */
 .r76-tryouts .r76-btn--ghost{
   background: #fff !important;
   color: rgba(0,0,0,.88) !important;
@@ -102,10 +121,8 @@
   box-shadow: 0 10px 22px rgba(0,0,0,.12);
 }
 
-/* Focus states */
-.r76-tryouts .r76-btn:focus{ 
-  outline: none; 
-}
+/* Keyboard focus (accessible, on-brand) */
+.r76-tryouts .r76-btn:focus{ outline: none; }
 .r76-tryouts .r76-btn:focus-visible{
   box-shadow:
     0 0 0 3px rgba(239,131,47,.24),
@@ -146,40 +163,23 @@
   margin: .45rem 0;
 }
 
-/* =========================================================
-   Important Note Box (orange-tinted)
-========================================================= */
-.r76-note--important{
-  padding: 14px 14px 14px 16px;
-  border-left: 6px solid var(--r76-orange);
-  background: rgba(239,131,47,.09);
-  border-radius: 12px;
-  font-weight: 600;
+/* Lists */
+.r76-tryouts .r76-checklist{
+  margin: .5rem 0 0 1.1rem;
+}
+.r76-tryouts .r76-checklist li{
+  margin: .45rem 0;
 }
 
-.r76-note--important strong{
-  font-weight: 900;
+.r76-tryouts .r76-steps{
+  margin: .75rem 0 0 1.25rem;
+}
+.r76-tryouts .r76-steps li{
+  margin: .55rem 0;
 }
 
-.r76-note--important a{
-  font-weight: 800;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-/* Badge inside note box */
-.r76-note--important .r76-badge--muted{
-  background: #eef0f3 !important;
-  color: #5b616b !important;
-  border: 1px solid #d6d9df !important;
-  opacity: 1 !important;
-  mix-blend-mode: normal;
-}
-
-/* =========================================================
-   Badges
-========================================================= */
-.r76-tryouts .r76-badge--muted{
+/* Badges */
+.r76-tryouts .r76-badge{
   display: inline-block;
   padding: .15rem .55rem;
   border-radius: 999px;
@@ -187,12 +187,12 @@
   font-size: .85rem;
   border: 1px solid var(--r76-border);
   background: rgba(0,0,0,.03);
+}
+.r76-tryouts .r76-badge--muted{
   color: var(--r76-muted);
 }
 
-/* =========================================================
-   Location Links
-========================================================= */
+/* Location links */
 .r76-tryouts .r76-locationLink{
   font-weight: 900;
   text-decoration: none;
@@ -202,7 +202,7 @@
 .r76-tryouts .r76-locationLink--green{ color: var(--r76-green); }
 
 /* =========================================================
-   Schedule Table (Desktop/Tablet)
+   Schedule table (Desktop/Tablet)
 ========================================================= */
 .r76-tryouts .r76-tableWrap{
   border: 1px solid var(--r76-border);
@@ -224,6 +224,7 @@
   vertical-align: middle;
 }
 
+/* Force readable header (overrides theme styles) */
 .r76-tryouts .r76-table thead th{
   background: #f2f2f2 !important;
   color: #111 !important;
@@ -239,37 +240,9 @@
   opacity: .78;
 }
 
-/* Hidden rows */
-.r76-tryouts .r76-table tr.r76-hiddenRow{
-  display: none !important;
-}
-
-/* Clickable rows (hover effect) */
-.r76-table tr:not(.r76-mutedRow) td:nth-child(1),
-.r76-table tr:not(.r76-mutedRow) td:nth-child(2),
-.r76-table tr:not(.r76-mutedRow) td:nth-child(3),
-.r76-table tr:not(.r76-mutedRow) td:nth-child(4){
-  cursor: pointer;
-}
-
-.r76-table tr:not(.r76-mutedRow) td:nth-child(1):hover,
-.r76-table tr:not(.r76-mutedRow) td:nth-child(2):hover,
-.r76-table tr:not(.r76-mutedRow) td:nth-child(3):hover,
-.r76-table tr:not(.r76-mutedRow) td:nth-child(4):hover{
-  text-decoration: underline;
-}
-
-/* Desktop: larger Division text */
-@media (min-width: 769px){
-  .r76-tryouts .r76-table td[data-label="Division"],
-  .r76-tryouts .r76-table td[data-label="Division / Team"]{
-    font-size: 1.15rem;
-    font-weight: 900;
-  }
-}
-
 /* =========================================================
-   Schedule Table (Mobile - Stacked Cards)
+   Schedule table (Mobile)
+   Stacked layout: each row becomes a “card” with labels
 ========================================================= */
 @media (max-width: 768px){
   .r76-tryouts .r76-btn{
@@ -277,7 +250,6 @@
     text-align: center;
   }
 
-  /* Convert table to blocks */
   .r76-tryouts .r76-table,
   .r76-tryouts .r76-table thead,
   .r76-tryouts .r76-table tbody,
@@ -287,8 +259,32 @@
     display: block;
     width: 100%;
   }
+   
+/* DOB inline: label matches td::before (mobile "header" look), dates match td content */
+.r76-tryouts .r76-table td[data-label="Division"] .r76-dobInline{
+  margin-top: 8px;
+  font-size: 1rem !important;     /* stop inheriting the big Division styling */
+  font-weight: 900 !important;
+}
 
-  /* Hide header row */
+.r76-tryouts .r76-table td[data-label="Division"] .r76-dobInlineLabel{
+  display: block;
+  font-weight: 900;
+  color: rgba(0,0,0,.68);
+  margin-bottom: 2px;
+  font-size: .92rem;
+}
+
+.r76-tryouts .r76-table td[data-label="Division"] .r76-dobInlineDates{
+  display: block;
+  color: inherit;                 /* same as normal td text */
+  font-weight: 900;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+
+  /* Hide header row on mobile */
   .r76-tryouts .r76-table thead{
     position: absolute;
     left: -9999px;
@@ -298,19 +294,19 @@
     overflow: hidden;
   }
 
-  /* Each row becomes a card */
+  /* Each row becomes a “card” */
   .r76-tryouts .r76-table tbody tr{
     border-bottom: 1px solid var(--r76-border);
     padding: 10px 12px;
     background: #fff;
   }
 
-  /* Remove zebra striping in mobile */
+  /* Remove zebra in stacked mode */
   .r76-tryouts .r76-table tbody tr:nth-child(even){
     background: #fff;
   }
 
-  /* Cells show labels */
+  /* Cells become label/value lines */
   .r76-tryouts .r76-table td{
     border: 0;
     padding: 8px 0;
@@ -326,212 +322,28 @@
     font-size: .92rem;
   }
 
-  /* Division cell styling */
-  .r76-tryouts .r76-table td[data-label="Division"]{
-    padding-top: 2px;
-    font-size: 1rem;
-    font-weight: 400;
-  }
+  /* Division line reads like a header */
+/* Division cell: keep the cell normal, only the title text big */
+.r76-tryouts .r76-table td[data-label="Division"]{
+  padding-top: 2px;
+  font-size: 1rem;     /* IMPORTANT: keep rest of cell normal */
+  font-weight: 400;    /* IMPORTANT: keep rest of cell normal */
+}
 
-  .r76-tryouts .r76-table td[data-label="Division"]::before{
-    color: rgba(0,0,0,.55);
-  }
-
-  /* DOB inline row (mobile only) */
-  .r76-tryouts .r76-table td[data-label="Division"] .r76-dobInline{
-    margin-top: 8px;
-    font-size: 1rem !important;
-    font-weight: 900 !important;
-  }
-
-  .r76-tryouts .r76-table td[data-label="Division"] .r76-dobInlineLabel{
-    display: block;
-    font-weight: 900;
-    color: rgba(0,0,0,.68);
-    margin-bottom: 2px;
-    font-size: .92rem;
-  }
-
-  .r76-tryouts .r76-table td[data-label="Division"] .r76-dobInlineDates{
-    display: block;
-    color: inherit;
-    font-weight: 900;
-    font-size: 1rem;
-    line-height: 1.35;
-  }
-
-  /* Muted rows subtle background */
+.r76-tryouts .r76-table td[data-label="Division"]::before{
+  color: rgba(0,0,0,.55);
+}
+  /* Keep muted rows subtly muted */
   .r76-tryouts .r76-mutedRow{
     background: rgba(0,0,0,.02) !important;
   }
-
-  /* Hidden rows stay hidden */
-  .r76-tryouts .r76-table tr.r76-hiddenRow{
-    display: none !important;
-  }
-
-  /* Program icons left-aligned on mobile */
-  .r76-tryouts .r76-programIcons{
-    justify-content: flex-start !important;
-  }
 }
-
-/* =========================================================
-   Division Title Typography
-========================================================= */
-.r76-tryouts .r76-divisionTitle{
-  font-family: "Noto Sans", sans-serif;
-  font-size: 1.4rem;
-  font-weight: 900;
-  line-height: 1.15;
-}
-
-/* =========================================================
-   Program Icons (CSS-only rendering)
-========================================================= */
-.r76-tryouts .r76-table td[data-program]::after{
-  content: "";
-  display: block;
-  height: 42px;
-  margin-top: 6px;
-  background-repeat: no-repeat;
-  background-size: 42px 42px;
-}
-
-/* Single icon backgrounds */
-.r76-tryouts .r76-table td[data-program~="extra"]::after{
-  background-image: url("/sites/ayso76/assets/Image/Program%20Logos/extra_logo.png");
-}
-.r76-tryouts .r76-table td[data-program~="alliance"]::after{
-  background-image: url("/sites/ayso76/assets/Image/Program%20Logos/alliance-logo.png");
-}
-
-/* Two icons */
-.r76-tryouts .r76-table td[data-program~="extra"][data-program~="alliance"]::after{
-  background-image:
-    url("/sites/ayso76/assets/Image/Program%20Logos/extra_logo.png"),
-    url("/sites/ayso76/assets/Image/Program%20Logos/alliance-logo.png");
-  background-size: 42px 42px, 42px 42px;
-  background-repeat: no-repeat, no-repeat;
-}
-
-/* Mobile: left-align icons */
-@media (max-width: 768px){
-  .r76-tryouts .r76-table td[data-program]::after{
-    background-position: left top;
-  }
-
-  .r76-tryouts .r76-table td[data-program~="extra"][data-program~="alliance"]::after{
-    background-position: left top, 52px top;
-  }
-}
-
-/* Desktop: center-align icons */
+/* Desktop/tablet: Division/Team should read bigger like before */
 @media (min-width: 769px){
-  .r76-tryouts .r76-table td[data-program]::after{
-    background-position: center top;
-  }
-
-  .r76-tryouts .r76-table td[data-program~="extra"][data-program~="alliance"]::after{
-    background-position: calc(50% - 26px) top, calc(50% + 26px) top;
-  }
-}
-
-/* =========================================================
-   DOB Tooltip (Desktop hover)
-========================================================= */
-.r76-dobInline{
-  display: none;
-  margin-top: 6px;
-}
-
-@media (max-width: 768px){
-  .r76-dobInline{ 
-    display: block; 
-  }
-}
-
-.r76-dobTip{
-  position: fixed;
-  z-index: 1000000;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 140ms ease, transform 140ms ease;
-  background: rgba(255,255,255,.96) !important;
-  border: 1px solid var(--r76-border) !important;
-  border-top: 3px solid var(--r76-orange) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 16px 40px rgba(0,0,0,.14) !important;
-  padding: 10px 12px !important;
-  backdrop-filter: blur(6px);
-  max-width: none !important;
-  color: #fff !important;
-  font-size: 14px;
-  line-height: 1.25;
-}
-
-.r76-dobTip.is-show{
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.r76-dobTip .r76-dobTipTitle{
-  margin: 0 0 6px;
-  font-weight: 900;
-  color: var(--r76-orange) !important;
-}
-
-.r76-dobTip .r76-dobTipDates{
-  position: relative;
-  display: inline-block !important;
-  overflow: hidden;
-  height: 1.35em;
-  margin: 0;
-  font-weight: 900 !important;
-  white-space: nowrap !important;
-  color: rgba(0,0,0,.88) !important;
-  line-height: 1.25;
-}
-
-.r76-dobTip .r76-dateLine{
-  display: block;
-  white-space: nowrap;
-  will-change: transform, opacity;
-  transition: transform 360ms ease, opacity 360ms ease;
-  transform: translate3d(0,0,0);
-}
-
-.r76-dobTip .r76-dateCurrent{
-  opacity: 1;
-  transform: translate3d(0,0,0);
-}
-
-.r76-dobTip .r76-dateNext{
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
-  transform: translate3d(0,12px,0);
-}
-
-.r76-dobTip.is-swap .r76-dateCurrent{
-  opacity: 0;
-  transform: translate3d(0,-12px,0);
-}
-
-.r76-dobTip.is-swap .r76-dateNext{
-  opacity: 1;
-  transform: translate3d(0,0,0);
-}
-
-.r76-dobTip.is-commit .r76-dateLine{
-  transition: none !important;
-}
-
-@media (prefers-reduced-motion: reduce){
-  .r76-dobTip .r76-dateLine{ 
-    transition: none; 
+  .r76-tryouts .r76-table td[data-label="Division"],
+  .r76-tryouts .r76-table td[data-label="Division / Team"]{
+    font-size: 1.15rem;
+    font-weight: 900;
   }
 }
 
@@ -545,202 +357,670 @@
   background: #fff;
   margin: 10px 0;
 }
-
 .r76-tryouts .r76-faq summary{
   cursor: pointer;
   font-weight: 900;
 }
-
 .r76-tryouts .r76-faq p{
   margin: .6rem 0 0;
   color: var(--r76-muted);
 }
+  .r76-modalOverlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    display: none;            /* hidden by default */
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    padding: 18px;
+  }
+  .r76-modalOverlay.is-open{ display: flex; }
 
+  .r76-modalPanel{
+    position: relative;
+    width: min(640px, 100%);
+    max-height: min(80vh, 720px);
+    overflow: auto;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    padding: 18px 18px 16px;
+  }
+
+  .r76-modalTitle{
+    margin: 0 34px 12px 0;  /* leave room for X */
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  .r76-modalClose{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 10px;
+    background: rgba(0,0,0,.06);
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 34px;
+  }
+  .r76-modalClose:hover{ background: rgba(0,0,0,.10); }
+
+/* =========================================================
+   Registration — accordion sections (Tryouts aesthetic)
+========================================================= */
+
+.r76-reg{
+  --r76-orange: #ef832f;
+  --r76-orangeDark: #d86f1f;
+  --r76-red: #d93025;
+  --r76-border: rgba(0,0,0,.14);
+  --r76-muted: rgba(0,0,0,.66);
+  --r76-soft: rgba(0,0,0,.03);
+  line-height: 1.45;
+}
+
+/* Main accordion blocks */
+.r76-reg .r76-acc{
+  border: 1px solid var(--r76-border);
+  border-radius: 14px;
+  background: #fff;
+  margin: 12px 0;
+  overflow: hidden;
+  box-shadow: 0 8px 18px rgba(0,0,0,.06);
+}
+
+.r76-reg .r76-accSummary{
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  font-weight: 900;
+}
+
+/* Remove default marker (modern look) */
+.r76-reg .r76-accSummary::-webkit-details-marker{ display: none; }
+
+.r76-reg .r76-accTitle{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Right-side meta label */
+.r76-reg .r76-accMeta{
+  display: inline-block;
+  padding: .18rem .55rem;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: .85rem;
+  border: 1px solid var(--r76-border);
+  background: rgba(0,0,0,.03);
+  color: rgba(0,0,0,.72);
+  white-space: nowrap;
+}
+.r76-reg .r76-accMeta--danger{
+  border-color: rgba(217,48,37,.35);
+  background: rgba(217,48,37,.08);
+  color: #a11f18;
+}
+
+/* Expand/collapse chevron */
+.r76-reg .r76-accSummary::after{
+  content: "▾";
+  font-weight: 900;
+  color: rgba(0,0,0,.55);
+  margin-left: 6px;
+}
+.r76-reg details[open] > .r76-accSummary::after{
+  content: "▴";
+}
+
+/* Body */
+.r76-reg .r76-accBody{
+  padding: 12px 14px 14px;
+  border-top: 1px solid var(--r76-border);
+}
+
+/* Hover / focus */
+.r76-reg .r76-accSummary:hover{
+  background: rgba(0,0,0,.02);
+}
+.r76-reg .r76-accSummary:focus{ outline: none; }
+.r76-reg .r76-accSummary:focus-visible{
+  box-shadow:
+    0 0 0 3px rgba(239,131,47,.22),
+    0 0 0 6px rgba(239,131,47,.12);
+}
+
+/* Sub-accordion inside Requests section */
+.r76-reg .r76-regSubAcc{
+  margin: 10px 0;
+}
+
+/* Make nested <details> match nicely */
+.r76-reg .r76-regSubAcc{
+  border-radius: 12px;
+}
+
+/* Mobile spacing */
+@media (max-width: 768px){
+  .r76-reg .r76-btn{ width: 100%; text-align: center; }
+  .r76-reg .r76-accSummary{ flex-wrap: wrap; }
+}
+/* =========================================================
+   Registration — CTA bar + accordion polish
+========================================================= */
+
+/* Make the hero CTA row look like intentional buttons, not inline links */
+.r76-reg .r76-regCtaBar{
+  gap: .6rem;
+  align-items: center;
+}
+
+/* Make the primary CTA slightly more prominent */
+.r76-reg .r76-regCtaPrimary{
+  padding: .85rem 1.15rem;
+  font-size: 1.02rem;
+}
+
+/* If your site theme is overriding button display, force it */
+.r76-reg .r76-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+}
+
+/* Accordion summary: stronger “section title” feel */
+.r76-reg .r76-accSummary{
+  padding: 14px 14px;
+  font-weight: 900;
+  background: #fff;
+}
+
+/* Bigger, bolder accordion titles */
+.r76-reg .r76-accTitle{
+  font-size: 1.08rem;
+  letter-spacing: .1px;
+}
+
+/* Badge alignment: fixed-width right column so they line up */
+.r76-reg .r76-accSummary{
+  display: flex;
+  align-items: center;
+}
+
+/* Left title grows; right column stays aligned */
+.r76-reg .r76-accTitle{
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Meta badge becomes a consistent width and right-aligned */
+.r76-reg .r76-accMeta{
+  flex: 0 0 160px;           /* consistent alignment column */
+  text-align: center;
+  justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* On small screens, let badge drop under title instead of squeezing */
+@media (max-width: 640px){
+  .r76-reg .r76-accMeta{
+    flex: 0 0 auto;
+    width: auto;
+  }
+}
+
+/* Chevron alignment + spacing */
+.r76-reg .r76-accSummary::after{
+  flex: 0 0 auto;
+  margin-left: 10px;
+}
+
+/* Open state: subtle header tint */
+.r76-reg details[open] > .r76-accSummary{
+  background: rgba(0,0,0,.015);
+}
+
+/* Bottom CTA spacing */
+.r76-reg .r76-regBottomCta{
+  margin-top: 16px;
+}
+
+/* Make the “badge” text look a bit more deliberate */
+.r76-reg .r76-accMeta{
+  font-size: .84rem;
+  padding: .22rem .6rem;
+}
+
+/* Optional: strengthen visual separation between sections */
+.r76-reg .r76-acc{
+  margin: 14px 0;
+}
+
+/* Mobile: CTA buttons wrap nicely and fill width */
+@media (max-width: 768px){
+  .r76-reg .r76-btn{
+    width: 100%;
+  }
+}
+/* HARD OVERRIDES: make buttons look like buttons no matter what the theme does */
+.r76-reg a.r76-btn{
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: .4rem !important;
+
+  padding: .78rem 1.05rem !important;
+  border-radius: 999px !important;
+  font-weight: 900 !important;
+  letter-spacing: .2px !important;
+
+  text-decoration: none !important;
+  border: 1px solid rgba(0,0,0,.18) !important;
+}
+
+/* Primary */
+.r76-reg a.r76-btn--primary{
+  color: #fff !important;
+  background: linear-gradient(180deg, var(--r76-orange) 0%, var(--r76-orangeDark) 100%) !important;
+  box-shadow: 0 8px 18px rgba(0,0,0,.12) !important;
+}
+
+/* Ghost */
+.r76-reg a.r76-btn--ghost{
+  background: #fff !important;
+  color: rgba(0,0,0,.88) !important;
+  box-shadow: 0 6px 14px rgba(0,0,0,.08) !important;
+}
+/* =========================================================
+   Registration — separate primary CTA from step navigation
+========================================================= */
+
+#r76Reg .r76-regPrimaryCta{
+  margin: .6rem 0 .35rem;
+}
+
+#r76Reg .r76-regStepNav{
+  display: flex;
+  gap: .55rem;
+  flex-wrap: wrap;
+  margin-top: .35rem;
+}
+
+/* Step buttons look a bit “nav-y” vs CTA */
+#r76Reg .r76-regStepBtn{
+  padding: .62rem .95rem !important;
+  font-weight: 900 !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,.06) !important;
+}
+
+/* Make the primary CTA feel like THE action */
+#r76Reg .r76-regCtaPrimary{
+  padding: .9rem 1.2rem !important;
+  font-size: 1.05rem !important;
+}
+
+/* Stronger accordion titles */
+#r76Reg .r76-accTitle{
+  font-size: 1.12rem;
+  letter-spacing: .15px;
+}
+
+/* Badge alignment column (consistent) */
+#r76Reg .r76-accSummary{
+  display: flex;
+  align-items: center;
+}
+#r76Reg .r76-accTitle{
+  flex: 1 1 auto;
+  min-width: 0;
+}
+#r76Reg .r76-accMeta{
+  flex: 0 0 170px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Mobile behavior */
+@media (max-width: 768px){
+  #r76Reg .r76-btn{ width: 100%; text-align: center; }
+  #r76Reg .r76-accMeta{ flex: 0 0 auto; width: auto; }
+}
+/* =========================================================
+   Registration CTAs — Tryouts-style glimmer (sheen)
+========================================================= */
+
+#r76Reg a.r76-glimmer{
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Subtle sheen (same idea as Tryouts) */
+#r76Reg a.r76-glimmer::after{
+  content: "" !important;
+  position: absolute !important;
+  inset: -40% -60% !important;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 35%,
+    rgba(255,255,255,.22) 50%,
+    rgba(255,255,255,0) 65%
+  ) !important;
+  transform: translateX(-40%) rotate(8deg) !important;
+  transition: transform .35s ease !important;
+  pointer-events: none !important;
+}
+
+/* Hover sweep */
+#r76Reg a.r76-glimmer:hover::after{
+  transform: translateX(35%) rotate(8deg) !important;
+}
+/* =========================================================
+   Registration CTAs — Tryouts-style lift + press
+   (applied only to buttons with .r76-glimmer)
+========================================================= */
+
+#r76Reg a.r76-glimmer{
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease, background .12s ease !important;
+  box-shadow: 0 8px 18px rgba(0,0,0,.12) !important;
+}
+
+/* Lift on hover */
+#r76Reg a.r76-glimmer:hover{
+  transform: translateY(-1px) !important;
+  box-shadow: 0 10px 22px rgba(0,0,0,.16) !important;
+  filter: brightness(1.02) !important;
+}
+
+/* Press on active */
+#r76Reg a.r76-glimmer:active{
+  transform: translateY(0) !important;
+  box-shadow: 0 6px 14px rgba(0,0,0,.12) !important;
+  filter: brightness(.98) !important;
+}
+
+/* Accessible focus ring (same vibe as Tryouts) */
+#r76Reg a.r76-glimmer:focus{ outline: none !important; }
+#r76Reg a.r76-glimmer:focus-visible{
+  box-shadow:
+    0 0 0 3px rgba(239,131,47,.24),
+    0 0 0 6px rgba(239,131,47,.14),
+    0 10px 22px rgba(0,0,0,.16) !important;
+}
+/* Only show "clickable" styling on scheduled rows (not muted/to-be-scheduled) */
+.r76-table tr:not(.r76-mutedRow) td:nth-child(1),
+.r76-table tr:not(.r76-mutedRow) td:nth-child(2),
+.r76-table tr:not(.r76-mutedRow) td:nth-child(3),
+.r76-table tr:not(.r76-mutedRow) td:nth-child(4){
+  cursor: pointer;
+}
+
+.r76-table tr:not(.r76-mutedRow) td:nth-child(1):hover,
+.r76-table tr:not(.r76-mutedRow) td:nth-child(2):hover,
+.r76-table tr:not(.r76-mutedRow) td:nth-child(3):hover,
+.r76-table tr:not(.r76-mutedRow) td:nth-child(4):hover{
+  text-decoration: underline;
+}
+/* Optional: make the TL;DR details feel like a section header */
 .r76-tldr > summary {
   font-weight: 800;
 }
-
 .r76-tldr[open] > summary {
   margin-bottom: 10px;
 }
-
-/* =========================================================
-   Modal Overlay (for age tool)
-========================================================= */
-.r76-modalOverlay{
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.55);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 999999;
-  padding: 18px;
-}
-
-.r76-modalOverlay.is-open{ 
-  display: flex; 
-}
-
-.r76-modalPanel{
-  position: relative;
-  width: min(640px, 100%);
-  max-height: min(80vh, 940px);
-  overflow: auto;
-  background: #fff !important;
-  border-radius: 14px;
-  border-top: 4px solid var(--r76-orange) !important;
-  box-shadow: 0 20px 60px rgba(0,0,0,.35);
-  padding: 18px 18px 16px;
-}
-
-.r76-modalTitle{
-  margin: 0 34px 12px 0 !important;
-  font-size: 20px !important;
-  line-height: 1.2 !important;
-  color: #111 !important;
-  font-weight: 700 !important;
-}
-
-.r76-modalClose{
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 34px;
-  height: 34px;
-  border: 0;
-  border-radius: 10px;
-  background: rgba(0,0,0,.06) !important;
-  cursor: pointer;
-  font-size: 22px;
-  line-height: 34px;
-  color: #111 !important;
-}
-
-.r76-modalClose:hover{ 
-  background: rgba(0,0,0,.10) !important; 
-}
-
-/* =========================================================
-   Age Tool (inside modal)
-========================================================= */
-.r76-age-tool{
-  /* Orange bar is at top of .r76-modalPanel, not here */
-  padding-top: 0;
-}
-
-.r76-age-tool h3{
-  margin: 0 0 16px !important;
-  font-size: 1.5rem !important;
-  font-weight: 900 !important;
-  color: #111 !important;
-  text-shadow: none !important;
-  background: transparent !important;
-}
-
-.r76-age-form{
-  margin-bottom: 20px;
-}
-
-.r76-age-row{
-  margin-bottom: 14px;
-}
-
-.r76-age-row label{
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 700;
-  color: #111;
-}
-
-.r76-age-inputWrap{
-  position: relative;
-  display: inline-block;
-  width: 100%;
-}
-
-.r76-age-inputWrap input{
-  width: 100%;
-  padding: 10px 40px 10px 12px;
-  border: 1px solid var(--r76-border);
-  border-radius: 8px;
-  font-size: 16px;
-  color: #111;
-}
-
-.r76-age-inputWrap input:focus{
-  outline: none;
-  border-color: var(--r76-orange);
-  box-shadow: 0 0 0 3px rgba(239,131,47,.15);
-}
-
-.r76-age-clearBtn{
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 28px;
-  height: 28px;
-  border: 0;
-  background: rgba(0,0,0,.08);
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 20px;
-  line-height: 1;
-  color: rgba(0,0,0,.6);
-  display: none;
-}
-
-.r76-age-clearBtn:hover{
-  background: rgba(0,0,0,.12);
-}
-
-.r76-age-form button[type="submit"]{
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(180deg, var(--r76-orange) 0%, var(--r76-orangeDark) 100%);
-  color: #fff;
-  border: 1px solid rgba(0,0,0,.18);
-  border-radius: 999px;
-  font-weight: 900;
-  font-size: 16px;
-  cursor: pointer;
-  box-shadow: 0 8px 18px rgba(0,0,0,.12);
-  transition: transform .12s ease, box-shadow .12s ease;
-}
-
-.r76-age-form button[type="submit"]:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(0,0,0,.16);
-}
-
-.r76-age-form button[type="submit"]:active{
-  transform: translateY(0);
-  box-shadow: 0 6px 14px rgba(0,0,0,.12);
-}
-
-#r76-age-result{
-  padding: 16px;
+/* Strong visual emphasis for the schedule note (without looking like an "error") */
+.r76-note--important{
+  padding: 14px 14px 14px 16px;
+  border-left: 6px solid #ef832f;
+  background: rgba(239,131,47,.09);
   border-radius: 12px;
-  background: rgba(239,131,47,.08);
-  border: 1px solid rgba(239,131,47,.25);
-  min-height: 60px;
-  color: #111;
+  font-weight: 600;
 }
 
-#r76-age-result .r76-age-result-main{
+.r76-note--important strong{
   font-weight: 900;
-  font-size: 1.15rem;
-  margin-bottom: 8px;
-  color: #111;
 }
 
-.r76-age-note{
-  margin-top: 16px;
-  padding: 12px;
-  background: rgba(0,0,0,.03);
-  border-radius: 8px;
-  font-size: 0.9rem;
-  color: rgba(0,0,0,.7);
-  line-height: 1.5;
+.r76-note--important a{
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* Keep the "To Be Scheduled" pill looking consistent inside the orange-tinted note box */
+.r76-note--important .r76-badge--muted{
+  background: #eef0f3 !important;   /* solid (no transparency) */
+  color: #5b616b !important;
+  border: 1px solid #d6d9df !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal;
+}
+/* =========================================================
+   DOB Range: Desktop tooltip + Mobile inline row
+========================================================= */
+
+/* Mobile: shows as a "row" under Division/Team (stacked cards) */
+/* Mobile: inline "row" under Division/Team (stacked cards) — inherit existing styles */
+.r76-tryouts .r76-dobInline{
+  display:none;
+  margin-top: 6px;
+}
+@media (max-width: 768px){
+  .r76-tryouts .r76-dobInline{ display:block;
+  }
+  .r76-tryouts .r76-programIcons{
+    justify-content: flex-start !important;
+  }
+}
+/* Desktop tooltip (fixed to viewport, so it can float nicely) */
+.r76-dobTip{
+  position: fixed;
+  z-index: 1000000;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 140ms ease, transform 140ms ease;
+
+  background: rgba(255,255,255,.96) !important;   /* light */
+  border: 1px solid rgba(0,0,0,.14) !important;
+  border-top: 3px solid #ef832f !important;       /* orange accent */
+  border-radius: 12px !important;
+  box-shadow: 0 16px 40px rgba(0,0,0,.14) !important;
+  padding: 10px 12px !important;
+  backdrop-filter: blur(6px);
+  max-width: none !important;        /* prevent wrapping due to max-width */
+
+  color: #fff !important;              /* force readable text */
+  font-size: 14px;
+  line-height: 1.25;
+}
+.r76-dobTip.is-show{
+  opacity: 1;
+  transform: translateY(0);
+}
+.r76-dobTip .r76-dobTipTitle{
+  margin: 0 0 6px;
+  font-weight: 900;
+  color: #ef832f !important; /* header orange */
+}
+.r76-dobTip .r76-dobTipDates{
+  margin: 0;
+  font-weight: 900 !important;
+  white-space: nowrap !important;     /* keep single line */
+  color: rgba(0,0,0,.88) !important;
+  white-space: nowrap !important;    /* keep on one line */
+  display: inline-block !important;
+}
+/* Hide any row you “disable” */
+.r76-tryouts .r76-table tr.r76-hiddenRow{
+  display: none !important;
+}
+/* Hide any row you “disable” */
+@media (max-width: 768px){
+.r76-tryouts .r76-table tr.r76-hiddenRow{
+  display: none !important;
+}
+}
+/* Date swap container (keeps height stable) */
+.r76-dobTip .r76-dobTipDates{
+  position: relative;
+  display: inline-block !important;
+  overflow: hidden;
+  line-height: 1.25;
+  /* lock a consistent height so it doesn't jump during animation */
+  height: 1.35em;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .r76-dobTip .r76-dateLine{ transition: none; }
+}
+/* --- DOB Tooltip swap (incoming from bottom) --- */
+
+.r76-dobTip .r76-dobTipDates{
+  position: relative;
+  display: inline-block !important;
+  overflow: hidden;
+  height: 1.35em;
+  line-height: 1.25;
+}
+
+.r76-dobTip .r76-dateLine{
+  display: block;
+  white-space: nowrap;
+  will-change: transform, opacity;
+  transition: transform 360ms ease, opacity 360ms ease;
+  transform: translate3d(0,0,0);
+}
+
+/* Current is the normal, visible line */
+.r76-dobTip .r76-dateCurrent{
+  opacity: 1;
+  transform: translate3d(0,0,0);
+}
+
+/* Next is layered and starts BELOW (so it scrolls UP into place) */
+.r76-dobTip .r76-dateNext{
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transform: translate3d(0,12px,0); /* <-- IMPORTANT: positive = below */
+}
+
+/* Swap: current goes UP/out, next comes UP/in from below */
+.r76-dobTip.is-swap .r76-dateCurrent{
+  opacity: 0;
+  transform: translate3d(0,-12px,0);
+}
+.r76-dobTip.is-swap .r76-dateNext{
+  opacity: 1;
+  transform: translate3d(0,0,0);
+}
+/* During commit, kill transitions so current doesn't "animate back in" */
+.r76-dobTip.is-commit .r76-dateLine{
+  transition: none !important;
+}
+/* =========================================================
+   Tryout Program Icons (moved from JS injectCssOnce)
+   - Icons on next line under the division text
+   - Center icons on desktop only
+========================================================= */
+
+.r76-programIcons{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  line-height: 1;
+}
+
+.r76-programIcon{
+  width: 42px;
+  height: 42px;
+  display: block;
+  object-fit: contain;
+  border-radius: 6px;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,.18));
+}
+
+/* Center icons in the column on desktop only */
+/* Default: left (covers mobile + baseline) */
+.r76-tryouts .r76-programIcons{
+  justify-content: flex-start;
+}
+
+/* Desktop/tablet only: center */
+@media (min-width: 769px){
+  .r76-tryouts .r76-programIcons{
+    justify-content: center;
+  }
+}
+/* Base icon “row” drawn by CSS */
+.r76-tryouts .r76-table td[data-program]::after{
+  content: "";
+  display: block;
+  height: 42px;
+  margin-top: 6px;
+  background-repeat: no-repeat;
+  background-size: 42px 42px;
+}
+
+/* ONE icon (default position can be anything; we’ll override per breakpoint) */
+.r76-tryouts .r76-table td[data-program~="extra"]::after{
+  background-image: url("/sites/ayso76/assets/Image/Program%20Logos/extra_logo.png");
+}
+.r76-tryouts .r76-table td[data-program~="alliance"]::after{
+  background-image: url("/sites/ayso76/assets/Image/Program%20Logos/alliance-logo.png");
+}
+
+/* TWO icons */
+.r76-tryouts .r76-table td[data-program~="extra"][data-program~="alliance"]::after{
+  background-image:
+    url("/sites/ayso76/assets/Image/Program%20Logos/extra_logo.png"),
+    url("/sites/ayso76/assets/Image/Program%20Logos/alliance-logo.png");
+  background-size: 42px 42px, 42px 42px;
+  background-repeat: no-repeat, no-repeat;
+}
+
+/* ✅ MOBILE: LEFT align icons */
+@media (max-width: 768px){
+  .r76-tryouts .r76-table td[data-program]::after{
+    background-position: left top;
+  }
+
+  .r76-tryouts .r76-table td[data-program~="extra"][data-program~="alliance"]::after{
+    background-position: left top, 52px top; /* 42px icon + 10px gap */
+  }
+}
+
+/* ✅ DESKTOP: CENTER align icons */
+@media (min-width: 769px){
+  .r76-tryouts .r76-table td[data-program]::after{
+    background-position: center top;
+  }
+
+  .r76-tryouts .r76-table td[data-program~="extra"][data-program~="alliance"]::after{
+    background-position: calc(50% - 26px) top, calc(50% + 26px) top;
+    /* centers 2 icons with a 10px gap: 42px/2 + 5px = 26px */
+  }
+}
+.r76-tryouts .r76-divisionTitle{
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  line-height: 1.15;
 }
