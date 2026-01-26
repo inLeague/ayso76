@@ -1063,20 +1063,36 @@
     color: rgba(0,0,0,.68);
   }
 
-  /* Mobile: keep DOB block in normal font + size */
-  .r76-tryouts .r76-table td[data-label="Division"] .r76-dobInline,
-  .r76-tryouts .r76-table td[data-label="Division"] .r76-dobInlineLabel,
-  .r76-tryouts .r76-table td[data-label="Division"] .r76-dobInlineDates{
-    font-family: inherit;
-    font-size: 1rem;
-    font-weight: 900;
-    color: inherit;
-    line-height: 1.35;
-  }
-
   /* Keep your label look (slightly smaller) */
   .r76-tryouts .r76-table td[data-label="Division"] .r76-dobInlineLabel{
     font-size: .92rem;
     color: rgba(0,0,0,.68);
   }
+}
+/* RESTORE the mobile label for Division cells */
+@media (max-width: 768px){
+  .r76-tryouts .r76-table td[data-label="Division"]::before{
+    content: attr(data-label) !important;   /* <-- puts "Division" back */
+    display: block !important;
+    font-weight: 900;
+    color: rgba(0,0,0,.68);
+    margin-bottom: 2px;
+    font-size: .92rem;
+  }
+}
+/* Special styling for the Division title text (the text node in the td) */
+.r76-tryouts .r76-table td[data-label="Division"]{
+  font-family: "YOUR FONT HERE", inherit;  /* replace */
+  font-size: 1.4rem;
+  font-weight: 900;
+  line-height: 1.15;
+  color: rgba(0,0,0,.88);
+}
+
+/* Keep the DOB block normal */
+.r76-tryouts .r76-table td[data-label="Division"] .r76-dobInline,
+.r76-tryouts .r76-table td[data-label="Division"] .r76-dobInline *{
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.35;
 }
