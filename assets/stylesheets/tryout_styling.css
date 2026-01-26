@@ -962,8 +962,14 @@
 }
 
 /* Center icons in the column on desktop only */
+/* Default: left (covers mobile + baseline) */
+.r76-tryouts .r76-programIcons{
+  justify-content: flex-start;
+}
+
+/* Desktop/tablet only: center */
 @media (min-width: 769px){
-  .r76-programIcons{
+  .r76-tryouts .r76-programIcons{
     justify-content: center;
   }
 }
@@ -999,9 +1005,4 @@
     url("/sites/ayso76/assets//Image/Program%20Logos/alliance-logo.png");
   background-size: 42px 42px, 42px 42px;
   background-position: calc(50% - 28px) 0, calc(50% + 28px) 0;
-}
-@media (max-width: 768px){
-  .r76-programIcons{
-    justify-content: left;
-  }
 }
