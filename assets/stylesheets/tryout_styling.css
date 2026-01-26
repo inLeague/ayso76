@@ -245,9 +245,6 @@
    Stacked layout: each row becomes a “card” with labels
 ========================================================= */
 @media (max-width: 768px){
-  .r76-tryouts .r76-programIcons{
-    justify-content: flex-start !important;
-  }
   .r76-tryouts .r76-btn{
     width: 100%;
     text-align: center;
@@ -829,9 +826,12 @@
   margin-top: 6px;
 }
 @media (max-width: 768px){
-  .r76-tryouts .r76-dobInline{ display:block; }
+  .r76-tryouts .r76-dobInline{ display:block;
+  }
+  .r76-tryouts .r76-programIcons{
+    justify-content: flex-start !important;
+  }
 }
-
 /* Desktop tooltip (fixed to viewport, so it can float nicely) */
 .r76-dobTip{
   position: fixed;
