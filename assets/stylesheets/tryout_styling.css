@@ -1025,3 +1025,22 @@
     /* centers 2 icons with a 10px gap: 42px/2 + 5px = 26px */
   }
 }
+/* Only the Division title text gets the special font + size */
+.r76-tryouts .r76-table td[data-label="Division"][data-division]{
+  font-size: 0; /* hides the raw text node */
+}
+
+/* Re-print the division title with your custom styling */
+.r76-tryouts .r76-table td[data-label="Division"][data-division]::before{
+  content: attr(data-division);
+  display: block;
+  font-size: 1.4rem;
+  line-height: 1.15;
+  font-weight: 900;
+  font-family: "YOUR FONT HERE", inherit; /* <- replace */
+}
+
+/* Restore normal sizing for the DOB block and anything inside the td */
+.r76-tryouts .r76-table td[data-label="Division"][data-division] > *{
+  font-size: 1rem;
+}
