@@ -585,10 +585,11 @@
 .r76-modalPanel{
   position: relative;
   width: min(640px, 100%);
-  max-height: min(80vh, 900px);
+  max-height: min(80vh, 920px);
   overflow: auto;
   background: #fff;
   border-radius: 14px;
+  border-top: 4px solid var(--r76-orange);
   box-shadow: 0 20px 60px rgba(0,0,0,.35);
   padding: 18px 18px 16px;
 }
@@ -622,15 +623,15 @@
    Age Tool (inside modal)
 ========================================================= */
 .r76-age-tool{
-  border-top: 4px solid var(--r76-orange);
-  padding-top: 16px;
+  /* Orange bar is at top of .r76-modalPanel, not here */
+  padding-top: 0;
 }
 
 .r76-age-tool h3{
   margin: 0 0 16px;
   font-size: 1.5rem;
   font-weight: 900;
-  color: #111;
+  color: #111 !important;
 }
 
 .r76-age-form{
