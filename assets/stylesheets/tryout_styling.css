@@ -1009,3 +1009,16 @@
   background-size: 42px 42px, 42px 42px;
   background-position: calc(50% - 28px) 0, calc(50% + 28px) 0;
 }
+/* Make the icon row always take full width so "left" is meaningful */
+.r76-tryouts .r76-table td[data-label="Division"] .r76-programIcons{
+  display: flex !important;          /* ensure it's flex (not inline-flex) */
+  width: 100% !important;            /* fill the cell */
+  justify-content: flex-start !important;  /* LEFT on mobile/base */
+}
+
+/* Center ONLY on desktop */
+@media (min-width: 769px){
+  .r76-tryouts .r76-table td[data-label="Division"] .r76-programIcons{
+    justify-content: center !important;
+  }
+}
