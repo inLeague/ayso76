@@ -6,13 +6,6 @@
 ========================================================= */
 
 .r76-tryouts{
-  --r76-orange: #ef832f;
-  --r76-orangeDark: #d86f1f;
-  --r76-red: #d93025;
-  --r76-green: #00572d;
-  --r76-border: rgba(0,0,0,.14);
-  --r76-muted: rgba(0,0,0,.66);
-  --r76-soft: rgba(0,0,0,.03);
   line-height: 1.45;
 }
 
@@ -29,7 +22,7 @@
 .r76-tryouts .r76-hr{
   margin: 22px 0;
   border: 0;
-  border-top: 1px solid var(--r76-border);
+  border-top: 1px solid rgba(0,0,0,.14);
 }
 .r76-tryouts .r76-hr--soft{ margin: 18px 0; }
 
@@ -51,7 +44,7 @@
 .r76-tryouts .r76-btn--primary{
   color: #fff !important;
   border-color: rgba(0,0,0,.18) !important;
-  background: linear-gradient(180deg, #ef832f 0%, var(--r76-orangeDark) 100%) !important;
+  background: linear-gradient(180deg, #ef832f 0%, #d86f1f 100%) !important;
   position: relative;
   overflow: hidden;
 }
@@ -108,7 +101,7 @@
 ========================================================= */
 .r76-tryouts .r76-callout{
   border-radius: 14px;
-  border: 1px solid var(--r76-border);
+  border: 1px solid rgba(0,0,0,.14);
   padding: 12px 14px;
   margin: 14px 0 0;
   background: #fff;
@@ -119,7 +112,7 @@
 }
 .r76-tryouts .r76-callout--neutral{
   border-color: rgba(0,0,0,.14);
-  background: var(--r76-soft);
+  background: rgba(0,0,0,.03);
 }
 .r76-tryouts .r76-calloutTitle{
   margin: 0 0 .4rem;
@@ -127,7 +120,7 @@
 }
 .r76-tryouts .r76-calloutText{
   margin: 0;
-  color: var(--r76-muted);
+  color: rgba(0,0,0,.66);
 }
 .r76-tryouts .r76-calloutList{
   margin: .35rem 0 0 1.1rem;
@@ -162,11 +155,11 @@
   border-radius: 999px;
   font-weight: 900;
   font-size: .85rem;
-  border: 1px solid var(--r76-border);
+  border: 1px solid rgba(0,0,0,.14);
   background: rgba(0,0,0,.03);
 }
 .r76-tryouts .r76-badge--muted{
-  color: var(--r76-muted);
+  color: rgba(0,0,0,.66);
 }
 
 /* =========================================================
@@ -176,15 +169,15 @@
   font-weight: 900;
   text-decoration: none;
 }
-.r76-tryouts .r76-locationLink--red{ color: var(--r76-red); }
-.r76-tryouts .r76-locationLink--orange{ color: var(--r76-orange); }
-.r76-tryouts .r76-locationLink--green{ color: var(--r76-green); }
+.r76-tryouts .r76-locationLink--red{ color: #d93025; }
+.r76-tryouts .r76-locationLink--orange{ color: #ef832f; }
+.r76-tryouts .r76-locationLink--green{ color: #00572d; }
 
 /* =========================================================
    Schedule Table (Desktop/Tablet)
 ========================================================= */
 .r76-tryouts .r76-tableWrap{
-  border: 1px solid var(--r76-border);
+  border: 1px solid rgba(0,0,0,.14);
   border-radius: 12px;
   background: #fff;
   overflow: hidden;
@@ -198,7 +191,7 @@
 .r76-tryouts .r76-table th,
 .r76-tryouts .r76-table td{
   padding: 10px 12px;
-  border-bottom: 1px solid var(--r76-border);
+  border-bottom: 1px solid rgba(0,0,0,.14);
   text-align: center;
   vertical-align: middle;
 }
@@ -273,7 +266,7 @@
   }
 
   .r76-tryouts .r76-table tbody tr{
-    border-bottom: 1px solid var(--r76-border);
+    border-bottom: 1px solid rgba(0,0,0,.14);
     padding: 10px 12px;
     background: #fff;
   }
@@ -526,7 +519,7 @@
    FAQ (details/summary)
 ========================================================= */
 .r76-tryouts .r76-faq{
-  border: 1px solid var(--r76-border);
+  border: 1px solid rgba(0,0,0,.14);
   border-radius: 12px;
   padding: 10px 12px;
   background: #fff;
@@ -540,7 +533,7 @@
 
 .r76-tryouts .r76-faq p{
   margin: .6rem 0 0;
-  color: var(--r76-muted);
+  color: rgba(0,0,0,.66);
 }
 
 .r76-tldr > summary {
@@ -556,7 +549,7 @@
 ========================================================= */
 .r76-note--important{
   padding: 14px 14px 14px 16px;
-  border-left: 6px solid var(--r76-orange);
+  border-left: 6px solid #ef832f;
   background: rgba(239,131,47,.09);
   border-radius: 12px;
   font-weight: 600;
@@ -641,17 +634,11 @@
    Registration Pages — Accordion Sections
 ========================================================= */
 .r76-reg{
-  --r76-orange: #ef832f;
-  --r76-orangeDark: #d86f1f;
-  --r76-red: #d93025;
-  --r76-border: rgba(0,0,0,.14);
-  --r76-muted: rgba(0,0,0,.66);
-  --r76-soft: rgba(0,0,0,.03);
   line-height: 1.45;
 }
 
 .r76-reg .r76-acc{
-  border: 1px solid var(--r76-border);
+  border: 1px solid rgba(0,0,0,.14);
   border-radius: 14px;
   background: #fff;
   margin: 14px 0;
@@ -693,7 +680,7 @@
   border-radius: 999px;
   font-weight: 900;
   font-size: .84rem;
-  border: 1px solid var(--r76-border);
+  border: 1px solid rgba(0,0,0,.14);
   background: rgba(0,0,0,.03);
   color: rgba(0,0,0,.72);
   white-space: nowrap;
@@ -723,7 +710,7 @@
 
 .r76-reg .r76-accBody{
   padding: 12px 14px 14px;
-  border-top: 1px solid var(--r76-border);
+  border-top: 1px solid rgba(0,0,0,.14);
 }
 
 .r76-reg .r76-accSummary:hover{
@@ -781,7 +768,7 @@
 
 .r76-reg a.r76-btn--primary{
   color: #fff !important;
-  background: linear-gradient(180deg, #ef832f 0%, var(--r76-orangeDark) 100%) !important;
+  background: linear-gradient(180deg, #ef832f 0%, #d86f1f 100%) !important;
   box-shadow: 0 8px 18px rgba(0,0,0,.12) !important;
 }
 
