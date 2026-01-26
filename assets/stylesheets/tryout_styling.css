@@ -976,12 +976,7 @@
     justify-content: center;
   }
 }
-/* CSS-only program icons (no JS needed) */
-.r76-tryouts .r76-table td[data-program]{
-  position: relative;
-}
-
-/* base "icon row" */
+/* Base icon “row” drawn by CSS */
 .r76-tryouts .r76-table td[data-program]::after{
   content: "";
   display: block;
@@ -991,45 +986,42 @@
   background-size: 42px 42px;
 }
 
-/* one icon */
+/* ONE icon (default position can be anything; we’ll override per breakpoint) */
 .r76-tryouts .r76-table td[data-program~="extra"]::after{
-  background-image: url("/sites/ayso76/assets//Image/Program%20Logos/extra_logo.png");
-  background-position: center 0;
+  background-image: url("/sites/ayso76/assets/Image/Program%20Logos/extra_logo.png");
 }
 .r76-tryouts .r76-table td[data-program~="alliance"]::after{
-  background-image: url("/sites/ayso76/assets//Image/Program%20Logos/alliance-logo.png");
-  background-position: center 0;
+  background-image: url("/sites/ayso76/assets/Image/Program%20Logos/alliance-logo.png");
 }
 
-/* both icons */
+/* TWO icons */
 .r76-tryouts .r76-table td[data-program~="extra"][data-program~="alliance"]::after{
   background-image:
-    url("/sites/ayso76/assets//Image/Program%20Logos/extra_logo.png"),
-    url("/sites/ayso76/assets//Image/Program%20Logos/alliance-logo.png");
+    url("/sites/ayso76/assets/Image/Program%20Logos/extra_logo.png"),
+    url("/sites/ayso76/assets/Image/Program%20Logos/alliance-logo.png");
   background-size: 42px 42px, 42px 42px;
-  background-position: calc(50% - 28px) 0, calc(50% + 28px) 0;
+  background-repeat: no-repeat, no-repeat;
 }
-/* MOBILE: force icons left */
+
+/* ✅ MOBILE: LEFT align icons */
 @media (max-width: 768px){
-  .r76-tryouts .r76-table td[data-label="Division"] .r76-programIcons,
-  .r76-tryouts .r76-table td[data-label="Division / Team"] .r76-programIcons{
-    display: flex !important;          /* ensure NOT inline-flex */
-    width: 100% !important;            /* fill the cell so left/right is meaningful */
-    justify-content: flex-start !important;
-    margin: 6px 0 0 !important;        /* kill any auto-centering margins */
+  .r76-tryouts .r76-table td[data-program]::after{
+    background-position: left top;
   }
 
-  /* (optional but often helps if your td is centered by default) */
-  .r76-tryouts .r76-table td[data-label="Division"],
-  .r76-tryouts .r76-table td[data-label="Division / Team"]{
-    text-align: left !important;
+  .r76-tryouts .r76-table td[data-program~="extra"][data-program~="alliance"]::after{
+    background-position: left top, 52px top; /* 42px icon + 10px gap */
   }
 }
 
-/* DESKTOP: center icons */
+/* ✅ DESKTOP: CENTER align icons */
 @media (min-width: 769px){
-  .r76-tryouts .r76-table td[data-label="Division"] .r76-programIcons,
-  .r76-tryouts .r76-table td[data-label="Division / Team"] .r76-programIcons{
-    justify-content: center !important;
+  .r76-tryouts .r76-table td[data-program]::after{
+    background-position: center top;
+  }
+
+  .r76-tryouts .r76-table td[data-program~="extra"][data-program~="alliance"]::after{
+    background-position: calc(50% - 26px) top, calc(50% + 26px) top;
+    /* centers 2 icons with a 10px gap: 42px/2 + 5px = 26px */
   }
 }
