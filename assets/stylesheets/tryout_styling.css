@@ -985,11 +985,11 @@
 /* one icon */
 .r76-tryouts .r76-table td[data-program~="extra"]::after{
   background-image: url("/sites/ayso76/assets//Image/Program%20Logos/extra_logo.png");
-  background-position: left 0;
+  background-position: center 0;
 }
 .r76-tryouts .r76-table td[data-program~="alliance"]::after{
   background-image: url("/sites/ayso76/assets//Image/Program%20Logos/alliance-logo.png");
-  background-position: left 0;
+  background-position: center 0;
 }
 
 /* both icons */
@@ -999,4 +999,9 @@
     url("/sites/ayso76/assets//Image/Program%20Logos/alliance-logo.png");
   background-size: 42px 42px, 42px 42px;
   background-position: calc(50% - 28px) 0, calc(50% + 28px) 0;
+}
+@media (max-width: 768px){
+  .r76-programIcons{
+    justify-content: left;
+  }
 }
