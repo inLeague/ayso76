@@ -1032,7 +1032,6 @@
 
 /* Re-print the division title with your custom styling */
 .r76-tryouts .r76-table td[data-label="Division"][data-division]::before{
-  content: attr(data-division);
   display: block;
   font-size: 1.4rem;
   line-height: 1.15;
@@ -1040,10 +1039,6 @@
   font-family: "YOUR FONT HERE", inherit; /* <- replace */
 }
 
-/* Restore normal sizing for the DOB block and anything inside the td */
-.r76-tryouts .r76-table td[data-label="Division"][data-division] > *{
-  font-size: 1rem;
-}
 /* =========================================
    Division title only (no extra HTML needed)
    - Styles the text node "Boys 10U Extra"
