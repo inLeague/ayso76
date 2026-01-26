@@ -967,11 +967,6 @@
     justify-content: center;
   }
 }
-@media (max-width: 768px){
-  .r76-programIcons{
-    justify-content: left;
-  }
-}
 /* CSS-only program icons (no JS needed) */
 .r76-tryouts .r76-table td[data-program]{
   position: relative;
@@ -990,11 +985,11 @@
 /* one icon */
 .r76-tryouts .r76-table td[data-program~="extra"]::after{
   background-image: url("/sites/ayso76/assets//Image/Program%20Logos/extra_logo.png");
-  background-position: center 0;
+  background-position: left 0;
 }
 .r76-tryouts .r76-table td[data-program~="alliance"]::after{
   background-image: url("/sites/ayso76/assets//Image/Program%20Logos/alliance-logo.png");
-  background-position: center 0;
+  background-position: left 0;
 }
 
 /* both icons */
