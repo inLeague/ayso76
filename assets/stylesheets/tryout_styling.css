@@ -984,19 +984,19 @@
 
 /* one icon */
 .r76-tryouts .r76-table td[data-program~="extra"]::after{
-  background-image: url("https://www.ayso76.org/sites/ayso76/assets/Image/Program%20Logos/extra_logo.png");
+  background-image: url("/Image/Program%20Logos/extra_logo.png");
   background-position: center 0;
 }
 .r76-tryouts .r76-table td[data-program~="alliance"]::after{
-  background-image: url("https://www.ayso76.org/sites/ayso76/assets/Image/Program%20Logos/alliance-logo.png");
+  background-image: url("/Image/Program%20Logos/alliance-logo.png");
   background-position: center 0;
 }
 
 /* both icons */
 .r76-tryouts .r76-table td[data-program~="extra"][data-program~="alliance"]::after{
   background-image:
-    url("https://www.ayso76.org/sites/ayso76/assets/Image/Program%20Logos/extra_logo.png"),
-    url("https://www.ayso76.org/sites/ayso76/assets/Image/Program%20Logos/alliance-logo.png");
+    url("/Image/Program%20Logos/extra_logo.png"),
+    url("/Image/Program%20Logos/alliance-logo.png");
   background-size: 42px 42px, 42px 42px;
   background-position: calc(50% - 28px) 0, calc(50% + 28px) 0;
 }
