@@ -962,9 +962,14 @@
 }
 
 /* Center icons in the column on desktop only */
-@media (min-width: 768px){
+@media (min-width: 769px){
   .r76-programIcons{
     justify-content: center;
+  }
+}
+@media (max-width: 768px){
+  .r76-programIcons{
+    justify-content: left;
   }
 }
 /* CSS-only program icons (no JS needed) */
