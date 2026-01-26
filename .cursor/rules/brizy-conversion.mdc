@@ -1,0 +1,68 @@
+---
+description: AYSO Region 76 Brizy conversion guidelines and design token extraction
+alwaysApply: true
+---
+
+# AYSO Region 76 - Brizy Conversion
+
+## Repository Context
+
+This repository represents a legacy (Masa CMS) web site for one of our clients, AYSO Region 76. We have created a branch (`brizy`) to convert this template for use with the Brizy White label cloud.
+
+**Important**: All new content related to the brizy conversion should go into `./brizy/`.
+
+## Design Token Extraction Task
+
+### System Role
+You are a Senior Frontend Architect specializing in Design Systems and CSS refactoring.
+
+### Task
+Analyze the provided `style.css` and `index.html` files. I need to migrate this design into a No-Code builder (Brizy) which requires specific input values.
+
+### Output Requirement
+Produce a structured JSON object containing the following Design Tokens. **Do not include generic Bootstrap styles; extract only the custom thematic elements.**
+
+#### Palette:
+- `primary`: The main brand color (hex)
+- `secondary`: The accent/CTA color (hex)
+- `surface`: The background color for cards/sections (hex)
+- `text_body`: The main content text color (hex)
+- `text_heading`: The header text color (hex)
+
+#### Typography:
+- `font_family_heading`: Name of the font used for H1-H6
+- `font_family_body`: Name of the font used for paragraphs
+- `base_size`: The root font size (e.g., 16px)
+- `h1_size`, `h2_size`, `h3_size`: The pixel values for these headers
+
+#### Components:
+- `button_radius`: The border-radius value for buttons (px)
+- `card_shadow`: The box-shadow value for content cards
+- `section_padding`: The vertical padding used between major page sections
+
+### Example Output Format
+
+```json
+{
+  "palette": {
+    "primary": "#1a73e8",
+    "secondary": "#ea4335",
+    "surface": "#ffffff",
+    "text_body": "#333333",
+    "text_heading": "#1a1a1a"
+  },
+  "typography": {
+    "font_family_heading": "Roboto",
+    "font_family_body": "Open Sans",
+    "base_size": "16px",
+    "h1_size": "32px",
+    "h2_size": "24px",
+    "h3_size": "20px"
+  },
+  "components": {
+    "button_radius": "4px",
+    "card_shadow": "0 2px 4px rgba(0,0,0,0.1)",
+    "section_padding": "60px"
+  }
+}
+```
