@@ -585,7 +585,7 @@
 .r76-modalPanel{
   position: relative;
   width: min(640px, 100%);
-  max-height: min(80vh, 720px);
+  max-height: min(90vh, 820px);
   overflow: auto;
   background: #fff;
   border-radius: 14px;
