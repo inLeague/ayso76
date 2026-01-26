@@ -585,7 +585,7 @@
 .r76-modalPanel{
   position: relative;
   width: min(640px, 100%);
-  max-height: min(90vh, 900px);
+  max-height: min(80vh, 900px);
   overflow: auto;
   background: #fff;
   border-radius: 14px;
@@ -597,6 +597,7 @@
   margin: 0 34px 12px 0;
   font-size: 20px;
   line-height: 1.2;
+  color: #111;
 }
 
 .r76-modalClose{
@@ -615,4 +616,126 @@
 
 .r76-modalClose:hover{ 
   background: rgba(0,0,0,.10); 
+}
+
+/* =========================================================
+   Age Tool (inside modal)
+========================================================= */
+.r76-age-tool{
+  border-top: 4px solid var(--r76-orange);
+  padding-top: 16px;
+}
+
+.r76-age-tool h3{
+  margin: 0 0 16px;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #111;
+}
+
+.r76-age-form{
+  margin-bottom: 20px;
+}
+
+.r76-age-row{
+  margin-bottom: 14px;
+}
+
+.r76-age-row label{
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+  color: #111;
+}
+
+.r76-age-inputWrap{
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.r76-age-inputWrap input{
+  width: 100%;
+  padding: 10px 40px 10px 12px;
+  border: 1px solid var(--r76-border);
+  border-radius: 8px;
+  font-size: 16px;
+  color: #111;
+}
+
+.r76-age-inputWrap input:focus{
+  outline: none;
+  border-color: var(--r76-orange);
+  box-shadow: 0 0 0 3px rgba(239,131,47,.15);
+}
+
+.r76-age-clearBtn{
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: rgba(0,0,0,.08);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  color: rgba(0,0,0,.6);
+  display: none;
+}
+
+.r76-age-clearBtn:hover{
+  background: rgba(0,0,0,.12);
+}
+
+.r76-age-form button[type="submit"]{
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(180deg, var(--r76-orange) 0%, var(--r76-orangeDark) 100%);
+  color: #fff;
+  border: 1px solid rgba(0,0,0,.18);
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0,0,0,.12);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.r76-age-form button[type="submit"]:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0,0,0,.16);
+}
+
+.r76-age-form button[type="submit"]:active{
+  transform: translateY(0);
+  box-shadow: 0 6px 14px rgba(0,0,0,.12);
+}
+
+#r76-age-result{
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(239,131,47,.08);
+  border: 1px solid rgba(239,131,47,.25);
+  min-height: 60px;
+  color: #111;
+}
+
+#r76-age-result .r76-age-result-main{
+  font-weight: 900;
+  font-size: 1.15rem;
+  margin-bottom: 8px;
+  color: #111;
+}
+
+.r76-age-note{
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(0,0,0,.03);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: rgba(0,0,0,.7);
+  line-height: 1.5;
 }
