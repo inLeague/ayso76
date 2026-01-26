@@ -333,13 +333,6 @@
 .r76-tryouts .r76-table td[data-label="Division"]::before{
   color: rgba(0,0,0,.55);
 }
-
-/* Only the actual division/team name gets the big style */
-.r76-tryouts .r76-table td[data-label="Division"] .r76-divisionText{
-  font-size: 1.4rem;
-  font-weight: 900;
-}
-
   /* Keep muted rows subtly muted */
   .r76-tryouts .r76-mutedRow{
     background: rgba(0,0,0,.02) !important;
@@ -1024,4 +1017,10 @@
     background-position: calc(50% - 26px) top, calc(50% + 26px) top;
     /* centers 2 icons with a 10px gap: 42px/2 + 5px = 26px */
   }
+}
+.r76-tryouts .r76-divisionTitle{
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  line-height: 1.15;
 }
