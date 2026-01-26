@@ -1009,16 +1009,27 @@
   background-size: 42px 42px, 42px 42px;
   background-position: calc(50% - 28px) 0, calc(50% + 28px) 0;
 }
-/* Make the icon row always take full width so "left" is meaningful */
-.r76-tryouts .r76-table td[data-label="Division"] .r76-programIcons{
-  display: flex !important;          /* ensure it's flex (not inline-flex) */
-  width: 100% !important;            /* fill the cell */
-  justify-content: flex-start !important;  /* LEFT on mobile/base */
+/* MOBILE: force icons left */
+@media (max-width: 768px){
+  .r76-tryouts .r76-table td[data-label="Division"] .r76-programIcons,
+  .r76-tryouts .r76-table td[data-label="Division / Team"] .r76-programIcons{
+    display: flex !important;          /* ensure NOT inline-flex */
+    width: 100% !important;            /* fill the cell so left/right is meaningful */
+    justify-content: flex-start !important;
+    margin: 6px 0 0 !important;        /* kill any auto-centering margins */
+  }
+
+  /* (optional but often helps if your td is centered by default) */
+  .r76-tryouts .r76-table td[data-label="Division"],
+  .r76-tryouts .r76-table td[data-label="Division / Team"]{
+    text-align: left !important;
+  }
 }
 
-/* Center ONLY on desktop */
+/* DESKTOP: center icons */
 @media (min-width: 769px){
-  .r76-tryouts .r76-table td[data-label="Division"] .r76-programIcons{
+  .r76-tryouts .r76-table td[data-label="Division"] .r76-programIcons,
+  .r76-tryouts .r76-table td[data-label="Division / Team"] .r76-programIcons{
     justify-content: center !important;
   }
 }
