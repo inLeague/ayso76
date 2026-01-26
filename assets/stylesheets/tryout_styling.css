@@ -938,3 +938,32 @@
 .r76-dobTip.is-commit .r76-dateLine{
   transition: none !important;
 }
+/* =========================================================
+   Tryout Program Icons (moved from JS injectCssOnce)
+   - Icons on next line under the division text
+   - Center icons on desktop only
+========================================================= */
+
+.r76-programIcons{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  line-height: 1;
+}
+
+.r76-programIcon{
+  width: 42px;
+  height: 42px;
+  display: block;
+  object-fit: contain;
+  border-radius: 6px;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,.18));
+}
+
+/* Center icons in the column on desktop only */
+@media (min-width: 768px){
+  .r76-programIcons{
+    justify-content: center;
+  }
+}
