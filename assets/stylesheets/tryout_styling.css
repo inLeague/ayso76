@@ -1044,3 +1044,44 @@
 .r76-tryouts .r76-table td[data-label="Division"][data-division] > *{
   font-size: 1rem;
 }
+/* =========================================
+   Division title only (no extra HTML needed)
+   - Styles the text node "Boys 10U Extra"
+   - Resets the mobile label + DOB block
+========================================= */
+
+/* Apply to the Division cell text (this hits the division name text node) */
+.r76-tryouts .r76-table td[data-label="Division"]{
+  font-family: "Noto Sans", inherit;
+  font-size: 1.4rem;
+  font-weight: 900;
+  line-height: 1.15;
+  color: rgba(0,0,0,.88);
+}
+
+/* Mobile: restore the "Division" label styling (so it doesn't inherit the new font) */
+@media (max-width: 768px){
+  .r76-tryouts .r76-table td[data-label="Division"]::before{
+    font-family: inherit;         /* keep your normal site/table font */
+    font-size: .92rem;
+    font-weight: 900;
+    color: rgba(0,0,0,.68);
+  }
+
+  /* Mobile: keep DOB block in normal font + size */
+  .r76-tryouts .r76-table td[data-label="Division"] .r76-dobInline,
+  .r76-tryouts .r76-table td[data-label="Division"] .r76-dobInlineLabel,
+  .r76-tryouts .r76-table td[data-label="Division"] .r76-dobInlineDates{
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 900;
+    color: inherit;
+    line-height: 1.35;
+  }
+
+  /* Keep your label look (slightly smaller) */
+  .r76-tryouts .r76-table td[data-label="Division"] .r76-dobInlineLabel{
+    font-size: .92rem;
+    color: rgba(0,0,0,.68);
+  }
+}
