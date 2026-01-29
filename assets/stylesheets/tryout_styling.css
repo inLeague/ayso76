@@ -986,6 +986,19 @@
 .r76-tryouts #r76Round2.is-scheduled .r76-roundBanner{
   display:block;
 }
+/* Disabled Round 2 tab */
+.r76-tryouts .r76-roundTab.is-disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  pointer-events:none; /* hard disable clicks */
+  box-shadow:none;
+}
+
+.r76-tryouts .r76-roundTab.is-disabled .r76-roundDot{
+  animation:none;
+  box-shadow:none;
+  opacity:.7;
+}
 
 /* =========================================================
    END OF R76 TRYOUTS CSS
