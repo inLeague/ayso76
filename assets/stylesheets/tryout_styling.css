@@ -946,15 +946,15 @@
   width:10px;
   height:10px;
   border-radius:50%;
-  background:#d93025;                 /* fixed visible red dot */
-  box-shadow: 0 0 0 0 rgba(217,48,37,.45);
-  animation: r76PulseRed 1.8s infinite;
+  background:#ef832f;                 /* fixed visible orange dot */
+  box-shadow: 0 0 0 0 rgba(239,131,47,.45);
+  animation: r76PulseOrange 1.8s infinite;
 }
 
-@keyframes r76PulseRed{
-  0%   { box-shadow: 0 0 0 0 rgba(217,48,37,.42); }
-  65%  { box-shadow: 0 0 0 10px rgba(217,48,37,0); }
-  100% { box-shadow: 0 0 0 0 rgba(217,48,37,0); }
+@keyframes r76PulseOrange{
+  0%   { box-shadow: 0 0 0 0 rgba(239,131,47,.42); }
+  65%  { box-shadow: 0 0 0 10px rgba(239,131,47,0); }
+  100% { box-shadow: 0 0 0 0 rgba(239,131,47,0); }
 }
 
 /* When scheduled, show the badge on the tab */
