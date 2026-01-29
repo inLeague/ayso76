@@ -951,26 +951,12 @@
   animation: r76PulseOrange 1.8s infinite;
 }
 
-@keyframes r76PulseOrange{
-  0%   { box-shadow: 0 0 0 0 rgba(239,131,47,.42); }
-  65%  { box-shadow: 0 0 0 10px rgba(239,131,47,0); }
-  100% { box-shadow: 0 0 0 0 rgba(239,131,47,0); }
-}
-
 /* When scheduled, show the badge on the tab */
 .r76-tryouts .r76-roundTab.is-scheduled .r76-roundStatus{
   display:inline-flex;
 }
 
 /* Round 2 banner */
-.r76-tryouts .r76-roundBanner{
-  display:none; /* shown when Round 2 is scheduled */
-  border:1px solid rgba(239,131,47,.35);
-  background: linear-gradient(90deg, rgba(239,131,47,.14), rgba(239,131,47,.06));
-  border-radius:14px;
-  padding:14px 16px;
-  margin: 10px 0 14px;
-}
 
 .r76-tryouts .r76-roundBannerTitle{
   font-weight:950;
