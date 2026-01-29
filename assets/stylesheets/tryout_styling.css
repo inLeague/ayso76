@@ -906,6 +906,27 @@
     0 0 0 6px rgba(239,131,47,.14),
     0 10px 22px rgba(0,0,0,.16) !important;
 }
+.r76-tryouts .r76-roundSwitcher{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin: 8px 0 14px;
+}
+
+.r76-tryouts .r76-roundTab{
+  appearance:none;
+  border:1px solid var(--r76-border);
+  background:#fff;
+  padding:10px 14px;
+  border-radius:999px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.r76-tryouts .r76-roundTab.is-active{
+  border-color: rgba(239,131,47,.45);
+  box-shadow: 0 0 0 3px rgba(239,131,47,.18);
+}
 
 /* =========================================================
    END OF R76 TRYOUTS CSS
