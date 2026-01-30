@@ -1087,8 +1087,8 @@
 .r76-ilYellowBox::after{
   content:"";
   position:absolute;
-  right: 8px;
-  bottom: 4px;                    /* tweak to taste */
+  right: -6px;
+  bottom: -6px;                    /* tweak to taste */
   width: 24px;
   height: 24px;
   border-radius: 999px;
