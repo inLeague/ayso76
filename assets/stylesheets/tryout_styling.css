@@ -1043,7 +1043,7 @@
 .r76-iconPulse img{
   display:inline-block;     /* not block */
   vertical-align:baseline;  /* <-- baseline alignment */
-  width:22px;               /* adjust size */
+  width:12px;               /* adjust size */
   height:auto;
 }
 
