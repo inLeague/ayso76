@@ -1036,7 +1036,7 @@
   position:relative;
   display:inline-block;
   vertical-align:baseline;  /* <-- baseline alignment */
-  margin-left:6px;
+  margin-left:0px;
 }
 
 /* Keep the image participating in baseline alignment */
