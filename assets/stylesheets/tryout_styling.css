@@ -1031,11 +1031,42 @@
   background: rgba(239,131,47,.12);
 }
 
-/* Pulse glow */
-@keyframes r76PulseRed{
-  0%   { box-shadow: 0 0 0 0 rgba(217,48,37,.42); }
-  65%  { box-shadow: 0 0 0 10px rgba(217,48,37,0); }
-  100% { box-shadow: 0 0 0 0 rgba(217,48,37,0); }
+/* Inline icon wrapper */
+.r76-iconPulse{
+  position:relative;
+  display:inline-block;
+  vertical-align:middle;   /* aligns nicely with the sentence */
+  margin-left:6px;         /* space after the colon */
+  line-height:0;           /* prevents extra inline spacing */
+}
+
+/* Optional: control icon size */
+.r76-iconPulse img{
+  display:block;
+  width:22px;              /* adjust */
+  height:auto;
+}
+
+/* Pulsing dot above top-right of the icon */
+.r76-iconPulse::after{
+  content:"";
+  position:absolute;
+  top:-6px;
+  right:-6px;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#ef832f;                 /* orange */
+  box-shadow: 0 0 0 0 rgba(239,131,47,.45);
+  animation:r76PulseOrange 1.8s infinite;
+  z-index:2;
+}
+
+/* Only include this if your page CSS does NOT already define it */
+@keyframes r76PulseOrange{
+  0%   { box-shadow: 0 0 0 0 rgba(239,131,47,.42); }
+  65%  { box-shadow: 0 0 0 10px rgba(239,131,47,0); }
+  100% { box-shadow: 0 0 0 0 rgba(239,131,47,0); }
 }
 
 /* =========================================================
