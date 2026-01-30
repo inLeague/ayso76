@@ -1061,43 +1061,45 @@
   animation:r76PulseOrange 1.8s infinite;
   z-index:2;
 }
-/* Yellow balance-style box (InLeague-like) */
+/* Yellow balance-style box (tighter padding) */
 .r76-ilYellowBox{
   position: relative;
   display: inline-block;
-  background: #fff3b3;            /* light yellow fill */
-  border: 2px solid #f3c33a;      /* golden border */
+  background: #fff3b3;
+  border: 2px solid #f3c33a;
   color: #000;
   font-weight: 800;
-  padding: 6px 40px 6px 12px;     /* extra right space for bell */
+
+  /* tightened padding */
+  padding: 4px 34px 4px 10px;   /* right padding still leaves room for bell */
   border-radius: 9px;
   line-height: 1.1;
-  white-space: nowrap;            /* remove if you want wrapping */
+  white-space: nowrap;
 }
 
-/* $ icon on the left (as in screenshot) */
+/* $ icon on the left */
 .r76-ilYellowBox::before{
   content: "$";
   display: inline-block;
-  margin-right: 10px;
+  margin-right: 8px;           /* tighter */
   font-weight: 900;
 }
 
-/* Bell circle at bottom-right (as in screenshot) */
+/* Bell badge: rounded square (not circle) */
 .r76-ilYellowBox::after{
   content:"";
   position:absolute;
   right: -6px;
-  bottom: -6px;                    /* tweak to taste */
-  width: 24px;
-  height: 24px;
-  border-radius: 999px;
+  bottom: -3px;
+
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;          /* rounded-corner box */
   background-color: #f3c33a;
 
-  /* bell icon (black) centered */
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 14px 14px;
+  background-size: 13px 13px;
   background-image: url("data:image/svg+xml;utf8,\
 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
 <path fill='%23000' d='M12 22a2.4 2.4 0 0 0 2.4-2.4h-4.8A2.4 2.4 0 0 0 12 22Zm7-6V11a7 7 0 0 0-5.5-6.8V3a1.5 1.5 0 0 0-3 0v1.2A7 7 0 0 0 5 11v5l-1.8 1.8c-.6.6-.2 1.2.6 1.2h16.4c.8 0 1.2-.6.6-1.2L19 16Z'/>\
