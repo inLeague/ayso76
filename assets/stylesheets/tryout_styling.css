@@ -1062,13 +1062,6 @@
   z-index:2;
 }
 
-/* Only include this if your page CSS does NOT already define it */
-@keyframes r76PulseOrange{
-  0%   { box-shadow: 0 0 0 0 rgba(239,131,47,.42); }
-  65%  { box-shadow: 0 0 0 10px rgba(239,131,47,0); }
-  100% { box-shadow: 0 0 0 0 rgba(239,131,47,0); }
-}
-
 /* =========================================================
    END OF R76 TRYOUTS CSS
    To use: Combine Part 1 + Part 2 + Part 3 into one file
