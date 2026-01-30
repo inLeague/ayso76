@@ -1031,23 +1031,23 @@
   background: rgba(239,131,47,.12);
 }
 
-/* Inline icon wrapper */
+/* Inline wrapper aligned to the text baseline */
 .r76-iconPulse{
   position:relative;
   display:inline-block;
-  vertical-align:middle;   /* aligns nicely with the sentence */
-  margin-left:6px;         /* space after the colon */
-  line-height:0;           /* prevents extra inline spacing */
+  vertical-align:baseline;  /* <-- baseline alignment */
+  margin-left:6px;
 }
 
-/* Optional: control icon size */
+/* Keep the image participating in baseline alignment */
 .r76-iconPulse img{
-  display:block;
-  width:15px;              /* adjust */
+  display:inline-block;     /* not block */
+  vertical-align:baseline;  /* <-- baseline alignment */
+  width:22px;               /* adjust size */
   height:auto;
 }
 
-/* Pulsing dot above top-right of the icon */
+/* Pulsing dot top-right */
 .r76-iconPulse::after{
   content:"";
   position:absolute;
@@ -1056,7 +1056,7 @@
   width:10px;
   height:10px;
   border-radius:50%;
-  background:#ef832f;                 /* orange */
+  background:#ef832f;
   box-shadow: 0 0 0 0 rgba(239,131,47,.45);
   animation:r76PulseOrange 1.8s infinite;
   z-index:2;
