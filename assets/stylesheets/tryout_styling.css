@@ -1086,20 +1086,22 @@
 }
 
 /* Bell badge: rounded square (not circle) */
+/* Bell badge: rounded square, larger bell, less padding */
 .r76-ilYellowBox::after{
   content:"";
   position:absolute;
-  right: -6px;
-  bottom: -3px;
+  right: -8px;
+  bottom: -5px;
 
   width: 22px;
   height: 22px;
-  border-radius: 6px;          /* rounded-corner box */
+  border-radius: 8px;
   background-color: #f3c33a;
 
+  /* bigger bell, tighter padding */
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 13px 13px;
+  background-size: 18px 18px;   /* <-- larger bell */
   background-image: url("data:image/svg+xml;utf8,\
 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
 <path fill='%23000' d='M12 22a2.4 2.4 0 0 0 2.4-2.4h-4.8A2.4 2.4 0 0 0 12 22Zm7-6V11a7 7 0 0 0-5.5-6.8V3a1.5 1.5 0 0 0-3 0v1.2A7 7 0 0 0 5 11v5l-1.8 1.8c-.6.6-.2 1.2.6 1.2h16.4c.8 0 1.2-.6.6-1.2L19 16Z'/>\
