@@ -1044,7 +1044,7 @@
   display:inline-block;     /* not block */
   vertical-align:baseline;  /* <-- baseline alignment */
   width:auto;               /* adjust size */
-  height:1em;
+  height: 1.1em;
 }
 
 /* Pulsing dot top-right */
