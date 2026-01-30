@@ -1043,8 +1043,8 @@
 .r76-iconPulse img{
   display:inline-block;     /* not block */
   vertical-align:baseline;  /* <-- baseline alignment */
-  width:12px;               /* adjust size */
-  height:auto;
+  width:auto;               /* adjust size */
+  height:1em;
 }
 
 /* Pulsing dot top-right */
