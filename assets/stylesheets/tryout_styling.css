@@ -915,47 +915,34 @@
 
 .r76-tryouts .r76-roundTab{
   appearance:none;
-  border:1px solid var(--r76-border);
+  display:flex;                 /* <-- ADD (so Scheduled dot/badge aligns nicely) */
+  align-items:center;           /* <-- ADD */
+  justify-content:center;       /* <-- ADD */
+  gap:10px;                     /* <-- ADD */
+
+  border:1px solid rgba(0,0,0,.18);   /* <-- CHANGE (don’t rely on var) */
   background:#fff;
   padding:10px 14px;
   border-radius:999px;
-  font-weight:800;
+  font-weight:900;              /* <-- CHANGE (more prominent) */
   cursor:pointer;
+
+  box-shadow: 0 6px 14px rgba(0,0,0,.08);            /* <-- ADD */
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease, background .12s ease; /* <-- ADD */
 }
 
+.r76-tryouts .r76-roundTab:hover{
+  transform: translateY(-1px);  /* <-- ADD */
+  box-shadow: 0 10px 22px rgba(0,0,0,.12); /* <-- ADD */
+}
+
+/* Active tab = orange like the primary CTA (but slightly calmer) */
 .r76-tryouts .r76-roundTab.is-active{
-  border-color: rgba(239,131,47,.45);
-  box-shadow: 0 0 0 3px rgba(239,131,47,.18);
+  color:#fff;                   /* <-- CHANGE */
+  border-color: rgba(0,0,0,.18);
+  background: linear-gradient(180deg, #ef832f 0%, #d86f1f 100%);  /* <-- CHANGE */
+  box-shadow: 0 8px 18px rgba(0,0,0,.14);                        /* <-- CHANGE */
 }
-/* ===== Round 2 "Scheduled" indicator ===== */
-.r76-tryouts .r76-roundStatus{
-  display:none; /* shown when Round 2 is scheduled */
-  align-items:center;
-  gap:8px;
-  margin-left:10px;
-  padding:4px 10px;
-  border-radius:999px;
-  font-weight:900;
-  font-size:12px;
-  line-height:1;
-  border:1px solid rgba(239,131,47,.35);
-  background: rgba(239,131,47,.12);
-}
-
-.r76-tryouts .r76-roundDot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:#ef832f;                 /* fixed visible orange dot */
-  box-shadow: 0 0 0 0 rgba(239,131,47,.45);
-  animation: r76PulseOrange 1.8s infinite;
-}
-
-/* When scheduled, show the badge on the tab */
-.r76-tryouts .r76-roundTab.is-scheduled .r76-roundStatus{
-  display:inline-flex;
-}
-
 /* Round 2 banner */
 
 .r76-tryouts .r76-roundBannerTitle{
@@ -967,30 +954,6 @@
   margin-top:4px;
   opacity:.9;
   line-height:1.35;
-}
-
-.r76-tryouts #r76Round2.is-scheduled .r76-roundBanner{
-  display:block;
-}
-/* Disabled Round 2 tab */
-.r76-tryouts .r76-roundTab.is-disabled{
-  opacity:.55;
-  cursor:not-allowed;
-  pointer-events:none; /* hard disable clicks */
-  box-shadow:none;
-}
-
-.r76-tryouts .r76-roundTab.is-disabled .r76-roundDot{
-  animation:none;
-  box-shadow:none;
-  opacity:.7;
-}
-/* Make tabs flex so ::before/::after sit nicely next to text */
-.r76-tryouts .r76-roundTab{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
 }
 
 /* Disabled state (your existing pattern) */
