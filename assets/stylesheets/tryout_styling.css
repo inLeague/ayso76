@@ -4,6 +4,16 @@
    Button orange updated to #ef832f
    Cleaned: Removed unused rules, consolidated duplicates
 ========================================================= */
+.r76-tryouts h3{
+  display: inline-block;
+  margin: 14px 0 10px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 900;
+  letter-spacing: .2px;
+  border: 1px solid rgba(0,0,0,.14);
+  background: rgba(0,0,0,.03); /* same family as r76-badge / neutral callouts */
+}
 
 .r76-tryouts{
   line-height: 1.45;
