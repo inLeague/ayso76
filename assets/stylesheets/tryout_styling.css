@@ -13,10 +13,10 @@
   font-weight: 900;
   letter-spacing: .2px;
 }
-.r76-tryouts h3.r76-h3Important{ font-size: 1.15em; line-height: 1.2; }
+.r76-tryouts h3.r76-h3Important{ font-size: 1.25em; line-height: 1.2; }
 
 @media (max-width: 768px){
-  .r76-tryouts h3.r76-h3Important{ font-size: 1.05em; }
+  .r76-tryouts h3.r76-h3Important{ font-size: 1.10em; }
 }
 
 .r76-tryouts{
