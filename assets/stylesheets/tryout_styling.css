@@ -1000,10 +1000,16 @@
   100% { box-shadow: 0 0 0 0 rgba(0,0,0,0); }
 }
 
-/* Dot override when active */
+/* Make the scheduled dot/ping more visible when Round 2 is active */
 .r76-tryouts #r76Tab2.is-scheduled.is-active::before{
-  background: #fff;
-  animation: r76PulseDark 1.8s infinite; /* still fine */
+  background: #2b6cff !important;
+  animation: r76PulseBlue 1.8s infinite !important;
+}
+
+@keyframes r76PulseBlue{
+  0%   { box-shadow: 0 0 0 0 rgba(43,108,255,.42); }
+  65%  { box-shadow: 0 0 0 10px rgba(43,108,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(43,108,255,0); }
 }
 
 /* Scheduled pill turns table-grey when active */
