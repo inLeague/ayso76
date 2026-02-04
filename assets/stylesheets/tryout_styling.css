@@ -993,6 +993,62 @@
   border:1px solid rgba(239,131,47,.35);
   background: rgba(239,131,47,.12);
 }
+/* ================================
+   When Round 2 tab is ACTIVE:
+   - dot becomes higher-contrast
+   - pulse becomes higher-contrast
+   - Scheduled pill becomes table-grey
+================================== */
+
+/* New pulse animation for a dark dot (more visible than orange-on-orange) */
+@keyframes r76PulseDark{
+  0%   { box-shadow: 0 0 0 0 rgba(0,0,0,.35); }
+  65%  { box-shadow: 0 0 0 10px rgba(0,0,0,0); }
+  100% { box-shadow: 0 0 0 0 rgba(0,0,0,0); }
+}
+
+/* Dot override when active */
+.r76-tryouts #r76Tab2.is-scheduled.is-active::before{
+  background: #fff;
+  animation: r76PulseDark 1.8s infinite; /* still fine */
+}
+
+/* Scheduled pill turns table-grey when active */
+.r76-tryouts #r76Tab2.is-scheduled.is-active::after{
+  background: #f2f2f2;              /* same vibe as your table header grey */
+  border: 1px solid rgba(0,0,0,.14);
+  color: #111;
+}
+
+/* ================================
+   Round tabs: shimmer on ACTIVE hover
+   (no pseudo-elements, so it won't conflict with the Scheduled ::after pill)
+================================== */
+.r76-tryouts .r76-roundTab{
+  position: relative; /* safe, helps if you later add effects */
+  background-color: #fff;
+}
+
+/* Active tab gets a subtle sheen sweep on hover */
+.r76-tryouts .r76-roundTab.is-active{
+  /* two backgrounds: base + sheen */
+  background-image:
+    linear-gradient(#fff, #fff),
+    linear-gradient(
+      120deg,
+      rgba(255,255,255,0) 35%,
+      rgba(255,255,255,.28) 50%,
+      rgba(255,255,255,0) 65%
+    );
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100% 100%, 220% 220%;
+  background-position: 0 0, -120% 50%;
+  transition: background-position .35s ease, box-shadow .12s ease, transform .12s ease;
+}
+
+.r76-tryouts .r76-roundTab.is-active:hover{
+  background-position: 0 0, 120% 50%;
+}
 
 /* Inline wrapper aligned to the text baseline */
 .r76-iconPulse{
