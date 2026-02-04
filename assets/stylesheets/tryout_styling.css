@@ -936,13 +936,6 @@
   box-shadow: 0 10px 22px rgba(0,0,0,.12); /* <-- ADD */
 }
 
-/* Active tab = orange like the primary CTA (but slightly calmer) */
-.r76-tryouts .r76-roundTab.is-active{
-  color:#fff;                   /* <-- CHANGE */
-  border-color: rgba(0,0,0,.18);
-  background: linear-gradient(180deg, #ef832f 0%, #d86f1f 100%);  /* <-- CHANGE */
-  box-shadow: 0 8px 18px rgba(0,0,0,.14);                        /* <-- CHANGE */
-}
 /* Round 2 banner */
 
 .r76-tryouts .r76-roundBannerTitle{
@@ -1020,34 +1013,60 @@
   color: #111;
 }
 
-/* ================================
-   Round tabs: shimmer on ACTIVE hover
-   (no pseudo-elements, so it won't conflict with the Scheduled ::after pill)
-================================== */
-.r76-tryouts .r76-roundTab{
-  position: relative; /* safe, helps if you later add effects */
-  background-color: #fff;
-}
-
-/* Active tab gets a subtle sheen sweep on hover */
+/* Active tab shimmer (does NOT change the tab's base background color) */
 .r76-tryouts .r76-roundTab.is-active{
-  /* two backgrounds: base + sheen */
-  background-image:
-    linear-gradient(#fff, #fff),
-    linear-gradient(
-      120deg,
-      rgba(255,255,255,0) 35%,
-      rgba(255,255,255,.28) 50%,
-      rgba(255,255,255,0) 65%
-    );
-  background-repeat: no-repeat, no-repeat;
-  background-size: 100% 100%, 220% 220%;
-  background-position: 0 0, -120% 50%;
-  transition: background-position .35s ease, box-shadow .12s ease, transform .12s ease;
+  color:#fff;                   /* <-- CHANGE */
+  position: relative;
+  overflow: hidden; /* keeps the sheen inside pill */
+  border-color: rgba(0,0,0,.18);
+  background: linear-gradient(180deg, #ef832f 0%, #d86f1f 100%);  /* <-- CHANGE */
+  box-shadow: 0 8px 18px rgba(0,0,0,.14);                        /* <-- CHANGE */
 }
 
-.r76-tryouts .r76-roundTab.is-active:hover{
-  background-position: 0 0, 120% 50%;
+/* Sheen overlay */
+.r76-tryouts .r76-roundTab.is-active::before{
+  content:"";
+  position:absolute;
+  inset:-40% -60%;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 35%,
+    rgba(255,255,255,.28) 50%,
+    rgba(255,255,255,0) 65%
+  );
+  transform: translateX(-40%) rotate(8deg);
+  transition: transform .35s ease;
+  pointer-events:none;
+}
+
+/* Sweep on hover */
+.r76-tryouts .r76-roundTab.is-active:hover::before{
+  transform: translateX(35%) rotate(8deg);
+}
+/* Round 2 tab uses ::before for the dot — move sheen to ::after on that tab,
+   and keep your "Scheduled" pill on a span/pseudo you already use. */
+
+/* If Round 2 is scheduled, keep dot on ::before and put sheen on ::after instead */
+.r76-tryouts #r76Tab2.is-scheduled.is-active::before{
+  /* this stays your DOT (your existing rules + my active-dot override) */
+}
+
+/* Sheen becomes a background overlay using box-shadow trick instead of pseudo */
+.r76-tryouts #r76Tab2.is-scheduled.is-active{
+  background-image: linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 35%,
+    rgba(255,255,255,.22) 50%,
+    rgba(255,255,255,0) 65%
+  );
+  background-size: 220% 220%;
+  background-repeat: no-repeat;
+  background-position: -120% 50%;
+  transition: background-position .35s ease;
+}
+
+.r76-tryouts #r76Tab2.is-scheduled.is-active:hover{
+  background-position: 120% 50%;
 }
 
 /* Inline wrapper aligned to the text baseline */
