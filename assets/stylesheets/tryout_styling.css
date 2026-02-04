@@ -4,7 +4,7 @@
    Button orange updated to #ef832f
    Cleaned: Removed unused rules, consolidated duplicates
 ========================================================= */
-.r76-tryouts h3{
+.r76-tryouts h3.r76-h3Important{
   margin: 16px 0 10px;
   padding: 10px 12px;
   border-left: 6px solid #ef832f;         /* your brand orange */
