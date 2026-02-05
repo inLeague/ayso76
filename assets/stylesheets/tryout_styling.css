@@ -1175,7 +1175,11 @@
 
   box-shadow: 0 1px 0 rgba(0,0,0,.18);
 }
-
+img.r76-img-height{
+  height: 42px !important;
+  width: 42px !important;
+  max-width: none; /* optional */
+}
 /* =========================================================
    END OF R76 TRYOUTS CSS
    To use: Combine Part 1 + Part 2 + Part 3 into one file
