@@ -1179,6 +1179,9 @@ img.r76-img-42{
   height: 42px !important;
   width: 42px !important;
   max-width: none; /* optional */
+  display:inline-block;
+  vertical-align: text-bottom;  /* aligns with the text’s bottom */
+  /* or: vertical-align: bottom; */
 }
 /* =========================================================
    END OF R76 TRYOUTS CSS
