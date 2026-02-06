@@ -1424,3 +1424,92 @@ img.r76-img-42{
 .r76-tryouts .r76-checklistSummary::before{
   content: "\1F4CB ";  /* clipboard 📋 */
 }
+/* Inactive tabs - orange outline, clearly clickable */
+.r76-tryouts .r76-roundTab{
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #fff !important;
+  border: 2px solid #ef832f !important;
+  color: #ef832f !important;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(239,131,47,.15) !important;
+  transition: all .12s ease;
+}
+
+.r76-tryouts .r76-roundTab:hover{
+  background: rgba(239,131,47,.08) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(239,131,47,.25) !important;
+}
+
+/* Active tab - Medium Grey */
+.r76-tryouts .r76-roundTab.is-active{
+  background: #5b616b !important;
+  color: #fff !important;
+  border-color: #5b616b !important;
+  box-shadow: 
+    inset 0 2px 4px rgba(0,0,0,.15),
+    0 6px 14px rgba(91,97,107,.3) !important;
+}
+
+.r76-tryouts .r76-roundTab.is-active:hover{
+  transform: translateY(-1px);
+}
+
+/* Scheduled indicator dot (inactive state) */
+.r76-tryouts #r76Tab2.is-scheduled::before{
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ef832f;
+  box-shadow: 0 0 0 0 rgba(239,131,47,.45);
+  animation: r76PulseOrange 1.8s infinite;
+}
+
+/* Orange pulsing animation */
+@keyframes r76PulseOrange{
+  0%   { box-shadow: 0 0 0 0 rgba(239,131,47,.42); }
+  65%  { box-shadow: 0 0 0 10px rgba(239,131,47,0); }
+  100% { box-shadow: 0 0 0 0 rgba(239,131,47,0); }
+}
+
+/* Scheduled indicator dot (active state - white dot on grey) */
+.r76-tryouts #r76Tab2.is-scheduled.is-active::before{
+  background: #fff !important;
+  animation: r76PulseWhite 1.8s infinite !important;
+}
+
+/* White pulsing animation for active state */
+@keyframes r76PulseWhite{
+  0%   { box-shadow: 0 0 0 0 rgba(255,255,255,.45); }
+  65%  { box-shadow: 0 0 0 10px rgba(255,255,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+}
+
+/* "Scheduled" badge (inactive state) */
+.r76-tryouts #r76Tab2.is-scheduled::after{
+  content: "Scheduled";
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 12px;
+  line-height: 1;
+  border: 1px solid rgba(239,131,47,.35);
+  background: rgba(239,131,47,.12);
+}
+
+/* "Scheduled" badge (active state - lighter on grey) */
+.r76-tryouts #r76Tab2.is-scheduled.is-active::after{
+  background: rgba(255,255,255,.2);
+  border-color: rgba(255,255,255,.35);
+  color: #fff;
+}
