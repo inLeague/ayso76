@@ -1417,3 +1417,24 @@ img.r76-img-42{
   border-color: rgba(255,255,255,.35);
   color: #fff;
 }
+/* 1) Neutralize any legacy row striping everywhere */
+.r76-tryouts .r76-table tbody tr,
+.r76-tryouts .r76-table tbody tr:nth-child(odd),
+.r76-tryouts .r76-table tbody tr:nth-child(even){
+  background: transparent !important;
+}
+
+/* 2) Default cell background */
+.r76-tryouts .r76-table tbody td{
+  background: #fff !important;
+}
+
+/* 3) JS zebra paints cells only (single consistent shade) */
+.r76-tryouts .r76-table tbody tr.r76-zebra > td{
+  background: rgba(0,0,0,.02) !important;
+}
+
+/* Keep hidden rows hidden */
+.r76-tryouts .r76-table tbody tr.r76-hiddenRow{
+  display: none !important;
+}
