@@ -4,6 +4,10 @@
    Button orange updated to #ef832f
    Cleaned: Removed unused rules, consolidated duplicates
 ========================================================= */
+r76-note--important {
+     margin: 16px 0 10px;
+}
+
 .r76-tryouts h3.r76-h3Important{
   margin: 16px 0 0;
   padding: 10px 12px;
@@ -18,9 +22,7 @@
 @media (max-width: 768px){
   .r76-tryouts h3.r76-h3Important{ font-size: 1.10em; }
 }
-.r76-tryouts r76-note--important {
-     margin: 16px 0 10px;
-}
+
 .r76-tryouts{
   line-height: 1.45;
 }
