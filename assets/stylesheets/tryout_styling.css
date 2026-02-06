@@ -1355,6 +1355,8 @@ img.r76-img-42{
   position: relative;
   padding-left: 32px;
   margin: .55rem 0;
+  cursor: pointer;
+  user-select: none;
 }
 
 .r76-tryouts .r76-tldr .r76-checklist li::before{
@@ -1368,10 +1370,43 @@ img.r76-img-42{
   border-radius: 4px;
   background: #fff;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.08);
+  transition: all .15s ease;
 }
 
-/* Optional: Add a subtle checkmark effect on hover */
+/* Checkmark */
+.r76-tryouts .r76-tldr .r76-checklist li::after{
+  content: "✓";
+  position: absolute;
+  left: 3px;
+  top: 0px;
+  font-size: 16px;
+  font-weight: 900;
+  color: #fff;
+  opacity: 0;
+  transform: scale(0);
+  transition: all .2s ease;
+}
+
+/* Hover effect */
 .r76-tryouts .r76-tldr .r76-checklist li:hover::before{
   border-color: #ef832f;
   background: rgba(239,131,47,.05);
+}
+
+/* Checked state */
+.r76-tryouts .r76-tldr .r76-checklist li.is-checked::before{
+  background: #ef832f;
+  border-color: #ef832f;
+  box-shadow: 0 2px 4px rgba(239,131,47,.3);
+}
+
+.r76-tryouts .r76-tldr .r76-checklist li.is-checked::after{
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Strikethrough text when checked (optional) */
+.r76-tryouts .r76-tldr .r76-checklist li.is-checked{
+  opacity: .6;
+  text-decoration: line-through;
 }
