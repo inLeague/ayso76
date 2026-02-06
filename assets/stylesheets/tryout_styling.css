@@ -308,10 +308,6 @@
     background: #fff;
   }
 
-  .r76-tryouts .r76-table tbody tr:nth-child(even){
-    background: #fff;
-  }
-
   .r76-tryouts .r76-table td{
     border: 0;
     padding: 8px 0;
