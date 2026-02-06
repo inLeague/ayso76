@@ -7,23 +7,30 @@
 .r76-tryouts .r76-note.r76-note--important{
   margin: 16px 0 10px;
 }
-.r76-tryouts h3.r76-h3Important{
-  margin: 16px 0 0;
-  padding: 10px 12px;
-  border-left: 6px solid #ef832f;         /* your brand orange */
-  background: rgba(239,131,47,.09);       /* same as r76-note--important */
-  border-radius: 12px;
-  font-weight: 900;
-  letter-spacing: .2px;
-}
-.r76-tryouts h3.r76-h3Important{ font-size: 1.25em; line-height: 1.2; }
-
-@media (max-width: 768px){
-  .r76-tryouts h3.r76-h3Important{ font-size: 1.10em; }
-}
 
 .r76-tryouts{
   line-height: 1.45;
+}
+
+/* =========================================================
+   Heading Callout - Grey Variant (same left-border effect)
+========================================================= */
+.r76-tryouts h3.r76-h3CalloutGray{
+  margin: 16px 0 0;                     /* tighten to table below */
+  padding: 10px 12px;
+  border-left: 6px solid #5b616b;       /* medium grey */
+  background: rgba(91,97,107,.10);      /* soft grey tint */
+  border-radius: 12px;
+  font-weight: 900;
+  letter-spacing: .2px;
+  font-size: 1.25em;
+  line-height: 1.2;
+}
+
+@media (max-width: 768px){
+  .r76-tryouts h3.r76-h3CalloutGray{
+    font-size: 1.10em;
+  }
 }
 
 /* =========================================================
