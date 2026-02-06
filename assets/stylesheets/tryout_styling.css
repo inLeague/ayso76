@@ -19,12 +19,15 @@
   margin: 16px 0 0;
   padding: 10px 12px;
   border: 1px solid rgba(0,0,0,.14);
+  border-bottom: 0;                   /* prevent double line */
   border-left: 6px solid rgba(0,0,0,.14);
   background: #f2f2f2;
   color: #111;
-  border-radius: 12px 12px 0 0;   /* optional: connect visually to table */
-  position: relative;
-  z-index: 2;
+  border-radius: 12px;                /* keep full rounding */
+  font-weight: 900;
+  letter-spacing: .2px;
+  font-size: 1.25em;
+  line-height: 1.2;
 }
 
 @media (max-width: 768px){
@@ -34,8 +37,7 @@
 }
 /* make sure table starts flush */
 .r76-tryouts h3.r76-h3CalloutGray + .r76-tableWrap{
-  margin-top: 0;
-  border-radius: 0 0 12px 12px;
+  margin-top: -1px;
 }
 
 /* =========================================================
