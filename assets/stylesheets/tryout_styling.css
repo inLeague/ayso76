@@ -1297,3 +1297,50 @@ img.r76-img-42{
     max-height: 50px;
   }
 }
+/* Quick Navigation Links */
+.r76-tryouts .r76-quickNav{
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+  padding: 12px;
+  background: rgba(239,131,47,.08);
+  border-radius: 12px;
+  border: 1px solid rgba(239,131,47,.2);
+}
+
+.r76-tryouts .r76-quickNavLink{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.14);
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: .95rem;
+  color: rgba(0,0,0,.88) !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,.06);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.r76-tryouts .r76-quickNavLink:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0,0,0,.1);
+}
+
+.r76-tryouts .r76-quickNavIcon{
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px){
+  .r76-tryouts .r76-quickNav{
+    flex-direction: column;
+  }
+  
+  .r76-tryouts .r76-quickNavLink{
+    width: 100%;
+    justify-content: center;
+  }
+}
