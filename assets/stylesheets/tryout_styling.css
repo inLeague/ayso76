@@ -1344,3 +1344,34 @@ img.r76-img-42{
     justify-content: center;
   }
 }
+/* Checklist styling - checkbox appearance */
+.r76-tryouts .r76-tldr .r76-checklist{
+  list-style: none;
+  margin: .5rem 0 0 0;
+  padding: 0;
+}
+
+.r76-tryouts .r76-tldr .r76-checklist li{
+  position: relative;
+  padding-left: 32px;
+  margin: .55rem 0;
+}
+
+.r76-tryouts .r76-tldr .r76-checklist li::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(0,0,0,.3);
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.08);
+}
+
+/* Optional: Add a subtle checkmark effect on hover */
+.r76-tryouts .r76-tldr .r76-checklist li:hover::before{
+  border-color: #ef832f;
+  background: rgba(239,131,47,.05);
+}
