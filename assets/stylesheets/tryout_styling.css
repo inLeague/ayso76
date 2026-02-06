@@ -234,19 +234,13 @@
   text-shadow: none !important;
 }
 
-/* reset */
-.r76-tryouts .r76-table tbody tr{
-  background: #fff;
-}
-
 /* JS-applied zebra class */
 .r76-tryouts .r76-table tbody tr.r76-zebra{
   background: rgba(0,0,0,.02);
 }
 
-/* Keep muted rows muted */
-.r76-tryouts .r76-table tbody tr.r76-mutedRow{
-  background: rgba(0,0,0,.02) !important;
+.r76-tryouts .r76-table tbody tr.r76-hiddenRow{
+  display: none !important;
 }
 
 .r76-tryouts .r76-mutedRow{
