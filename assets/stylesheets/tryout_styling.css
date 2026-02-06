@@ -1429,3 +1429,18 @@ img.r76-img-42{
 .r76-tryouts .r76-table tbody tr.r76-hiddenRow{
   display: none !important;
 }
+/* Desktop/tablet zebra (keep) */
+.r76-tryouts .r76-table tbody tr.r76-zebra > td{
+  background: rgba(0,0,0,.02) !important;
+}
+
+/* Mobile: paint the whole stacked row/card */
+@media (max-width: 768px){
+  .r76-tryouts .r76-table tbody tr.r76-zebra{
+    background: rgba(0,0,0,.02) !important;
+  }
+
+  .r76-tryouts .r76-table tbody tr.r76-zebra > td{
+    background: transparent !important;
+  }
+}
