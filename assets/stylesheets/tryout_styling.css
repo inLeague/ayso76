@@ -1410,3 +1410,17 @@ img.r76-img-42{
   opacity: .6;
   text-decoration: line-through;
 }
+/* Icons via CSS (CMS-proof) - More specific selectors */
+.r76-tryouts .r76-quickNav .r76-scheduleLink::before{
+  content: "\1F4C5";  /* calendar 📅 */
+  font-size: 1.1rem;
+}
+
+.r76-tryouts .r76-quickNav .r76-faqLink::before{
+  content: "\2753";  /* question mark ❓ */
+  font-size: 1.1rem;
+}
+
+.r76-tryouts .r76-checklistSummary::before{
+  content: "\1F4CB ";  /* clipboard 📋 */
+}
