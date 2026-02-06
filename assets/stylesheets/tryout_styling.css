@@ -234,21 +234,12 @@
   text-shadow: none !important;
 }
 
-/* JS-applied zebra class */
-.r76-tryouts .r76-table tbody tr.r76-zebra{
-  background: rgba(0,0,0,.02);
-}
-
 .r76-tryouts .r76-table tbody tr.r76-hiddenRow{
   display: none !important;
 }
 
 .r76-tryouts .r76-mutedRow{
   opacity: .78;
-}
-
-.r76-tryouts .r76-table tr.r76-hiddenRow{
-  display: none !important;
 }
 
 .r76-table tr:not(.r76-mutedRow) td:nth-child(1),
