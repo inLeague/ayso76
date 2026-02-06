@@ -1266,26 +1266,29 @@ img.r76-img-42{
   color: rgba(0,0,0,.88);
 }
 
-/* Optional: Add subtle border colors to differentiate cards */
+/* Subtle top borders using your existing color palette */
 .r76-tryouts .r76-programCard:nth-child(1){
-  border-top: 3px solid #0066cc;
-}
-
-.r76-tryouts .r76-programCard:nth-child(2){
-  border-top: 3px solid #cc0000;
-}
-
-.r76-tryouts .r76-programCard--transition{
   border-top: 3px solid #ef832f;
 }
 
-/* Mobile: stack cards vertically */
-@media (max-width: 768px){
+.r76-tryouts .r76-programCard:nth-child(2){
+  border-top: 3px solid #d86f1f;
+}
+
+.r76-tryouts .r76-programCard--transition{
+  border-top: 3px solid rgba(239,131,47,.65);
+}
+
+/* Tablet and mobile: stack cards vertically to avoid awkward 2+1 layout */
+@media (max-width: 992px){
   .r76-tryouts .r76-programCards{
     grid-template-columns: 1fr;
     gap: 14px;
   }
-  
+}
+
+/* Mobile: reduce logo height slightly */
+@media (max-width: 768px){
   .r76-tryouts .r76-programCardLogo{
     height: 60px;
   }
