@@ -1410,21 +1410,3 @@ img.r76-img-42{
   opacity: .6;
   text-decoration: line-through;
 }
-/* Icons via CSS (CMS-proof) */
-.r76-tryouts .r76-quickNavLink::before{
-  content: "\2192";  /* right arrow → */
-  font-size: 1.1rem;
-  margin-right: 8px;
-}
-
-.r76-tryouts .r76-quickNavLink--schedule::before{
-  content: "\1F4C5";  /* calendar 📅 */
-}
-
-.r76-tryouts .r76-quickNavLink--faq::before{
-  content: "\2753";  /* question mark ❓ */
-}
-
-.r76-tryouts .r76-tldrSummary::before{
-  content: "\1F4CB ";  /* clipboard 📋 */
-}
