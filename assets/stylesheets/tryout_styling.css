@@ -1199,10 +1199,10 @@ img.r76-img-42{
   flex-wrap: wrap;
   margin: 16px 0;
   padding: 12px;
-  /*background: rgba(239,131,47,.08);*/
-  background: transparent;
+  /*background: rgba(239,131,47,.08);
   border-radius: 12px;
-  border: 1px solid rgba(239,131,47,.2);
+  border: 1px solid rgba(239,131,47,.2);*/
+  background: transparent;
 }
 
 .r76-tryouts .r76-quickNavLink{
