@@ -1199,7 +1199,8 @@ img.r76-img-42{
   flex-wrap: wrap;
   margin: 16px 0;
   padding: 12px;
-  background: rgba(239,131,47,.08);
+  /*background: rgba(239,131,47,.08);*/
+  background: transparent;
   border-radius: 12px;
   border: 1px solid rgba(239,131,47,.2);
 }
@@ -1209,7 +1210,8 @@ img.r76-img-42{
   align-items: center;
   gap: 8px;
   padding: 10px 16px;
-  background: #fff;
+  /*background: #fff;*/
+  background: transparent;
   border: 1px solid rgba(0,0,0,.14);
   border-radius: 999px;
   text-decoration: none;
