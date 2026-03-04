@@ -192,7 +192,11 @@
 .r76-tryouts .r76-badge--muted{
   color: rgba(0,0,0,.66);
 }
-
+.r76-tryouts .r76-badge--important{
+  border-color: rgba(217,48,37,.35);
+  background: rgba(217,48,37,.08);
+  color: #a11f18;
+}
 /* =========================================================
    Location Links
 ========================================================= */
