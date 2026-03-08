@@ -823,6 +823,71 @@
 }
 
 /* =========================================================
+   Non-clickable / inactive rows
+   Fades all text + logos when row contains:
+   - Tryouts Concluded
+   - To Be Scheduled
+========================================================= */
+
+/* Fade the whole row text */
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--important),
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--muted){
+  color: rgba(0,0,0,.46) !important;
+}
+
+/* Make all cells inherit the faded row color */
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--important) > td,
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--muted) > td{
+  color: inherit !important;
+}
+
+/* Fade links too */
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--important) a,
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--muted) a{
+  color: rgba(0,0,0,.46) !important;
+  text-decoration: none !important;
+  pointer-events: none;
+  cursor: default !important;
+}
+
+/* Fade program logos generated via ::after */
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--important) td[data-program]::after,
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--muted) td[data-program]::after{
+  opacity: .4;
+}
+
+/* Mobile inline logos */
+@media (max-width: 768px){
+  .r76-tryouts .r76-table tbody tr:has(.r76-badge--important) td[data-program] .r76-dobInline::before,
+  .r76-tryouts .r76-table tbody tr:has(.r76-badge--muted) td[data-program] .r76-dobInline::before{
+    opacity: .4;
+  }
+}
+
+/* Also remove hover affordance from inactive rows */
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--important) td:nth-child(1),
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--important) td:nth-child(2),
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--important) td:nth-child(3),
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--important) td:nth-child(4),
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--muted) td:nth-child(1),
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--muted) td:nth-child(2),
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--muted) td:nth-child(3),
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--muted) td:nth-child(4){
+  cursor: default !important;
+}
+
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--important) td:nth-child(1):hover,
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--important) td:nth-child(2):hover,
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--important) td:nth-child(3):hover,
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--important) td:nth-child(4):hover,
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--muted) td:nth-child(1):hover,
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--muted) td:nth-child(2):hover,
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--muted) td:nth-child(3):hover,
+.r76-tryouts .r76-table tbody tr:has(.r76-badge--muted) td:nth-child(4):hover{
+  text-decoration: none !important;
+}
+
+/* =========================================================
    Registration — Specific Page Overrides
 ========================================================= */
 #r76Reg .r76-regPrimaryCta{
