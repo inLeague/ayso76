@@ -4,6 +4,75 @@
    Button orange updated to #ef832f
    Cleaned: Removed unused rules, consolidated duplicates
 ========================================================= */
+  .r76-banner{
+    margin: 18px 0 24px;
+    padding: 18px 20px 18px 22px;
+    border-radius: 16px;
+    border: 1px solid rgba(239,131,47,.28);
+    background:
+      linear-gradient(135deg, rgba(255,248,242,1) 0%, rgba(255,243,232,1) 100%);
+    box-shadow:
+      0 10px 24px rgba(0,0,0,.06),
+      0 2px 6px rgba(239,131,47,.08);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .r76-banner:before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 7px;
+    background: linear-gradient(180deg, #ef832f 0%, #d96d14 100%);
+  }
+
+  .r76-banner--neutral{
+    color: #4d2a12;
+    font-size: 17px;
+    line-height: 1.55;
+    font-weight: 600;
+  }
+
+  .r76-banner--neutral:after{
+    content: "Season Update";
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: rgba(239,131,47,.12);
+    color: #b85f18;
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .r76-banner--neutral{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  @media (max-width: 767px){
+    .r76-banner{
+      margin: 14px 0 20px;
+      padding: 16px 16px 16px 18px;
+      border-radius: 14px;
+    }
+
+    .r76-banner--neutral{
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .r76-banner--neutral:after{
+      font-size: 11px;
+      margin-bottom: 8px;
+    }
+  }
 .r76-tryouts .r76-note.r76-note--important{
   margin: 16px 0 10px;
 }
